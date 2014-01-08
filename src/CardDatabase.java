@@ -10,19 +10,24 @@ import java.util.Scanner;
 public class CardDatabase {
     private static final String DELIMITER = ",";
 
-    private ArrayList<Card> cards;
-    private String[] headers;
-
+    public ArrayList<Card> cards;
+    public ArrayList<Card> commons;
+    public ArrayList<Card> rares;
+    public ArrayList<Card> epics;
+    public ArrayList<Card> legends;
 
     public CardDatabase() {
+        cards = new ArrayList<Card>();
+        commons = new ArrayList<Card>();
+        rares = new ArrayList<Card>();
+        epics = new ArrayList<Card>();
+        legends = new ArrayList<Card>();
     }
 
     public void load() throws FileNotFoundException {
         Scanner s = new Scanner(new BufferedReader(new FileReader("res/cards.csv")));
 
-        headers = s.nextLine().split(DELIMITER);
-        cards = new ArrayList<Card>();
-
+        s.nextLine(); // Get rid of first line
         while (s.hasNextLine()) {
             String[] tokens = s.nextLine().split(DELIMITER);
 
@@ -40,10 +45,15 @@ public class CardDatabase {
             System.out.println(card);
 
             cards.add(card);
+            if (card.rarity.equals("Legendary"))
+                legends.add(card);
+            else if (card.rarity.equals("Epic"))
+                epics.add(card);
+            else if (card.rarity.equals("Rare"))
+                rares.add(card);
+            else
+                commons.add(card);
         }
-
-
-
         s.close();
     }
 }

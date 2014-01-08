@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -12,41 +13,43 @@ public class Pack {
     public static double[] special_odds = {0, 85, 10, 5};
     public static double[] default_odds = {89.15, 7.42, 3.19, 0.25};
 
-    public String[] cards;
+    private CardDatabase db;
     private Random rand;
+    public Card[] cards;
 
-    public Pack() {
+    public Pack(CardDatabase db) {
+        this.db = db;
         rand = new Random();
-        cards = new String[5];
+        cards = new Card[5];
     }
 
-    private String getRandomFromArray(String[] array) {
-        int i =  rand.nextInt(array.length);
-        return array[i];
+    private Card getRandom(ArrayList<Card> cardList) {
+        int i =  rand.nextInt(cardList.size());
+        return cardList.get(i);
     }
 
-    private String generateCard(boolean firstPack) {
+    private Card generateCard(boolean firstPack) {
         double roll = rand.nextDouble()* 100;
 
         if (firstPack) {
             if (roll < special_odds[0])
-                return getRandomFromArray(commons);
+                return getRandom(db.commons);
             else if (roll < (special_odds[0] + special_odds[1]))
-                return getRandomFromArray(rares);
+                return getRandom(db.rares);
             else if (roll < (special_odds[0] + special_odds[1] + special_odds[2]))
-                return getRandomFromArray(epics);
+                return getRandom(db.epics);
             else
-                return getRandomFromArray(legendaries);
+                return getRandom(db.legends);
         }
         else {
             if (roll < default_odds[0])
-                return getRandomFromArray(commons);
+                return getRandom(db.commons);
             else if (roll < (default_odds[0] + default_odds[1]))
-                return getRandomFromArray(rares);
+                return getRandom(db.rares);
             else if (roll < (default_odds[0] + default_odds[1] + default_odds[2]))
-                return getRandomFromArray(epics);
+                return getRandom(db.epics);
             else
-                return getRandomFromArray(legendaries);
+                return getRandom(db.legends);
         }
     }
 
@@ -62,12 +65,12 @@ public class Pack {
         CardDatabase database = new CardDatabase();
         database.load();
 
-        Pack pack = new Pack();
+        Pack pack = new Pack(database);
         pack.open();
 
         System.out.println("Cards\n-------------");
-        for (String string : pack.cards) {
-            System.out.println(string);
+        for (Card card : pack.cards) {
+            System.out.println(card);
         }
     }
 }
