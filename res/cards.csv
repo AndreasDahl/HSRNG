@@ -14,7 +14,6 @@ Ancient of Lore,Druid,Epic,Minion,,7,5,5,Choose One - Draw 2 cards; or Restore 8
 Ancient of War,Druid,Epic,Minion,,7,5,5,Choose One - Ancient of War gets +5 Health and Taunt; or +5 Attack.
 Ancient Watcher,All,Rare,Minion,,2,4,5,Can't Attack.
 Angry Chicken,All,Rare,Minion,,1,1,1,Enrage: +5 Attack.
-Anima Companion,Hunter,Basic,Spell,,3,,,Summon a random Beast Companion.
 Animal Companion,Hunter,Common,Spell,,3,,,Summon a random Beast Companion.
 Arathi Weaponsmith,Warrior,Common,Minion,,4,3,3,Battlecry: Equip a 2/2 Weapon.
 Arcane Explosion,Mage,Basic,Spell,,2,,,Deal 1 damage to all enemy minions.
@@ -86,7 +85,6 @@ Darkspear Hunter,Hunter,Common,Minion,,2,2,2,"Whenever you play a Beast, the Bea
 Deadly Poison,Rogue,Basic,Spell,,1,,,Give your weapon +2 Attack.
 Deadly Shot,Hunter,Common,Spell,,3,,,Destroy a random enemy minion.
 Deathwing,All,Legendary,Minion,Dragon,10,12,12,Battlecry: Destroy all other minions and discard your hand.
-Defender,Paladin,Common,Minion,,1,2,1,
 Defender of Argus,All,Rare,Minion,,4,3,3,Battlecry: Give adjacent minions +1/+1 and Taunt.
 Defias Ringleader,Rogue,Common,Minion,,2,2,2,Combo: Summon a 2/1 Defias Bandit.
 Demolisher,All,Rare,Minion,,3,1,4,"At the start of your turn, deal 2 damage to a random enemy."
@@ -146,7 +144,6 @@ Guardian of Kings,Paladin,Common,Minion,,7,5,6,Battlecry: Restore 6 Health to yo
 Hammer of Wrath,Paladin,Basic,Spell,,4,,,Deal 3 damage. Draw a card.
 Hand of Protection,Paladin,Basic,Spell,,1,,,"Give a minion Divine Shield. This spell has been renamed so many times, even paladins don’t know what it should be called anymore."
 Headcrack,Rogue,Rare,Spell,,3,,,Deal 2 damage to the enemy hero. Combo: Return this to your hand next turn.
-Healing Totem,Shaman,Basic,Minion,,2,0,2,"(Shaman Hero Spell) At the end of your turn, restore 1 Health to all friendly minions."
 Healing Touch,Druid,Basic,Spell,,3,,,Restore 8 Health.
 Hellfire,Warlock,Basic,Spell,,4,,,Deal 3 damage to ALL characters.
 Heroic Strike,Warrior,Basic,Spell,,2,,,Give your hero +4 Attack this turn.
@@ -195,7 +192,6 @@ Mad Bomber,All,Common,Minion,,2,3,2,Battlecry: Deal 3 damage randomly split betw
 Magma Rager,All,Basic,Minion,,3,5,1,
 Malygos,All,Legendary,Minion,Dragon,9,4,12,Spell Power +5
 Mana Addict,All,Rare,Minion,,2,1,3,"Whenever you cast a spell, gain +3 Attack this turn."
-Mana Spring Totem,Shaman,Epic,Minion,,4,0,1,Your cards cost (1) less Water is the element of life and energy.
 Mana Tide Totem,Shaman,Rare,Minion,,3,0,3,"At the end of your turn, draw a card. It is said that some shaman can say ""Floatin' totem"" 10 times, fast."
 Mana Wraith,All,Rare,Minion,,2,2,2,AL minions costs (1) more.
 Mana Wyrm,Mage,Common,Minion,,1,1,3,"Whenever you cast a spell, gain +1 Attack."
@@ -265,7 +261,6 @@ Savagery,Druid,Rare,Spell,,3,,,Deal damage equal to your hero's Attack to all en
 Savannah Highmane,Hunter,Rare,Minion,Beast,6,6,5,Deathrattle: Summon two 2/2 Hyenas.
 Scavenging Hyena,Hunter,Common,Minion,Beast,2,2,2,"Whenever a friendly Beast dies, gain +2/+1."
 Sea Giant,All,Epic,Minion,,12,10,10,Costs (1) less for each other minion on the battlefield.
-Searing Totem,Shaman,Basic,Minion,,2,1,1,Shaman Hero Spell
 Sen'jin Shieldmasta',All,Basic,Minion,,4,3,5,Taunt
 Sense Demons,Warlock,Common,Spell,,3,,,Put 2 random Demons from your deck into your hand.
 Shadow Bolt,Warlock,Basic,Spell,,3,,,Deal 4 damage to a minion.
@@ -277,11 +272,9 @@ Shield Block,Warrior,Basic,Spell,,3,,,Gain 5 Armor. Draw a card.
 Shield Slam,Warrior,Epic,Spell,,1,,,Deal 1 damage to a minion for each Armor you have.
 Shieldbearer,All,Common,Minion,,2,0,4,Taunt. Enrage: +1 Attack.
 Shiv,Rogue,Basic,Spell,,2,,,Deal 1 damage. Draw a card.
-Shotgun Blast,Hunter,Common,Spell,,2,,,Deal 1 damage.
 SI-7 Agent,Rogue,Rare,Minion,,3,3,3,Combo: Deal 2 damage.
 Silence,Priest,Common,Spell,,0,,,Silence a minion.
 Silver Hand Knight,All,Common,Minion,,5,4,4,Battlecry: Summon a 2/2 Squire.
-Silver Hand Recruit,Paladin,Basic,Minion,,2,1,1,Paladin Hero Spell
 Silverback Patriarch,All,Basic,Minion,Beast,3,1,4,Taunt
 Sinister Strike,Rogue,Basic,Spell,,1,,,Deal 3 damage to the enemy hero.
 Siphon Soul,Warlock,Rare,Spell,,6,,,Destroy a minion. Restore 3 Health to your hero.
@@ -301,7 +294,6 @@ Starfall,Druid,Rare,Spell,,5,,,Choose One - Deal 5 damage to an enemy; or 2 dama
 Starfire,Druid,Basic,Spell,,6,,,Deal 5 damage. Draw a card.
 Starving Buzzard,Hunter,Basic,Minion,Beast,2,2,2,"Whenever you summon a Best, draw a card."
 Steady Shot,Hunter,Basic,Spell,,2,,,Deal 2 damage to the enemy hero.
-Stoneclaw Totem,Shaman,Basic,Spell,,2,,2,
 Stonetusk Boar,All,Basic,Minion,Beast,1,1,1,Charge
 Stormforged Axe,Shaman,Common,Weapon,,2,2,3,Overload: (1)
 Stormpike Commando,All,Basic,Minion,,5,4,2,Battlecry: Deal 2 damage.
@@ -345,7 +337,6 @@ Wisp,All,Common,Minion,,0,1,1,
 Wolfrider,All,Basic,Minion,,3,3,1,Charge
 Worgen Infiltrator,All,Common,Minion,,1,2,1,Stealth
 Wrath,Druid,Common,Spell,,2,,,Choose One - Deal 3 damage; or Deal 1 damage and draw a card.
-Wrath of Air Totem,Shaman,Basic,Minion,,2,2,,Spell Damage + 1
 Young Dragonhawk,All,Common,Minion,Beast,1,1,1,Windfury
 Youthful Brewmaster,All,Common,Minion,,2,3,2,Battlecry: Return a friendly minion from the battlefield to your hand.
 Ysera,All,Legendary,Minion,Dragon,9,4,12,"At the end of your turn, draw a Dream Card."
