@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -28,32 +29,32 @@ public class Pack {
         return cardList.get(i);
     }
 
-    private Card generateCard(boolean firstPack) {
+    private Card generateCard(boolean firstPack) throws SQLException {
         double roll = rand.nextDouble()* 100;
 
         if (firstPack) {
             if (roll < special_odds[0])
-                return getRandom(db.commons);
+                return getRandom(db.getCardsWithRarity("Common"));
             else if (roll < (special_odds[0] + special_odds[1]))
-                return getRandom(db.rares);
+                return getRandom(db.getCardsWithRarity("Rare"));
             else if (roll < (special_odds[0] + special_odds[1] + special_odds[2]))
-                return getRandom(db.epics);
+                return getRandom(db.getCardsWithRarity("Epic"));
             else
-                return getRandom(db.legends);
+                return getRandom(db.getCardsWithRarity("Legendary"));
         }
         else {
             if (roll < default_odds[0])
-                return getRandom(db.commons);
+                return getRandom(db.getCardsWithRarity("Common"));
             else if (roll < (default_odds[0] + default_odds[1]))
-                return getRandom(db.rares);
+                return getRandom(db.getCardsWithRarity("Rare"));
             else if (roll < (default_odds[0] + default_odds[1] + default_odds[2]))
-                return getRandom(db.epics);
+                return getRandom(db.getCardsWithRarity("Epic"));
             else
-                return getRandom(db.legends);
+                return getRandom(db.getCardsWithRarity("Legendary"));
         }
     }
 
-    public void open() {
+    public void open() throws SQLException {
         cards[0] = generateCard(true);
         cards[1] = generateCard(false);
         cards[2] = generateCard(false);
@@ -63,7 +64,7 @@ public class Pack {
 
     public static void main(String[] args) throws Exception{
         CardDatabase database = new CardDatabase();
-        database.load();
+//        database.load();
 
         Pack pack = new Pack(database);
         pack.open();
