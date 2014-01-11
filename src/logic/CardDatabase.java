@@ -20,10 +20,6 @@ public class CardDatabase {
 
     private CardDatabase() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
-
-        String[] fields = {"rarity"};
-        String[][] criteria = {{"Rare", "Legendary"}};
-        getCardsBy(fields, criteria);
     }
 
     private Statement openStatement() throws SQLException {
@@ -47,12 +43,17 @@ public class CardDatabase {
         String query = "SELECT * FROM card WHERE";
         for (int i = 0; i < fields.length; i++) {
             if (i > 0) query += " AND";
+            if (criteria[i].length > 1)
+                query += " (";
             for (int j = 0; j < criteria[i].length; j++) {
                 if (j > 0)
                     query += " OR";
                 query += " " + fields[i] + "='" + criteria[i][j] + "'";
             }
+            if (criteria[i].length > 1)
+                query += ")";
         }
+        System.out.println(query);
         ArrayList<Card> returnCards = new ArrayList<Card>();
         Statement s = openStatement();
         ResultSet rs = s.executeQuery(query);

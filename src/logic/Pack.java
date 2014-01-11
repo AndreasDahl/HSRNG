@@ -1,7 +1,8 @@
 package logic;
 
+import util.RandUtil;
+
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -10,53 +11,41 @@ import java.util.Random;
 public class Pack {
     public static double[] special_odds = {0, 85, 10, 5};
     public static double[] default_odds = {89.15, 7.42, 3.19, 0.25};
-    public static Random rand;
 
     private boolean open;
     private CardDatabase db;
 
-    private static void initRandom() {
-        if (rand == null) {
-            rand = new Random();
-        }
-    }
-
     public Card[] cards;
 
     public Pack(CardDatabase db) {
-        initRandom();
         this.db = db;
         cards = new Card[5];
         open = false;
     }
 
-    public static Card getRandom(ArrayList<Card> cardList) {
-        int i =  rand.nextInt(cardList.size());
-        return cardList.get(i);
-    }
-
     private Card generateCard(boolean firstPack) throws SQLException {
+        Random rand = RandUtil.getInstance();
         double roll = rand.nextDouble()* 100;
 
         if (firstPack) {
             if (roll < special_odds[0])
-                return getRandom(db.getCardsWithRarity("Common"));
+                return RandUtil.getRandomCard(db.getCardsWithRarity("Common"));
             else if (roll < (special_odds[0] + special_odds[1]))
-                return getRandom(db.getCardsWithRarity("Rare"));
+                return RandUtil.getRandomCard(db.getCardsWithRarity("Rare"));
             else if (roll < (special_odds[0] + special_odds[1] + special_odds[2]))
-                return getRandom(db.getCardsWithRarity("Epic"));
+                return RandUtil.getRandomCard(db.getCardsWithRarity("Epic"));
             else
-                return getRandom(db.getCardsWithRarity("Legendary"));
+                return RandUtil.getRandomCard(db.getCardsWithRarity("Legendary"));
         }
         else {
             if (roll < default_odds[0])
-                return getRandom(db.getCardsWithRarity("Common"));
+                return RandUtil.getRandomCard(db.getCardsWithRarity("Common"));
             else if (roll < (default_odds[0] + default_odds[1]))
-                return getRandom(db.getCardsWithRarity("Rare"));
+                return RandUtil.getRandomCard(db.getCardsWithRarity("Rare"));
             else if (roll < (default_odds[0] + default_odds[1] + default_odds[2]))
-                return getRandom(db.getCardsWithRarity("Epic"));
+                return RandUtil.getRandomCard(db.getCardsWithRarity("Epic"));
             else
-                return getRandom(db.getCardsWithRarity("Legendary"));
+                return RandUtil.getRandomCard(db.getCardsWithRarity("Legendary"));
         }
     }
 

@@ -3,6 +3,7 @@ package gui;
 import logic.Card;
 import logic.CardDatabase;
 import logic.Pack;
+import util.RandUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +43,7 @@ public class PackPanel extends JPanel {
                 String[] labels = {};
                 String[][] criteria = {{}};
                 for (int i = 0; i < draft.length; i++)
-                    draft[i] = Pack.getRandom(CardDatabase.getInstance().getCardsBy(labels, criteria));
+                    draft[i] = RandUtil.getRandomCard(CardDatabase.getInstance().getCardsBy(labels, criteria));
                 textArea.setText(pack.toString());
                 textArea.setText(pack.toString());
             } catch (Exception e1) {
