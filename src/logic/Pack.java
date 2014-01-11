@@ -1,3 +1,5 @@
+package logic;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -6,25 +8,29 @@ import java.util.Random;
  * Created by Andreas on 07-01-14.
  */
 public class Pack {
-    public static String[] legendaries = {"Ragnaros"};
-    public static String[] epics = {"Silent Assasin", "Snake Trap", "Pit Lord"};
-    public static String[] rares = {"Knife Juggler", "Defender of Argus", "Azure Drake"};
-    public static String[] commons = {"Novice Engineer", "Blood Imp", "Ironbeak Owl", "Raging Worgen", "jungle Panther"};
-
     public static double[] special_odds = {0, 85, 10, 5};
     public static double[] default_odds = {89.15, 7.42, 3.19, 0.25};
+    public static Random rand;
 
+    private boolean open;
     private CardDatabase db;
-    private Random rand;
+
+    private static void initRandom() {
+        if (rand == null) {
+            rand = new Random();
+        }
+    }
+
     public Card[] cards;
 
     public Pack(CardDatabase db) {
+        initRandom();
         this.db = db;
-        rand = new Random();
         cards = new Card[5];
+        open = false;
     }
 
-    private Card getRandom(ArrayList<Card> cardList) {
+    public static Card getRandom(ArrayList<Card> cardList) {
         int i =  rand.nextInt(cardList.size());
         return cardList.get(i);
     }
@@ -60,11 +66,24 @@ public class Pack {
         cards[2] = generateCard(false);
         cards[3] = generateCard(false);
         cards[4] = generateCard(false);
+        open = true;
+    }
+
+    @Override
+    public String toString() {
+        if (open) {
+            String ret = "";
+            for (Card card : cards) {
+                ret += card.name + " - " + card.rarity + "\n";
+            }
+            return ret;
+        } else
+            return "Unopened";
+
     }
 
     public static void main(String[] args) throws Exception{
-        CardDatabase database = new CardDatabase();
-//        database.load();
+        CardDatabase database = CardDatabase.getInstance();
 
         Pack pack = new Pack(database);
         pack.open();

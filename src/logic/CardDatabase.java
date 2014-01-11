@@ -1,3 +1,7 @@
+package logic;
+
+import logic.Card;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -6,26 +10,20 @@ import java.util.ArrayList;
  */
 public class CardDatabase {
     private static final String DB_PATH = "res/db.s3db";
-    private static final String DELIMITER = ",";
+    private static CardDatabase instance = null;
 
-    public ArrayList<Card> cards;
-    public ArrayList<Card> commons;
-    public ArrayList<Card> rares;
-    public ArrayList<Card> epics;
-    public ArrayList<Card> legends;
+    public static CardDatabase getInstance() throws ClassNotFoundException, SQLException {
+        if (instance == null)
+            instance = new CardDatabase();
+        return instance;
+    }
 
-    public CardDatabase() throws ClassNotFoundException, SQLException {
+    private CardDatabase() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
 
         String[] fields = {"rarity"};
         String[][] criteria = {{"Rare", "Legendary"}};
         getCardsBy(fields, criteria);
-
-        cards = new ArrayList<Card>();
-        commons = new ArrayList<Card>();
-        rares = new ArrayList<Card>();
-        epics = new ArrayList<Card>();
-        legends = new ArrayList<Card>();
     }
 
     private Statement openStatement() throws SQLException {

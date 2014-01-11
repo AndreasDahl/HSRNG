@@ -31,7 +31,6 @@ Assassin's Blade,Rogue,Basic,Weapon,,5,3,4,
 Assassinate,Rogue,Basic,Spell,,5,,,Destroy an enemy minion.
 Auchenai Soulpriest,Priest,Rare,Minion,,4,3,5,Your cards and powers that restore Health now deal damage instead.
 Avenging Wrath,Paladin,Epic,Spell,,6,,,Deal 8 damage randomly split among enemy characters
-Baby Murloc (April's Fool),All,Legendary,Minion,Murloc,0,1,1,"Battlecry: You bring awesome cuteness to the game, your opponent cannot attack while Baby Murloc is in play."
 Backstab,Rogue,Basic,Spell,,0,,,Deal 2 damage to an undamaged minion.
 Bane of Doom,Warlock,Epic,Spell,,5,,,"Deal 2 damage to a character. If that kills it, summon a random Demon."
 Baron Geddon,All,Legendary,Minion,,7,7,5,"At the end of your turn, deal 2 damage to ALL other characters"
@@ -154,7 +153,6 @@ Holy Nova,Priest,Basic,Spell,,5,,,Deal 2 damage to all enemies. Restore 2 Health
 Holy Smite,Priest,Basic,Spell,,1,,,Deal 2 damage.
 Holy Wrath,Paladin,Rare,Spell,,5,,,Draw a card and deal damage equal to its cost.
 Houndmaster,Hunter,Basic,Minion,,4,4,3,Battlecry: Give a friendly Beast +2/+2 and Taunt.
-Huffer,Hunter,Common,Minion,Beast,3,4,2,
 Humility,Paladin,Basic,Spell,,1,,,Change a minion's attack to 1.
 Hunter's Mark,Hunter,Basic,Spell,,0,,,Change a minion's Health to 1 this turn.
 Hyena,Hunter,Rare,Minion,Beast,2,2,2,
@@ -177,7 +175,6 @@ Kobold Geomancer,All,Basic,Minion,,2,2,2,Spell Power +1
 Kor'kron Elite,Warrior,Basic,Minion,,4,4,3,Charge
 Lava Burst,Shaman,Rare,Spell,,3,,,Deal 5 damage. Overload: (2)
 Lay on Hands,Paladin,Epic,Spell,,8,,,Restore 8 Health. Draw 3 cards.
-Leokk,Hunter,Common,Minion,Beast,3,2,4,Other friendly minions have +1 Attack.
 Leper Gnome,All,Common,Minion,,1,1,1,Deathrattle: Deal 2 damage to the enemy hero.
 Light's Justice,Paladin,Basic,Weapon,,1,1,4,
 Lightning Bolt,Shaman,Common,Spell,,1,,,Deal 3 damage. Overload: (1)
@@ -211,7 +208,6 @@ Mindgames,Priest,Epic,Spell,,4,,,Put a copy of a random minion from your opponen
 Mirror Entity,Mage,Common,Spell,,3,,,"Secret: When your opponent plays a minion, summon a copy of it."
 Mirror Image,Mage,Basic,Spell,,1,,,Summon two 0/2 minions with Taunt.
 Misdirection,Hunter,Rare,Spell,,2,,,"Secret: When a character attacks your hero, instead he attacks another random character."
-Misha,Hunter,Common,Minion,Beast,3,4,4,
 Mogu'shan Warden,All,Common,Minion,,4,1,7,Taunt
 Molten Giant,All,Epic,Minion,,20,10,10,Costs (1) less for each damage your hero has taken.
 Moonfire,Druid,Basic,Spell,,0,,,Deal 1 damage.
@@ -279,7 +275,6 @@ Silverback Patriarch,All,Basic,Minion,Beast,3,1,4,Taunt
 Sinister Strike,Rogue,Basic,Spell,,1,,,Deal 3 damage to the enemy hero.
 Siphon Soul,Warlock,Rare,Spell,,6,,,Destroy a minion. Restore 3 Health to your hero.
 Slam,Warrior,Common,Spell,,2,,,"Deal 2 damage to a minion. If it survives, draw a card."
-Snake,Hunter,Common,Minion,Beast,0,1,1,
 Snake Trap,Hunter,Epic,Spell,,2,,,"Secret: When one of your minions is attacked, summon three 1/1 Snakes."
 Snipe,Hunter,Common,Spell,,2,,,"Secret: When your opponent plays a minion, deal 4 damage to it."
 Sorcerer's Apprentice,Mage,Common,Minion,,2,3,2,Your spells cost (1) less.
@@ -339,4 +334,4 @@ Worgen Infiltrator,All,Common,Minion,,1,2,1,Stealth
 Wrath,Druid,Common,Spell,,2,,,Choose One - Deal 3 damage; or Deal 1 damage and draw a card.
 Young Dragonhawk,All,Common,Minion,Beast,1,1,1,Windfury
 Youthful Brewmaster,All,Common,Minion,,2,3,2,Battlecry: Return a friendly minion from the battlefield to your hand.
-Ysera,All,Legendary,Minion,Dragon,9,4,12,"At the end of your turn, draw a Dream Card."
+Ysera,All,Legendary,Minion,Dragon,9,4,12,"At the end of your turn, draw a Dream logic.Card."
