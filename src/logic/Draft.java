@@ -4,22 +4,29 @@ import util.RandUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Andreas on 11-01-14.
  */
 public class Draft {
-    private static final int DEFAULT_CHOICES = 3;
+    private static final int DEFAULT_CHOICES = 10;
     private static final double[] odds = {71.32, 22.93, 4.55, 1.20};
 
     private int choices = DEFAULT_CHOICES;
     private String race;
     private String rarity;
     private ArrayList<Card> cards;
+    private List<Card> bans;
 
     public Draft(String race) throws SQLException, ClassNotFoundException {
+        this(race, new ArrayList<Card>());
+    }
+
+    public Draft(String race, List<Card> bans) throws SQLException, ClassNotFoundException {
         this.race = race;
+        this.bans = bans;
         cards = new ArrayList<Card>(choices);
         randomizeRarity();
         generateCards();
