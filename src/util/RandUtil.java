@@ -25,13 +25,13 @@ public class RandUtil {
     }
 
     public static Card getRandomCard(List<Card> cardList, List<Card> bans) {
-        if (bans.size() >= cardList.size())
-            throw new IllegalArgumentException("No cards allowed to random");
         ArrayList<Card> allowedCards = new ArrayList<Card>();
         for (Card card : cardList) {
             if (!bans.contains(card))
                 allowedCards.add(card);
         }
-        return getRandomCard(cardList);
+        if (allowedCards.size() < 1)
+            throw new IllegalArgumentException("No cards allowed to random");
+        return getRandomCard(allowedCards);
     }
 }
