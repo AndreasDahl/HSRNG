@@ -1,6 +1,7 @@
 package logic;
 
 import util.RandUtil;
+import util.Rarity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,6 +35,10 @@ public class Draft {
 
     public ArrayList<Card> getCards() {
         return cards;
+    }
+
+    public Rarity getRarity() {
+        return Rarity.fromString(rarity);
     }
 
     public Card pick(int choice) {

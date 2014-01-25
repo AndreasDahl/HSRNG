@@ -1,7 +1,5 @@
 package logic;
 
-import logic.Card;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -53,7 +51,6 @@ public class CardDatabase {
             if (criteria[i].length > 1)
                 query += ")";
         }
-        System.out.println(query);
         ArrayList<Card> returnCards = new ArrayList<Card>();
         Statement s = openStatement();
         ResultSet rs = s.executeQuery(query);
