@@ -1,5 +1,7 @@
 package logic;
 
+import util.HeroClass;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,10 +51,16 @@ public class Arena {
     }
 
     public static void main(String[] args) throws Exception {
+        HeroClass clss = null;
         Scanner s = new Scanner(System.in);
         System.out.print("what class?: ");
-        String clss = s.nextLine();
-        Arena arena = new Arena(clss, 2);
+        while (clss == null) {
+            clss = HeroClass.fromString(s.nextLine());
+            if (clss == null)
+                System.out.print("Not a class. Try again: ");
+        }
+
+        Arena arena = new Arena(clss.toString(), 2);
 
         for (int i = 0; i < 10; i++) {
             arena.printDraft();
