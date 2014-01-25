@@ -62,7 +62,7 @@ public class Arena {
 
         Arena arena = new Arena(clss.toString(), 2);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             arena.printDraft();
             System.out.print("Pick one: ");
             arena.pick(s.nextInt()-1);

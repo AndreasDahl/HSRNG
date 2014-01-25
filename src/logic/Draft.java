@@ -11,7 +11,7 @@ import java.util.Random;
  * Created by Andreas on 11-01-14.
  */
 public class Draft {
-    private static final int DEFAULT_CHOICES = 10;
+    private static final int DEFAULT_CHOICES = 3;
     private static final double[] odds = {71.32, 22.93, 4.55, 1.20};
 
     private int choices = DEFAULT_CHOICES;
