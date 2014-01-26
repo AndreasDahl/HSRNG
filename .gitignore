@@ -1,4 +1,6 @@
 *.class
+/out
+src/META-INF
 
 # Package Files #
 *.jar
