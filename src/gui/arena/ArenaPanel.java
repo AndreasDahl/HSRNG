@@ -99,6 +99,7 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                 }
             }
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
             ex.printStackTrace();
         }
     }
