@@ -50,8 +50,12 @@ public class Draft {
         String[] fields = {"Class", "Rarity"};
         String[][] conditions = {{"All", race}, {rarity}};
         ArrayList<Card> cardpool = db.getCardsBy(fields, conditions);
+        ArrayList<Card> banSum = new ArrayList<Card>();
+        banSum.addAll(bans);
         for (int i = 0; i < DEFAULT_CHOICES; i++) {
-            cards.add(RandUtil.getRandomCard(cardpool, cards));
+            Card pick = RandUtil.getRandomCard(cardpool, banSum);
+            cards.add(pick);
+            banSum.add(pick);
         }
     }
 

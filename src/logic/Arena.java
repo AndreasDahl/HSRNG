@@ -16,6 +16,7 @@ public class Arena {
     private String clss;
     private ArrayList<Card> bans;
     private int sameCardLimit;
+    private IPickListener pickListener;
 
     public Arena(String clss, int limit) throws SQLException, ClassNotFoundException {
         cards = new HashMap<Card, Integer>();
@@ -35,17 +36,24 @@ public class Arena {
         }
     }
 
+    public void setPickListener(IPickListener pickListener) {
+        this.pickListener = pickListener;
+    }
+
     public Card pick(int choice) throws SQLException, ClassNotFoundException {
         Card card = draft.pick(choice);
         int newAmount;
+
         if (cards.containsKey(card))
             newAmount = cards.get(card) + 1;
         else
             newAmount = 1;
-        cards.put(card, newAmount);
-
         if (newAmount >= sameCardLimit)
             bans.add(card);
+        cards.put(card, newAmount);
+        if (pickListener != null)
+            pickListener.onPick(card);
+
         draft = newDraft();
         return card;
     }

@@ -61,9 +61,9 @@ public class CardDatabase {
             card.rarity      = rs.getString(3);
             card.type        = rs.getString(4);
             card.race        = rs.getString(5);
-            card.cost        = rs.getString(6);
-            card.atk         = rs.getString(7);
-            card.health      = rs.getString(8);
+            card.cost        = rs.getInt(6);
+            card.atk         = rs.getInt(7);
+            card.health      = rs.getInt(8);
             card.description = rs.getString(9);
             returnCards.add(card);
         }

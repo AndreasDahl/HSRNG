@@ -12,9 +12,9 @@ public class Card {
     public String rarity;
     public String type;
     public String race;
-    public String cost;
-    public String atk;
-    public String health;
+    public int cost;
+    public int atk;
+    public int health;
     public String description;
 
     @Override
