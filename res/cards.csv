@@ -1,4 +1,4 @@
-Name,Class,Rarity,Type,Race,,,,Description
+Name,Class,Rarity,Type,Race,Cost,Attack,Health,Description
 Abomination,All,Rare,Minion,,5,4,4,Taunt. Deathrattle: Deal 2 damage to ALL characters.
 Acolyte of Pain,All,Common,Minion,,3,1,4,"Whenever this minion takes damage, draw a card."
 Adrenaline Rush,Rogue,Epic,Spell,,1,,,Draw a card. Combo: Draw 2 instead.
