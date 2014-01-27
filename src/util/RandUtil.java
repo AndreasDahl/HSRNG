@@ -30,8 +30,16 @@ public class RandUtil {
             if (!bans.contains(card))
                 allowedCards.add(card);
         }
-        if (allowedCards.size() < 1)
+        if (allowedCards.size() < 1) {
+            System.err.println("CardList: " + cardList.size());
+            for (Card card : cardList)
+                System.err.println(card.toString());
+            System.err.println("Bans: " + bans.size());
+            for (Card card : bans)
+                System.err.println(card.toString());
+
             throw new IllegalArgumentException("No cards allowed to random");
+        }
         return getRandomCard(allowedCards);
     }
 }

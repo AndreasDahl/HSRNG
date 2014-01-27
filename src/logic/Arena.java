@@ -2,7 +2,7 @@ package logic;
 
 import util.HeroClass;
 
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -18,7 +18,7 @@ public class Arena {
     private int sameCardLimit;
     private IPickListener pickListener;
 
-    public Arena(String clss, int limit) throws SQLException, ClassNotFoundException {
+    public Arena(String clss, int limit) throws IOException {
         cards = new HashMap<Card, Integer>();
         this.bans = new ArrayList<Card>();
         this.clss = clss;
@@ -26,7 +26,7 @@ public class Arena {
         draft = newDraft();
     }
 
-    private Draft newDraft() throws SQLException, ClassNotFoundException {
+    private Draft newDraft() throws IOException {
         return new Draft(clss, bans);
     }
 
@@ -40,7 +40,7 @@ public class Arena {
         this.pickListener = pickListener;
     }
 
-    public Card pick(int choice) throws SQLException, ClassNotFoundException {
+    public Card pick(int choice) throws IOException {
         Card card = draft.pick(choice);
         int newAmount;
 

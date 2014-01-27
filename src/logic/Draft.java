@@ -1,9 +1,10 @@
 package logic;
 
+import util.HeroClass;
 import util.RandUtil;
 import util.Rarity;
 
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,11 +22,11 @@ public class Draft {
     private ArrayList<Card> cards;
     private List<Card> bans;
 
-    public Draft(String race) throws SQLException, ClassNotFoundException {
+    public Draft(String race) throws IOException {
         this(race, new ArrayList<Card>());
     }
 
-    public Draft(String race, List<Card> bans) throws SQLException, ClassNotFoundException {
+    public Draft(String race, List<Card> bans) throws IOException {
         this.race = race;
         this.bans = bans;
         cards = new ArrayList<Card>(choices);
@@ -45,17 +46,21 @@ public class Draft {
         return cards.get(choice);
     }
 
-    private void generateCards() throws SQLException, ClassNotFoundException {
-        CardDatabase db = CardDatabase.getInstance();
-        String[] fields = {"Class", "Rarity"};
-        String[][] conditions = {{"All", race}, {rarity}};
-        ArrayList<Card> cardpool = db.getCardsBy(fields, conditions);
+    private void generateCards() throws IOException {
+        CardLoader cl = new CardLoader(HeroClass.fromString(race));
+        ArrayList<Card> cardpool = cl.getCardsWithRarity(rarity);
         ArrayList<Card> banSum = new ArrayList<Card>();
         banSum.addAll(bans);
         for (int i = 0; i < DEFAULT_CHOICES; i++) {
-            Card pick = RandUtil.getRandomCard(cardpool, banSum);
-            cards.add(pick);
-            banSum.add(pick);
+            try {
+                Card pick = RandUtil.getRandomCard(cardpool, banSum);
+                cards.add(pick);
+                banSum.add(pick);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Rarity: " + rarity);
+                throw e;
+            }
+
         }
     }
 

@@ -12,7 +12,8 @@ public enum HeroClass {
     DRUID("Druid"),
     WARLOCK("Warlock"),
     MAGE("Mage"),
-    PRIEST("Priest");
+    PRIEST("Priest"),
+    ALL("All");
 
     private final String ext;
 
@@ -34,6 +35,6 @@ public enum HeroClass {
         if (clss.equalsIgnoreCase("Warlock"))   return WARLOCK;
         if (clss.equalsIgnoreCase("Mage"))      return MAGE;
         if (clss.equalsIgnoreCase("Priest"))    return PRIEST;
-        return null;
+        return ALL;
     }
 }
