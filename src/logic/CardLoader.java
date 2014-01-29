@@ -40,9 +40,10 @@ public class CardLoader {
             card.description = c[8];
 
             Rarity rarity = Rarity.fromString(card.rarity);
-            if (clss != null
+            if ((clss != null
                     && (HeroClass.fromString(card.heroClass).equals(HeroClass.ALL)
-                    || clss.equals(HeroClass.fromString(card.heroClass)))) {
+                    || clss.equals(HeroClass.fromString(card.heroClass))))
+                || clss == null) {
                 switch (rarity) {
                     case COMMON:
                         commons.add(card);
