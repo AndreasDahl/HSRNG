@@ -114,6 +114,7 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                     for (int i = 0; i < buttons.length; i++) {
                         if (source.equals(buttons[i])) {
                             arena.pick(i);
+                            buttons[i].setFocusPainted(false);
                             break;
                         }
                     }
@@ -128,7 +129,8 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                 ArrayList<Card> choices = arena.getDraft().getCards();
                 Color color = arena.getDraft().getRarity().toColor();
                 for (int i = 0; i < buttons.length; i++) {
-                    buttons[i].setText(choices.get(i).name);
+                    Card choice = choices.get(i);
+                    buttons[i].setText(String.format("%s (%d)", choice.name, choice.cost)  );
                     buttons[i].setBackground(color);
                 }
             }
