@@ -12,7 +12,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +22,7 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
 
     private int choices = 3;
 
-    private JTextArea textArea;
+    private PickList pickList;
     private JButton[] buttons;
     private ManaCurve manaCurve;
 
@@ -52,16 +51,16 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
             add(buttons[i], c);
         }
 
-        textArea = new JTextArea();
-        textArea.setOpaque(true);
-        textArea.setBackground(Color.WHITE);
-        textArea.setPreferredSize(new Dimension(200, -1));
+        pickList = new PickList();
+        pickList.setOpaque(true);
+        pickList.setBackground(Color.WHITE);
+        pickList.setPreferredSize(new Dimension(200, -1));
         c.fill = GridBagConstraints.VERTICAL;
         c.ipady = 550;
         c.gridheight = choices;
         c.gridx = 0;
         c.gridy = 0;
-        add(textArea, c);
+        add(pickList, c);
 
         manaCurve = new ManaCurve();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -71,12 +70,36 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
         c.gridy = 3;
         add(manaCurve, c);
 
-        textArea.addKeyListener(new ArenaKeyListener());
+        setKeyBindings();
     }
 
     @Override
     public void onPick(Card card) {
         manaCurve.add(card.cost);
+        pickList.addCard(card);
+    }
+
+    private void setKeyBindings() {
+        ActionMap actionMap = getActionMap();
+        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        InputMap inputMap = getInputMap(condition );
+
+        String vkR = "VK_R";
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), vkR);
+
+        actionMap.put(vkR, new KeyAction(vkR));
+    }
+
+    private class KeyAction extends AbstractAction {
+        public KeyAction(String actionCommand) {
+            putValue(ACTION_COMMAND_KEY, actionCommand);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvt) {
+            frame.setVisible(false);
+            init();
+        }
     }
 
     @Override
@@ -90,7 +113,6 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                     JButton source = (JButton) e.getSource();
                     for (int i = 0; i < buttons.length; i++) {
                         if (source.equals(buttons[i])) {
-                            textArea.setText(textArea.getText() + "\n" + arena.getDraft().getCards().get(i).name);
                             arena.pick(i);
                             break;
                         }
@@ -100,7 +122,7 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                     JButton source = (JButton) e.getSource();
                     arena = new Arena(source.getText(), 2);
                     arena.setPickListener(this);
-                    textArea.setText(source.getText());
+                    pickList.setTitle(source.getText());
                     cardPick = true;
                 }
                 ArrayList<Card> choices = arena.getDraft().getCards();
@@ -129,28 +151,6 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
 
         frame.pack();
         frame.setVisible(true);
-    }
-
-    public static class ArenaKeyListener implements KeyListener {
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            int code = e.getKeyCode();
-            if (code == KeyEvent.VK_R) {
-                frame.setVisible(false);
-                init();
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-
-        }
     }
 }
 
