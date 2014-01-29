@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 /**
@@ -30,6 +32,8 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
     private int picks = 0;
 
     public ArenaPanel() {
+
+
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c =  new GridBagConstraints();
         this.setLayout(layout);
@@ -66,6 +70,8 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
         c.gridx = 0;
         c.gridy = 3;
         add(manaCurve, c);
+
+        textArea.addKeyListener(new ArenaKeyListener());
     }
 
     @Override
@@ -111,7 +117,11 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Arena");
+        init();
+    }
+
+    public static void init() {
+        frame = new JFrame("Arena");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
@@ -119,6 +129,28 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
 
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public static class ArenaKeyListener implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            int code = e.getKeyCode();
+            if (code == KeyEvent.VK_R) {
+                frame.setVisible(false);
+                init();
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
     }
 }
 
