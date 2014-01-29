@@ -1,5 +1,9 @@
 package util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Andreas on 25-01-14.
  */
@@ -14,6 +18,18 @@ public enum HeroClass {
     MAGE("Mage"),
     PRIEST("Priest"),
     ALL("All");
+
+    public static final HeroClass[] HEROES = {
+            WARROR,
+            SHAMAN,
+            ROGUE,
+            PALADIN,
+            HUNTER,
+            DRUID,
+            WARLOCK,
+            MAGE,
+            PRIEST
+    };
 
     private final String ext;
 
@@ -36,5 +52,9 @@ public enum HeroClass {
         if (clss.equalsIgnoreCase("Mage"))      return MAGE;
         if (clss.equalsIgnoreCase("Priest"))    return PRIEST;
         return ALL;
+    }
+
+    public static List<HeroClass> getHeroList() {
+        return new ArrayList<HeroClass>(Arrays.asList(HEROES));
     }
 }

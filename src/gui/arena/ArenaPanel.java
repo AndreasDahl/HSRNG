@@ -4,6 +4,8 @@ import gui.ManaCurve;
 import logic.Arena;
 import logic.Card;
 import logic.IPickListener;
+import util.HeroClass;
+import util.RandUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
  * Created by Andreas on 25-01-14.
  */
 public class ArenaPanel extends JPanel implements ActionListener, IPickListener {
+    private static JFrame frame;
+
     private int choices = 3;
 
     private JTextArea textArea;
@@ -32,8 +36,9 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
         c.fill = GridBagConstraints.VERTICAL;
 
         buttons = new JButton[choices];
+        Object[] heroChoices = RandUtil.getRandomObjects(HeroClass.HEROES, choices);
         for (int i = 0; i < choices; i++) {
-            buttons[i] = new JButton("Warrior");
+            buttons[i] = new JButton(heroChoices[i].toString());
             buttons[i].addActionListener(this);
             c.fill = GridBagConstraints.VERTICAL;
             buttons[i].setPreferredSize(new Dimension(200, -1));
@@ -86,9 +91,10 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                     }
                     picks += 1;
                 } else {
-                    arena = new Arena("Warrior", 2);
+                    JButton source = (JButton) e.getSource();
+                    arena = new Arena(source.getText(), 2);
                     arena.setPickListener(this);
-                    textArea.setText("Warrior");
+                    textArea.setText(source.getText());
                     cardPick = true;
                 }
                 ArrayList<Card> choices = arena.getDraft().getCards();
@@ -114,7 +120,5 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
         frame.pack();
         frame.setVisible(true);
     }
-
-
 }
 
