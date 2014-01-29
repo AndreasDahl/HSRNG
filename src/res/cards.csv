@@ -263,10 +263,10 @@ Shadow Bolt,Warlock,Basic,Spell,,3,,,Deal 4 damage to a minion.
 Shadowflame,Warlock,Rare,Spell,,4,,,Destroy a friendly minion and deal its Attack damage to all enemy minions.
 Shadowform,Priest,Epic,Spell,,3,,,Your Hero Power becomes 'Deal 2 damage'. If already in Shadowform: 3 damage.
 Shadowstep,Rogue,Common,Spell,,0,,,Return a friendly minion to your hand. It costs (2) less.
-Shattered Sun Cleric,All,Basic,Minion,,3,3,3,Battlecry: Give a friendly minion +1/+1.
+Shattered Sun Cleric,All,Basic,Minion,,3,2,3,Battlecry: Give a friendly minion +1/+1.
 Shield Block,Warrior,Basic,Spell,,3,,,Gain 5 Armor. Draw a card.
 Shield Slam,Warrior,Epic,Spell,,1,,,Deal 1 damage to a minion for each Armor you have.
-Shieldbearer,All,Common,Minion,,2,0,4,Taunt. Enrage: +1 Attack.
+Shieldbearer,All,Common,Minion,,1,0,4,Taunt.
 Shiv,Rogue,Basic,Spell,,2,,,Deal 1 damage. Draw a card.
 SI-7 Agent,Rogue,Rare,Minion,,3,3,3,Combo: Deal 2 damage.
 Silence,Priest,Common,Spell,,0,,,Silence a minion.
@@ -278,7 +278,7 @@ Slam,Warrior,Common,Spell,,2,,,"Deal 2 damage to a minion. If it survives, draw 
 Snake Trap,Hunter,Epic,Spell,,2,,,"Secret: When one of your minions is attacked, summon three 1/1 Snakes."
 Snipe,Hunter,Common,Spell,,2,,,"Secret: When your opponent plays a minion, deal 4 damage to it."
 Sorcerer's Apprentice,Mage,Common,Minion,,2,3,2,Your spells cost (1) less.
-Sould of the Forest,Druid,Common,Spell,,4,,,"Give your minions ""Deathrattle: Summon a 2/2 Treant."""
+Soul of the Forest,Druid,Common,Spell,,4,,,"Give your minions ""Deathrattle: Summon a 2/2 Treant."""
 Soulfire,Warlock,Basic,Spell,,0,,,Deal 4 damage. Discard a random card.
 Southsea Deckhand,All,Common,Minion,Pirate,1,2,1,Battlecry: Your equipped weapon gets +1 Durability.
 Spellbender,Mage,Epic,Spell,,3,,,"When an enemy casts a spell on a minion, summon a 1/3 as the new target."
@@ -288,7 +288,6 @@ Sprint,Rogue,Basic,Spell,,7,,,Draw 4 cards.
 Starfall,Druid,Rare,Spell,,5,,,Choose One - Deal 5 damage to an enemy; or 2 damage to all of them.
 Starfire,Druid,Basic,Spell,,6,,,Deal 5 damage. Draw a card.
 Starving Buzzard,Hunter,Basic,Minion,Beast,2,2,2,"Whenever you summon a Best, draw a card."
-Steady Shot,Hunter,Basic,Spell,,2,,,Deal 2 damage to the enemy hero.
 Stonetusk Boar,All,Basic,Minion,Beast,1,1,1,Charge
 Stormforged Axe,Shaman,Common,Weapon,,2,2,3,Overload: (1)
 Stormpike Commando,All,Basic,Minion,,5,4,2,Battlecry: Deal 2 damage.
@@ -305,7 +304,6 @@ The Beast,All,Legendary,Minion,Beast,6,10,6,Deathrattle: Summon a 3/3 Finkle Ein
 The Black Knight,All,Legendary,Minion,,6,4,5,Battlecry: Destroy a minion with Taunt.
 Thoughtsteal,Priest,Common,Spell,,3,,,Copy 2 cards from your opponents deck and put them into your hand.
 Timber Wolf,Hunter,Basic,Minion,Beast,1,1,1,Your other Beasts have +1 Attack.
-Tirion Fording,Paladin,Legendary,Minion,,8,6,6,Divine Shield. Taunt. Battlecry: Draw a card for each enemy minion.
 Tirion Fordring,Paladin,Legendary,Minion,,8,6,6,Divine Shield. Taunt. Deathrattle: Equip a 5/3 Ashbringer.
 Tracking,Hunter,Basic,Spell,,1,,,Look at the top three cards of your deck. Draw one and discard the others.
 Truesilver Champion,Paladin,Basic,Weapon,,4,4,2,"Whenever your hero attacks, restore 2 Health to it."
@@ -334,4 +332,4 @@ Worgen Infiltrator,All,Common,Minion,,1,2,1,Stealth
 Wrath,Druid,Common,Spell,,2,,,Choose One - Deal 3 damage; or Deal 1 damage and draw a card.
 Young Dragonhawk,All,Common,Minion,Beast,1,1,1,Windfury
 Youthful Brewmaster,All,Common,Minion,,2,3,2,Battlecry: Return a friendly minion from the battlefield to your hand.
-Ysera,All,Legendary,Minion,Dragon,9,4,12,"At the end of your turn, draw a Dream logic.Card."
+Ysera,All,Legendary,Minion,Dragon,9,4,12,"At the end of your turn, draw a Dream Card."
