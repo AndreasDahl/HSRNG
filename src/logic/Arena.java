@@ -1,6 +1,7 @@
 package logic;
 
 import util.HeroClass;
+import util.Rarity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class Arena {
             newAmount = cards.get(card) + 1;
         else
             newAmount = 1;
-        if (newAmount >= sameCardLimit)
+        if (newAmount >= sameCardLimit || card.rarity.equals(Rarity.LEGENDARY.toString()))
             bans.add(card);
         cards.put(card, newAmount);
         if (pickListener != null)
