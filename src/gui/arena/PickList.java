@@ -6,6 +6,8 @@ import util.Rarity;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by Andreas on 29-01-14.
@@ -29,6 +31,15 @@ public class PickList extends JPanel {
         title.revalidate();
     }
 
+    private void sortLabels() {
+        removeAll();
+        add(title);
+        SortedSet<Card> keys = new TreeSet<Card>(cards.keySet());
+        for (Card card : keys) {
+            add(cards.get(card));
+        }
+    }
+
     public void addCard(Card card) {
         if (cards.containsKey(card)) {
             CardLabel label = cards.get(card);
@@ -38,10 +49,11 @@ public class PickList extends JPanel {
             add(label);
             cards.put(card, label);
         }
+        sortLabels();
     }
 
     private class CardLabel extends JLabel {
-        private static final String format = "%d x %s";
+        private static final String format = "%d x (%d)%s";
         int count;
         Card card;
 
@@ -54,7 +66,7 @@ public class PickList extends JPanel {
         }
 
         private void updateText() {
-            setText(String.format(format, count, card.name));
+            setText(String.format(format, count, card.cost,card.name));
         }
 
         public void increment() {

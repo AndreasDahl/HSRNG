@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 /**
  * Created by Andreas on 08-01-14.
  */
-public class Card {
+public class Card implements Comparable<Card> {
     public String name;
     public String heroClass;
     public String rarity;
@@ -68,5 +68,13 @@ public class Card {
                 append(health, rhs.health).
                 append(description, rhs.description).
                 isEquals();
+    }
+
+    @Override
+    public int compareTo(Card c) {
+        int costCompare = new Integer(cost).compareTo(c.cost);
+        if (costCompare == 0)
+            return name.compareTo(c.name);
+        return costCompare;
     }
 }
