@@ -13,28 +13,26 @@ public class ManaCurve extends JPanel {
     public ManaCurve() {
         amount = new int[tags.length];
 
-//        GridBagLayout layout = new GridBagLayout();
-//        GridBagConstraints c =  new GridBagConstraints();
-//        this.setLayout(layout);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//
-//        c.weighty = 3;
-//        c.gridx = 0;
-//        c.gridy = 0;
-//        c.gridwidth = tags.length;
-//        JPanel panel = new JPanel();
-//        panel.setOpaque(false);
-//        add(panel, c);
-//
-//        for (int i = 0; i < tags.length; i++) {
-//            c.weightx = 1;
-//            c.weighty = 1;
-//            c.gridx = i;
-//            c.gridy = 1;
-//            c.fill = GridBagConstraints.HORIZONTAL;
-//            JButton label = new JButton(tags[i]);
-//            add(label, c);
-//        }
+        GridBagLayout layout = new GridBagLayout();
+        GridBagConstraints c =  new GridBagConstraints();
+        this.setLayout(layout);
+
+        c.weighty = 5;
+        c.gridx = 0;
+        c.gridy = 0;
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        add(panel, c);
+
+        for (int i = 0; i < tags.length; i++) {
+            c.weightx = 1;
+            c.weighty = 1;
+            c.gridx = i;
+            c.gridy = 1;
+            JLabel label = new JLabel(tags[i]);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            add(label, c);
+        }
     }
 
     public void add(int cost) {
@@ -50,7 +48,7 @@ public class ManaCurve extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Color.RED);
+        g.setColor(Color.ORANGE);
 
         int x = 0;
         int columnWidth = getWidth() / tags.length;
