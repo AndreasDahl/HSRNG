@@ -34,12 +34,31 @@ public class Draft {
         generateCards();
     }
 
+    public Draft(String race, List<Card> bans, Rarity forcedRarity) throws IOException {
+        this.race = race;
+        this.bans = bans;
+        cards = new ArrayList<Card>(choices);
+        rarity = forcedRarity.toString();
+        generateCards();
+    }
+
     public ArrayList<Card> getCards() {
         return cards;
     }
 
     public Rarity getRarity() {
         return Rarity.fromString(rarity);
+    }
+
+    public Card ban(int choice) throws IOException {
+        Card banned = cards.get(choice);
+        bans.add(banned);
+
+        CardLoader cl = new CardLoader(HeroClass.fromString(race));
+        List<Card> cardpool = cl.getCardsWithRarity(rarity);
+        Card pick = RandUtil.getRandomCard(cardpool, bans);
+        cards.set(choice, pick);
+        return banned;
     }
 
     public Card pick(int choice) {

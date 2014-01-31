@@ -41,6 +41,10 @@ public class Arena {
         this.pickListener = pickListener;
     }
 
+    public void ban(int choice) throws IOException {
+        draft.ban(choice);
+    }
+
     public Card pick(int choice) throws IOException {
         Card card = draft.pick(choice);
         int newAmount;

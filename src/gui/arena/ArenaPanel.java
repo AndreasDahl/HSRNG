@@ -9,15 +9,14 @@ import util.RandUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
  * Created by Andreas on 25-01-14.
  */
 public class ArenaPanel extends JPanel implements ActionListener, IPickListener {
+    private static final int DECK_SIZE = 30;
     private static JFrame frame;
 
     private int choices = 3;
@@ -43,6 +42,7 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
         for (int i = 0; i < choices; i++) {
             buttons[i] = new JButton(heroChoices[i].toString());
             buttons[i].addActionListener(this);
+            buttons[i].addMouseListener(new ArenaMouseAdapter());
             c.fill = GridBagConstraints.VERTICAL;
             buttons[i].setPreferredSize(new Dimension(200, -1));
             c.weighty = 1;
@@ -97,15 +97,17 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
 
         @Override
         public void actionPerformed(ActionEvent actionEvt) {
+            Point point = frame.getLocation();
             frame.setVisible(false);
             init();
+            frame.setLocation(point);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            if (picks > 30) {
+            if (picks >= DECK_SIZE) {
                 for (JButton button : buttons)
                     button.setVisible(false);
             } else {
@@ -126,17 +128,69 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                     pickList.setTitle(source.getText());
                     cardPick = true;
                 }
-                ArrayList<Card> choices = arena.getDraft().getCards();
-                Color color = arena.getDraft().getRarity().toColor();
-                for (int i = 0; i < buttons.length; i++) {
-                    Card choice = choices.get(i);
-                    buttons[i].setText(String.format("%s (%d)", choice.name, choice.cost)  );
-                    buttons[i].setBackground(color);
-                }
+                resetButtons();
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            JOptionPane.showMessageDialog(frame, ex.getMessage());
             ex.printStackTrace();
+        }
+    }
+
+    private void resetButtons() {
+        ArrayList<Card> choices = arena.getDraft().getCards();
+        Color color = arena.getDraft().getRarity().toColor();
+        for (int i = 0; i < buttons.length; i++) {
+            Card choice = choices.get(i);
+            buttons[i].setText(String.format("%s (%d)", choice.name, choice.cost)  );
+            buttons[i].setBackground(color);
+        }
+    }
+
+    private class ArenaMouseAdapter extends MouseAdapter {
+        private boolean  pressed;
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            JButton button = (JButton) e.getComponent();
+            button.getModel().setArmed(true);
+            button.getModel().setPressed(true);
+            pressed = true;
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            try {
+                JButton source = (JButton) e.getComponent();
+                source.getModel().setArmed(false);
+                source.getModel().setPressed(false);
+
+                if (pressed) {
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        for (int i = 0; i < buttons.length; i++) {
+                            if (source.equals(buttons[i])) {
+                                arena.ban(i);
+                                break;
+                            }
+                        }
+                        resetButtons();
+                    }
+                }
+                pressed = false;
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, ex.getMessage());
+                ex.printStackTrace();
+            }
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            pressed = false;
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            pressed = true;
         }
     }
 
