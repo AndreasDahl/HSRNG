@@ -1,7 +1,6 @@
 Name,Class,Rarity,Type,Race,Cost,Attack,Health,Description
 Abomination,All,Rare,Minion,,5,4,4,Taunt. Deathrattle: Deal 2 damage to ALL characters.
-Acolyte of Pain,All,Common,Minion,,3,1,4,"Whenever this minion takes damage, draw a card."
-Adrenaline Rush,Rogue,Epic,Spell,,1,,,Draw a card. Combo: Draw 2 instead.
+Acolyte of Pain,All,Common,Minion,,3,1,3,"Whenever this minion takes damage, draw a card."
 Al'Akir the Windlord,Shaman,Legendary,Minion,,8,3,5,Windfury. Charge. Divine Shield. Taunt.
 Alarm-O-Bot,All,Rare,Minion,,3,0,3,"At the start of your turn, swap this minion with a random one in your hand."
 Aldor Peacekeeper,Paladin,Rare,Minion,,3,3,3,Battlecry: Change an enemy minion's Attack to 1.
@@ -10,8 +9,8 @@ Amani Berserker,All,Common,Minion,,2,2,3,Enrage: +3 Attack.
 Ancestral Healing,Shaman,Basic,Spell,,0,,,Restore a minion to full Health.
 Ancestral Spirit,Shaman,Rare,Spell,,2,,,"Choose a minion. When that minion is destroyed, return it to the battlefield."
 Ancient Brewmaster,All,Common,Minion,,4,5,4,Battlecry: Return a friendly minion from the battlefield to your hand.
-Ancient of Lore,Druid,Epic,Minion,,7,5,5,Choose One - Draw 2 cards; or Restore 8 Health.
-Ancient of War,Druid,Epic,Minion,,7,5,5,Choose One - Ancient of War gets +5 Health and Taunt; or +5 Attack.
+Ancient of Lore,Druid,Epic,Minion,,7,5,5,Choose One - Draw 2 cards; or Restore 5 Health.
+Ancient of War,Druid,Epic,Minion,,7,5,5,Choose One - Ancient of War gets Taunt and +5 Health; or +5 Attack.
 Ancient Watcher,All,Rare,Minion,,2,4,5,Can't Attack.
 Angry Chicken,All,Rare,Minion,,1,1,1,Enrage: +5 Attack.
 Animal Companion,Hunter,Common,Spell,,3,,,Summon a random Beast Companion.
@@ -43,7 +42,7 @@ Blade Flurry,Rogue,Rare,Spell,,2,,,Destroy your weapon and deal its damage to al
 Blessed Champion,Paladin,Rare,Spell,,5,,,Double a minion's Attack.
 Blessing of Kings,Paladin,Basic,Spell,,4,,,Give a minion +4+4
 Blessing of Wisdom,Paladin,Common,Spell,,1,,,"Choose a minion. Whenever it attacks, draw a card."
-Blizzard,Mage,Rare,Spell,,5,,,Deal 2 damage to all enemy minions and Freeze them.
+Blizzard,Mage,Rare,Spell,,6,,,Deal 2 damage to all enemy minions and Freeze them.
 Blood Imp,Warlock,Common,Minion,Demon,1,1,1,Stealth. Your other minions have +1 Health.
 Blood Knight,All,Epic,Minion,,3,3,3,Battlecry: All minions lose Divine Shield. Gain +3/+3 for each Shield lost.
 Bloodfen Raptor,All,Basic,Minion,Beast,2,3,2,
@@ -57,7 +56,7 @@ Cabal Shadow Priest,Priest,Epic,Minion,,6,3,4,Battlecry: Take control of an enem
 Cairne Bloodhoof,All,Legendary,Minion,,6,4,5,Deathrattle: Summon a 4/5 Baine Bloodhoof.
 Captain's Parrot,All,Epic,Minion,Beast,1,1,2,"Whenever you play a Pirate, draw a card."
 Cenarius,Druid,Legendary,Minion,,8,5,8,Choose One - Give your other minions +2/+2; or Summon two 2/2 Treants with Taunt.
-Chaos Bolt,Warlock,Common,Spell,,2,,,"Deal 2 damage to a minion. If the target is a Demon, give it +2/+2 instead."
+Demon Fire,Warlock,Common,Spell,,2,,,"Deal 2 damage to a minion. If the target is a Friendly Demon, give it +2/+2 instead."
 Charge,Warrior,Basic,Spell,,0,,,Give a friendly minion Charge.
 Chillwind Yeti,All,Basic,Minion,,4,4,5,
 Circle of Healing,Priest,Basic,Spell,,0,,,Restore 4 Health to ALL minions.
@@ -111,7 +110,7 @@ Execute,Warrior,Basic,Spell,,1,,,Destroy a damaged enemy minion.
 Explosive Shot,Hunter,Rare,Spell,,5,,,Deal 5 damage to a minion and 2 damage to adjacent ones.
 Explosive Trap,Hunter,Common,Spell,,2,,,"Secret: When a minion damages your hero, deal 2 damage to all enemies."
 Eye for an Eye,Paladin,Common,Spell,,1,,,"Secret: When your hero takes damage, deal that much damage to the enemy hero."
-Fade,Priest,Common,Spell,,2,,,Give your minions Taunt. Draw a card.
+Holy Fire,Priest,Common,Spell,,6,,,Deal 5 damage. Restore 5 Health to your hero.
 Faerie Dragon,All,Common,Minion,,2,3,2,Can't be targeted by Spells or Hero Powers.
 Fan of Knives,Rogue,Basic,Spell,,3,,,Deal 1 damage to all enemy minions. Draw a card.
 Felguard,Warlock,Rare,Minion,Demon,3,3,5,Taunt. Battlecry: Destroy one of your Mana Crystals.
@@ -127,7 +126,7 @@ Flesheating Ghoul,All,Rare,Minion,,3,2,3,"Whenever a minion dies, gain +1 Attack
 Force of Nature,Druid,Epic,Spell,,6,,,Summon three 2/2 Treants with Charge that die at the end of the turn.
 Forked Lightning,Shaman,Common,Spell,,2,,,Deal 2 damage to 2 random enemy minions. Overload: (1)
 Freezing Trap,Hunter,Common,Spell,,2,,,"Secret: When an enemy attacks, return it to its owner's hand and it cost (2) more."
-Frost Nova,Mage,Basic,Spell,,2,,,Freeze all enemy minions.
+Frost Nova,Mage,Basic,Spell,,3,,,Freeze all enemy minions.
 Frost Shock,Shaman,Basic,Spell,,1,,,Deal 1 damage to an enemy character and Freeze it.
 Frostbolt,Mage,Basic,Spell,,2,,,Deal 3 damage to a character and Freeze it.
 Frostwolf Grunt,All,Basic,Minion,,2,2,2,Taunt
@@ -154,7 +153,7 @@ Holy Smite,Priest,Basic,Spell,,1,,,Deal 2 damage.
 Holy Wrath,Paladin,Rare,Spell,,5,,,Draw a card and deal damage equal to its cost.
 Houndmaster,Hunter,Basic,Minion,,4,4,3,Battlecry: Give a friendly Beast +2/+2 and Taunt.
 Humility,Paladin,Basic,Spell,,1,,,Change a minion's attack to 1.
-Hunter's Mark,Hunter,Basic,Spell,,0,,,Change a minion's Health to 1 this turn.
+Hunter's Mark,Hunter,Basic,Spell,,0,,,Change a minion's Health to 1.
 Hyena,Hunter,Rare,Minion,Beast,2,2,2,
 Ice Barrier,Mage,Common,Spell,,3,,,"Secret: As soon as your hero is attacked, gain 8 Armor."
 Ice Block,Mage,Epic,Spell,,3,,,"Secret: When your hero takes fatal damage, prevent it and become Immune this turn."
@@ -165,7 +164,7 @@ Innervate,Druid,Basic,Spell,,0,,,Gain 2 Mana Crystals this turn only.
 Ironbark Protector,Druid,Basic,Minion,,8,8,8,Taunt
 Ironbeak Owl,All,Common,Minion,Beast,2,2,1,Battlecry: Silence a minion.
 Ironforge Rifleman,All,Basic,Minion,,3,2,2,Battlecry: Deal 1 damage.
-Keeper of the Grove,Druid,Rare,Minion,,4,2,3,Choose One - Deal 2 damage; or Silence a minion.
+Keeper of the Grove,Druid,Rare,Minion,,4,2,4,Choose One - Deal 2 damage; or Silence a minion.
 Kidnapper,Rogue,Epic,Minion,,6,5,3,Combo: Return a minion to its owner's hand.
 Kill Command,Hunter,Basic,Spell,,3,,,"Deal 3 damage. If you have a Beast, deal 5 damage instead."
 King Krush,Hunter,Legendary,Minion,Beast,9,8,8,Charge
@@ -201,9 +200,9 @@ Mega-Blast!!!,,Legendary,Spell,,10,,,Deal 5 damage to all enemies.
 Mental Collapse,Priest,Common,Spell,,2,,,Deal 1 damage to the enemy hero for each card in his hand.
 Millhouse Manastorm,All,Legendary,Minion,,2,2,2,Battlecry: Put a 'Mega-Blast' card into your hand.
 Mind Blast,Priest,Basic,Spell,,3,,,Deal 5 damage to the enemy hero.
-Mind Control,Priest,Basic,Spell,,8,,,Take control of an enemy minion.
+Mind Control,Priest,Basic,Spell,,10,,,Take control of an enemy minion.
 Mind Control Tech,All,Rare,Minion,,3,3,3,Battlecry: Swap this with a random enemy minion.
-Mind Vision,Priest,Basic,Spell,,4,,,Take a random card from your opponent's hand.
+Mind Vision,Priest,Basic,Spell,,1,,,Take a random card from your opponent's hand.
 Mindgames,Priest,Epic,Spell,,4,,,Put a copy of a random minion from your opponent's deck into the battlefield.
 Mirror Entity,Mage,Common,Spell,,3,,,"Secret: When your opponent plays a minion, summon a copy of it."
 Mirror Image,Mage,Basic,Spell,,1,,,Summon two 0/2 minions with Taunt.
@@ -222,7 +221,7 @@ Nat Pagle,All,Legendary,Minion,,2,0,5,"At the end of your turn, you have 50% cha
 Naturalize,Druid,Common,Spell,,1,,,Destroy a minion. Your opponent draws 2 cards.
 Nightblade,All,Basic,Minion,,5,4,4,Battlecry: Deal 3 damage to the enemy hero.
 Noble Sacrifice,Paladin,Common,Spell,,1,,,"Secret: When an enemy attacks, summon a 2/1 Defender as the new target."
-Northshire Cleric,Priest,Basic,Minion,,2,1,3,"When a minion is healed, draw a card."
+Northshire Cleric,Priest,Basic,Minion,,1,1,3,"When a minion is healed, draw a card."
 Nourish,Druid,Rare,Spell,,5,,,Choose One - Gain 2 Mana Crystals; or Draw 3 cards.
 Novice Engineer,All,Basic,Minion,,2,1,2,Battlecry: Draw a card.
 Nozdormu,All,Legendary,Minion,Dragon,9,8,8,Players only have 15 seconds to take their turns.
@@ -237,11 +236,10 @@ Polymorph,Mage,Basic,Spell,,4,,,Transform a minion into a 1/1 Sheep.
 Power of the Wild,Druid,Common,Spell,,2,,,Choose One - Give your minions +1/+1; or summon a 3/2 Panther.
 Power Overwhelming,Warlock,Common,Spell,,1,,,"Give a friendly minion +4/+4 until end of turn. Then, it dies. Horribly."
 Power Word: Shield,Priest,Basic,Spell,,1,,,Give a minion +3 Health.
-Prayer of Fortitude,Priest,Basic,Spell,,2,,,Give your minions +1/+1. (+1 Attack/+1Health)
 Preparation,Rogue,Epic,Spell,,0,,,The next spell you cast this turn costs (3) less.
 Priestess of Elune,All,Common,Minion,,6,5,4,Battlecry: Restore 4 Health to your hero.
 Prophet Velen,Priest,Legendary,Minion,,7,5,7,Battlecry: Draw a card for each undamaged character.
-Pyroblast,Mage,Epic,Spell,,8,,,Deal 10 damage.
+Pyroblast,Mage,Epic,Spell,,10,,,Deal 10 damage.
 Ragnaros the Firelord,All,Legendary,Minion,,8,8,8,"Can't Attack. At the end of your turn, deal 8 damage to a random enemy."
 Raid Leader,All,Basic,Minion,,3,2,2,You other minions have +1 Attack.
 Rampage,Warrior,Common,Spell,,2,,,Give a damaged minion +3/+3.
@@ -253,10 +251,10 @@ River Crocolisk,All,Basic,Minion,Beast,2,2,3,
 Sacrificial Pact,Warlock,Basic,Spell,,0,,,Destroy a Demon. Restore 5 Health to your hero.
 Sap,Rogue,Basic,Spell,,2,,,Return an enemy minion to its owner's hand.
 Savage Roar,Druid,Basic,Spell,,3,,,Give your characters +2 Attack this turn.
-Savagery,Druid,Rare,Spell,,3,,,Deal damage equal to your hero's Attack to all enemy minions.
+Savagery,Druid,Rare,Spell,,1,,,Deal damage equal to your hero's Attack to a minion.
 Savannah Highmane,Hunter,Rare,Minion,Beast,6,6,5,Deathrattle: Summon two 2/2 Hyenas.
 Scavenging Hyena,Hunter,Common,Minion,Beast,2,2,2,"Whenever a friendly Beast dies, gain +2/+1."
-Sea Giant,All,Epic,Minion,,12,10,10,Costs (1) less for each other minion on the battlefield.
+Sea Giant,All,Epic,Minion,,10,8,8,Costs (1) less for each other minion on the battlefield.
 Sen'jin Shieldmasta',All,Basic,Minion,,4,3,5,Taunt
 Sense Demons,Warlock,Common,Spell,,3,,,Put 2 random Demons from your deck into your hand.
 Shadow Bolt,Warlock,Basic,Spell,,3,,,Deal 4 damage to a minion.
@@ -283,11 +281,10 @@ Soulfire,Warlock,Basic,Spell,,0,,,Deal 4 damage. Discard a random card.
 Southsea Deckhand,All,Common,Minion,Pirate,1,2,1,Battlecry: Your equipped weapon gets +1 Durability.
 Spellbender,Mage,Epic,Spell,,3,,,"When an enemy casts a spell on a minion, summon a 1/3 as the new target."
 Spellbreaker,All,Common,Minion,,4,4,3,Battlecry: Silence a minion.
-Spirit Wolf,Shaman,Rare,Minion,,2,2,3,Taunt
 Sprint,Rogue,Basic,Spell,,7,,,Draw 4 cards.
-Starfall,Druid,Rare,Spell,,5,,,Choose One - Deal 5 damage to an enemy; or 2 damage to all of them.
+Starfall,Druid,Rare,Spell,,5,,,Choose One - Deal 5 damage to an enemy minion; or 2 damage to all enemy minions.
 Starfire,Druid,Basic,Spell,,6,,,Deal 5 damage. Draw a card.
-Starving Buzzard,Hunter,Basic,Minion,Beast,2,2,2,"Whenever you summon a Best, draw a card."
+Starving Buzzard,Hunter,Basic,Minion,Beast,2,2,1,"Whenever you summon a Beast, draw a card."
 Stonetusk Boar,All,Basic,Minion,Beast,1,1,1,Charge
 Stormforged Axe,Shaman,Common,Weapon,,2,2,3,Overload: (1)
 Stormpike Commando,All,Basic,Minion,,5,4,2,Battlecry: Deal 2 damage.
@@ -296,7 +293,7 @@ Stormwind Knight,All,Basic,Minion,,4,2,5,Charge
 Succubus,Warlock,Basic,Minion,Demon,2,4,3,Battlecry: Discard a random card.
 Summoning Portal,Warlock,Common,Minion,,4,0,4,"Your minions cost (2) less, but not less than (1)."
 Sunfury Protector,All,Rare,Minion,,2,2,3,Battlecry: Your other minions gain Taunt.
-Swipe,Druid,Basic,Spell,,4,,,Deal 3 damage to an enemy and 1 damage to all other enemies.
+Swipe,Druid,Basic,Spell,,4,,,Deal 4 damage to an enemy and 1 damage to all other enemies.
 Sword of Justice,Paladin,Epic,Weapon,,3,1,5,"Whenever you summon a minion, give it +1/+1 and this loses 1 Durability."
 Sylvannas Windrunner,All,Legendary,Minion,,5,5,5,Battlecry: Discard your hand. Draw five 3/3 Skeletons.
 Tauren Warrior,All,Common,Minion,,3,2,3,Taunt. Enrage: +3 Attack
@@ -308,10 +305,9 @@ Tirion Fordring,Paladin,Legendary,Minion,,8,6,6,Divine Shield. Taunt. Deathrattl
 Tracking,Hunter,Basic,Spell,,1,,,Look at the top three cards of your deck. Draw one and discard the others.
 Truesilver Champion,Paladin,Basic,Weapon,,4,4,2,"Whenever your hero attacks, restore 2 Health to it."
 Tundra Rhino,Hunter,Common,Minion,Beast,5,2,5,Your Beasts have Charge.
-Tundra Rhyno,Hunter,Rare,Minion,Beast,5,2,5,Your Beasts have charge.
 Twisting Nether,Warlock,Epic,Spell,,8,,,Destroy all minions.
 Unbound Elemental,Shaman,Common,Minion,,3,2,4,"Whenever you play a card with Overload, gain +1/+1. Unlike bound elementals, Unbound ones really enjoy a night on the town."
-Unleash the Hounds,Hunter,Common,Spell,,1,,,Give your Beasts +1 Attack and Charge.
+Unleash the Hounds,Hunter,Common,Spell,,2,,,"For each enemy minion, summon a 1/1 Hound with Charge"
 Upgrade!,Warrior,Rare,Spell,,1,,,"If you have a weapon, give it +1/+1. Otherwise equip a 1/3 weapon."
 Vanish,Rogue,Basic,Spell,,6,,,Return all minions to their owner's hand.
 Vaporize,Mage,Rare,Spell,,3,,,"Secret: When a minion attacks your hero, destroy it."
