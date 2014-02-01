@@ -97,7 +97,7 @@ public class RandUtil {
             for (Card card : bans)
                 System.err.println(card.toString());
 
-            throw new IllegalArgumentException("No cards allowed to random");
+            throw new IllegalArgumentException("No cards left...");
         }
         return getRandomCard(allowedCards);
     }

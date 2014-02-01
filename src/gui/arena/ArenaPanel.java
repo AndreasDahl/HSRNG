@@ -97,10 +97,7 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
 
         @Override
         public void actionPerformed(ActionEvent actionEvt) {
-            Point point = frame.getLocation();
-            frame.setVisible(false);
-            init();
-            frame.setLocation(point);
+            reset();
         }
     }
 
@@ -131,8 +128,9 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                 resetButtons();
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(frame, ex.getMessage());
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            reset();
         }
     }
 
@@ -177,8 +175,9 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                 }
                 pressed = false;
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(frame, ex.getMessage());
                 ex.printStackTrace();
+                JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                reset();
             }
 
         }
@@ -196,6 +195,17 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
 
     public static void main(String[] args) {
         init();
+        JOptionPane.showMessageDialog(frame,
+                "Patch Notes:\n" +
+                "- It is now possible to ban cards from drafting by right-clicking.\n" +
+                "- Card database have been partly cleaned up");
+    }
+
+    public static void reset() {
+        Point point = frame.getLocation();
+        frame.setVisible(false);
+        init();
+        frame.setLocation(point);
     }
 
     public static void init() {
