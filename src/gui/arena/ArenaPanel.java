@@ -85,10 +85,6 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
         actionMap.put(vkR, new KeyAction(vkR));
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Arena) {

@@ -73,7 +73,7 @@ public class MainPanel {
         frame.setVisible(true);
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                "- You can now select possible rarities before drafting\n" +
+                "- You can now select possible rarities before drafting.\n" +
                 "- Much code refactoring. Many computer scientist.");
     }
 }

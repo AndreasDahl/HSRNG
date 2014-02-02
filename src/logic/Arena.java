@@ -30,9 +30,11 @@ public class Arena extends Observable {
         this.cards = otherArena.cards;
         this.bans = otherArena.bans;
         this.sameCardLimit = otherArena.sameCardLimit;
+        this.rarities = otherArena.rarities;
+        this.odds = otherArena.odds;
+        this.heroChoices = otherArena.heroChoices;
 
         this.heroPick = true;
-        heroChoices = Arrays.copyOf(RandUtil.getRandomObjects(HeroClass.HEROES, choices), choices, HeroClass[].class);
     }
 
     public Arena(int limit) throws IOException {
@@ -83,6 +85,7 @@ public class Arena extends Observable {
 
     public void ban(int choice) throws IOException {
         draft.ban(choice);
+        setChanged();
         notifyObservers();
     }
 
