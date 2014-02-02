@@ -1,92 +1,123 @@
 package logic;
 
 import util.HeroClass;
+import util.RandUtil;
 import util.Rarity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.Observable;
 
 /**
  * Created by Andreas on 11-01-14.
  */
-public class Arena {
+public class Arena extends Observable {
+
+    private int choices = 3;
     private HashMap<Card, Integer> cards;
     private Draft draft;
-    private String clss;
+    private HeroClass hero;
     private ArrayList<Card> bans;
     private int sameCardLimit;
-    private IPickListener pickListener;
+    private boolean heroPick;
+    private HeroClass[] heroChoices;
+    private Rarity[] rarities;
+    private double[] odds;
 
-    public Arena(String clss, int limit) throws IOException {
-        cards = new HashMap<Card, Integer>();
+    public Arena(Arena otherArena) {
+        this.cards = otherArena.cards;
+        this.bans = otherArena.bans;
+        this.sameCardLimit = otherArena.sameCardLimit;
+
+        this.heroPick = true;
+        heroChoices = Arrays.copyOf(RandUtil.getRandomObjects(HeroClass.HEROES, choices), choices, HeroClass[].class);
+    }
+
+    public Arena(int limit) throws IOException {
+        this.cards = new HashMap<Card, Integer>();
         this.bans = new ArrayList<Card>();
-        this.clss = clss;
         this.sameCardLimit = limit;
-        draft = newDraft();
+
+        this.heroPick = true;
+        heroChoices = Arrays.copyOf(RandUtil.getRandomObjects(HeroClass.HEROES, choices), choices, HeroClass[].class);
+    }
+
+    public Arena setRarities(Rarity[] rarities) {
+        this.rarities = rarities;
+        odds = new double[rarities.length];
+        for (int i = 0; i < rarities.length; i++) {
+            switch (rarities[i]) {
+                case COMMON:
+                    odds[i] = Draft.ODDS[0];
+                    break;
+                case RARE:
+                    odds[i] = Draft.ODDS[1];
+                    break;
+                case EPIC:
+                    odds[i] = Draft.ODDS[2];
+                    break;
+                default:
+                    odds[i] = Draft.ODDS[3];
+                    break;
+            }
+        }
+        return this;
     }
 
     private Draft newDraft() throws IOException {
-        return new Draft(clss, bans);
+        if (rarities == null)
+            return new Draft(choices, hero, bans).generateCards();
+        else
+            return new Draft(choices, hero, bans).setRarities(rarities, odds).generateCards();
     }
 
-    public void printDraft() {
-        for (Card card : draft.getCards()) {
-            System.out.println(card.toString());
-        }
-    }
-
-    public void setPickListener(IPickListener pickListener) {
-        this.pickListener = pickListener;
+    private void pickHero(int choice) throws IOException {
+        hero = heroChoices[choice];
+        heroPick = false;
+        this.draft = newDraft();
+        setChanged();
+        notifyObservers(hero);
     }
 
     public void ban(int choice) throws IOException {
         draft.ban(choice);
+        notifyObservers();
     }
 
-    public Card pick(int choice) throws IOException {
-        Card card = draft.pick(choice);
-        int newAmount;
+    public void pick(int choice) throws IOException {
+        if (heroPick)
+            pickHero(choice);
+        else  {
+            Card card = draft.pick(choice);
+            int newAmount;
 
-        if (cards.containsKey(card))
-            newAmount = cards.get(card) + 1;
+            if (cards.containsKey(card))
+                newAmount = cards.get(card) + 1;
+            else
+                newAmount = 1;
+            if (newAmount >= sameCardLimit || card.rarity.equals(Rarity.LEGENDARY.toString()))
+                bans.add(card);
+            cards.put(card, newAmount);
+            draft = newDraft();
+            setChanged();
+            notifyObservers(card);
+        }
+    }
+
+    public String[] getPickNames() {
+        String[] ret = new String[choices];
+        if (heroPick)
+            for (int i = 0; i < choices; i++)
+                ret[i] = heroChoices[i].toString();
         else
-            newAmount = 1;
-        if (newAmount >= sameCardLimit || card.rarity.equals(Rarity.LEGENDARY.toString()))
-            bans.add(card);
-        cards.put(card, newAmount);
-        if (pickListener != null)
-            pickListener.onPick(card);
-
-        draft = newDraft();
-        return card;
+            for (int i = 0; i < choices; i++)
+                ret[i] = getDraft().getCards().get(i).name;
+        return ret;
     }
 
     public Draft getDraft() {
         return draft;
-    }
-
-    public static void main(String[] args) throws Exception {
-        HeroClass clss = null;
-        Scanner s = new Scanner(System.in);
-        System.out.print("what class?: ");
-        while (clss == null) {
-            clss = HeroClass.fromString(s.nextLine());
-            if (clss == null)
-                System.out.print("Not a class. Try again: ");
-        }
-
-        Arena arena = new Arena(clss.toString(), 2);
-
-        for (int i = 0; i < 30; i++) {
-            arena.printDraft();
-            System.out.print("Pick one: ");
-            arena.pick(s.nextInt()-1);
-        }
-
-        for (Card card : arena.cards.keySet()) {
-            System.out.println(arena.cards.get(card) + " " + card.toString());
-        }
     }
 }

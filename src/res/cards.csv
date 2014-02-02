@@ -79,7 +79,6 @@ Dalaran Mage,All,Basic,Minion,,3,1,4,Spell Power +1.
 Shadow Madness,Priest,Rare,Spell,,4,,,Gain control of an enemy minion with 3 or less Attack until end of turn.
 Dark Iron Dwarf,All,Common,Minion,,4,4,4,Battlecry: Give a minion +2 Attack.
 Darkscale Healer,All,Basic,Minion,,5,4,5,Battlecry: Restore 2 Health to all friendly characters.
-Darkspear Hunter,Hunter,Common,Minion,,2,2,2,"Whenever you play a Beast, the Beast gains +1/+1."
 Deadly Poison,Rogue,Basic,Spell,,1,,,Give your weapon +2 Attack.
 Deadly Shot,Hunter,Common,Spell,,3,,,Destroy a random enemy minion.
 Deathwing,All,Legendary,Minion,Dragon,10,12,12,Battlecry: Destroy all other minions and discard your hand.
@@ -153,7 +152,6 @@ Holy Wrath,Paladin,Rare,Spell,,5,,,Draw a card and deal damage equal to its cost
 Houndmaster,Hunter,Basic,Minion,,4,4,3,Battlecry: Give a friendly Beast +2/+2 and Taunt.
 Humility,Paladin,Basic,Spell,,1,,,Change a minion's attack to 1.
 Hunter's Mark,Hunter,Basic,Spell,,0,,,Change a minion's Health to 1.
-Hyena,Hunter,Rare,Minion,Beast,2,2,2,
 Ice Barrier,Mage,Common,Spell,,3,,,"Secret: As soon as your hero is attacked, gain 8 Armor."
 Ice Block,Mage,Epic,Spell,,3,,,"Secret: When your hero takes fatal damage, prevent it and become Immune this turn."
 Ice Lance,Mage,Common,Spell,,1,,,"Freeze a character. If it was already Frozen, deal 4 damage instead."

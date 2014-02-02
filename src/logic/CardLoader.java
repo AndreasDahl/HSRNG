@@ -75,9 +75,8 @@ public class CardLoader {
         }
     }
 
-    public ArrayList<Card> getCardsWithRarity(String rarity) {
-        Rarity r = Rarity.fromString(rarity);
-        switch (r) {
+    public ArrayList<Card> getCardsWithRarity(Rarity rarity) {
+        switch (rarity) {
             case COMMON:    return commons;
             case RARE:      return rares;
             case EPIC:      return epics;

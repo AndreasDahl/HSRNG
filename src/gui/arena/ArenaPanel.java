@@ -3,19 +3,20 @@ package gui.arena;
 import gui.ManaCurve;
 import logic.Arena;
 import logic.Card;
-import logic.IPickListener;
 import util.HeroClass;
-import util.RandUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Andreas on 25-01-14.
  */
-public class ArenaPanel extends JPanel implements ActionListener, IPickListener {
+public class ArenaPanel extends JPanel implements ActionListener, Observer {
     private static final int DECK_SIZE = 30;
     private static JFrame frame;
 
@@ -26,21 +27,21 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
     private ManaCurve manaCurve;
 
     private Arena arena;
-    private boolean cardPick = false;
     private int picks = 0;
 
-    public ArenaPanel() {
-
+    public ArenaPanel(Arena arena) throws IOException {
+        this.arena = arena;
+        arena.addObserver(this);
 
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c =  new GridBagConstraints();
         this.setLayout(layout);
         c.fill = GridBagConstraints.VERTICAL;
 
+        String[] buttonTitles = arena.getPickNames();
         buttons = new JButton[choices];
-        Object[] heroChoices = RandUtil.getRandomObjects(HeroClass.HEROES, choices);
         for (int i = 0; i < choices; i++) {
-            buttons[i] = new JButton(heroChoices[i].toString());
+            buttons[i] = new JButton(buttonTitles[i]);
             buttons[i].addActionListener(this);
             buttons[i].addMouseListener(new ArenaMouseAdapter());
             c.fill = GridBagConstraints.VERTICAL;
@@ -73,12 +74,6 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
         setKeyBindings();
     }
 
-    @Override
-    public void onPick(Card card) {
-        manaCurve.add(card.cost);
-        pickList.addCard(card);
-    }
-
     private void setKeyBindings() {
         ActionMap actionMap = getActionMap();
         int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -88,6 +83,25 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), vkR);
 
         actionMap.put(vkR, new KeyAction(vkR));
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Arena) {
+            if (arg instanceof HeroClass) {
+                pickList.setTitle(arg.toString());
+            } else if (arg instanceof Card) {
+                Card card = (Card) arg;
+                manaCurve.add(card.cost);
+                pickList.addCard(card);
+            }
+            updateButtons(arena);
+        }
+
     }
 
     private class KeyAction extends AbstractAction {
@@ -108,24 +122,15 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                 for (JButton button : buttons)
                     button.setVisible(false);
             } else {
-                if (cardPick) {
-                    JButton source = (JButton) e.getSource();
-                    for (int i = 0; i < buttons.length; i++) {
-                        if (source.equals(buttons[i])) {
-                            arena.pick(i);
-                            buttons[i].setFocusPainted(false);
-                            break;
-                        }
+                JButton source = (JButton) e.getSource();
+                for (int i = 0; i < buttons.length; i++) {
+                    if (source.equals(buttons[i])) {
+                        arena.pick(i);
+                        buttons[i].setFocusPainted(false);
+                        break;
                     }
-                    picks += 1;
-                } else {
-                    JButton source = (JButton) e.getSource();
-                    arena = new Arena(source.getText(), 2);
-                    arena.setPickListener(this);
-                    pickList.setTitle(source.getText());
-                    cardPick = true;
                 }
-                resetButtons();
+                picks += 1;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -134,8 +139,8 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
         }
     }
 
-    private void resetButtons() {
-        ArrayList<Card> choices = arena.getDraft().getCards();
+    private void updateButtons(Arena arena) {
+        List<Card> choices = arena.getDraft().getCards();
         Color color = arena.getDraft().getRarity().toColor();
         for (int i = 0; i < buttons.length; i++) {
             Card choice = choices.get(i);
@@ -170,7 +175,6 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
                                 break;
                             }
                         }
-                        resetButtons();
                     }
                 }
                 pressed = false;
@@ -193,30 +197,38 @@ public class ArenaPanel extends JPanel implements ActionListener, IPickListener 
         }
     }
 
-    public static void main(String[] args) {
-        init();
-        JOptionPane.showMessageDialog(frame,
-                "Patch Notes:\n" +
-                "- It is now possible to ban cards from drafting by right-clicking.\n" +
-                "- Card database have been partly cleaned up");
+    public static void main(String[] args) throws IOException {
+        init(new Arena(2));
     }
 
-    public static void reset() {
+    public void reset() {
         Point point = frame.getLocation();
         frame.setVisible(false);
-        init();
+        init(new Arena(arena));
         frame.setLocation(point);
     }
 
-    public static void init() {
+    public static void centerWindow(Window frame) {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+        frame.setLocation(x, y);
+    }
+
+    public static void init(Arena arena) {
         frame = new JFrame("Arena");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
-
-        frame.add(new ArenaPanel());
-
-        frame.pack();
-        frame.setVisible(true);
+        try {
+            frame.add(new ArenaPanel(arena));
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(frame, "Internal Error.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
     }
 }
 
