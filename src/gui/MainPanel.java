@@ -64,15 +64,20 @@ public class MainPanel {
         });
     }
 
-    public static void main(String[] args) {
+    public static void init() {
         frame = new JFrame("MainPanel");
         frame.setContentPane(new MainPanel().panel1);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
+                "- Draft will now generate cards from a rarity tier lower if no more cards are available in the given rarity.\n" +
                 "- Fixed bug, where you would only draft 29 cards.\n" +
                 "- Added several missing shaman cards\n" +
                 "- Added about 50 missing cards for all classes to database.\n" +

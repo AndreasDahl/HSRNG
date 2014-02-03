@@ -28,7 +28,7 @@ public class Arena extends Observable {
 
     public Arena(Arena otherArena) {
         this.cards = otherArena.cards;
-        this.bans = otherArena.bans;
+        this.bans = new ArrayList<Card>();
         this.sameCardLimit = otherArena.sameCardLimit;
         this.rarities = otherArena.rarities;
         this.odds = otherArena.odds;

@@ -1,9 +1,11 @@
 package gui.arena;
 
+import gui.MainPanel;
 import gui.ManaCurve;
 import logic.Arena;
 import logic.Card;
 import util.HeroClass;
+import util.Rarity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -108,7 +110,9 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
 
         @Override
         public void actionPerformed(ActionEvent actionEvt) {
-            reset();
+            frame.setVisible(false);
+            frame = null;
+            MainPanel.init();
         }
     }
 
@@ -138,11 +142,10 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
 
     private void updateButtons(Arena arena) {
         List<Card> choices = arena.getDraft().getCards();
-        Color color = arena.getDraft().getRarity().toColor();
         for (int i = 0; i < buttons.length; i++) {
             Card choice = choices.get(i);
             buttons[i].setText(String.format("%s (%d)", choice.name, choice.cost)  );
-            buttons[i].setBackground(color);
+            buttons[i].setBackground(Rarity.fromString(choice.rarity).toColor());
         }
     }
 

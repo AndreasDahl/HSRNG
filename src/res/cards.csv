@@ -187,7 +187,7 @@ Innervate,Druid,Basic,Spell,,0,,,Gain 2 Mana Crystals this turn only.
 Ironbark Protector,Druid,Basic,Minion,,8,8,8,Taunt
 Ironbeak Owl,All,Common,Minion,Beast,2,2,1,Battlecry: Silence a minion.
 Ironforge Rifleman,All,Basic,Minion,,3,2,2,Battlecry: Deal 1 damage.
-Ironfur,All,Basic,Minion,Beast,,3,3,3,Taunt
+Ironfur Grizzly,All,Basic,Minion,Beast,3,3,3,Taunt
 Jungle Panther,All,Basic,Common,Beast,3,4,2,Stealth
 Keeper of the Grove,Druid,Rare,Minion,,4,2,4,Choose One - Deal 2 damage; or Silence a minion.
 Kidnapper,Rogue,Epic,Minion,,6,5,3,Combo: Return a minion to its owner's hand.
@@ -327,7 +327,7 @@ Starving Buzzard,Hunter,Basic,Minion,Beast,2,2,1,"Whenever you summon a Beast, d
 Stonetusk Boar,All,Basic,Minion,Beast,1,1,1,Charge
 Stormforged Axe,Shaman,Common,Weapon,,2,2,3,Overload: (1)
 Stormpike Commando,All,Basic,Minion,,5,4,2,Battlecry: Deal 2 damage.
-Stormwind Champion,All,Basic,Minion,,6,6,6,Your other minions have +1/+1.
+Stormwind Champion,All,Basic,Minion,,7,6,6,Your other minions have +1/+1.
 Stormwind Knight,All,Basic,Minion,,4,2,5,Charge
 Stranglethorn Tiger,All,Basic,Minion,Beast,5,5,5,Stealth
 Succubus,Warlock,Basic,Minion,Demon,2,4,3,Battlecry: Discard a random card.

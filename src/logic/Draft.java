@@ -64,8 +64,7 @@ public class Draft {
         bans.add(banned);
 
         CardLoader cl = new CardLoader(clss);
-        List<Card> cardPool = cl.getCardsWithRarity(rarity);
-        Card pick = RandUtil.getRandomCard(cardPool, bans);
+        Card pick = generateCard(rarity, cl, bans);
         cards[choice] = pick;
         return banned;
     }
@@ -74,23 +73,37 @@ public class Draft {
         return cards[choice];
     }
 
+    private Card generateCard(Rarity rarity, CardLoader cl, List<Card> banSum) {
+        List<Card> cardpool = cl.getCardsWithRarity(rarity);
+        try {
+            return RandUtil.getRandomCard(cardpool, banSum);
+        } catch (IllegalArgumentException e) {
+            if (possibleRarities != null) {
+                int index = 0;
+                for (int j = 0; j < possibleRarities.length; j++) {
+                    if (possibleRarities[j] == rarity)
+                        index = j;
+                }
+                if (index > 0) {
+                    return generateCard(possibleRarities[index-1], cl, banSum);
+                }
+            }
+            System.err.println("Rarity: " + rarity);
+            throw e;
+        }
+    }
+
     public Draft generateCards() throws IOException {
         if (rarity == null)
             randomizeRarity();
 
         CardLoader cl = new CardLoader(clss);
-        ArrayList<Card> cardpool = cl.getCardsWithRarity(rarity);
         ArrayList<Card> banSum = new ArrayList<Card>();
         banSum.addAll(bans);
         for (int i = 0; i < choices; i++) {
-            try {
-                Card pick = RandUtil.getRandomCard(cardpool, banSum);
-                cards[i] = pick;
-                banSum.add(pick);
-            } catch (IllegalArgumentException e) {
-                System.err.println("Rarity: " + rarity);
-                throw e;
-            }
+            Card pick = generateCard(rarity, cl, banSum);
+            cards[i] = pick;
+            banSum.add(pick);
         }
         return this;
     }
