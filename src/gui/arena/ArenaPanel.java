@@ -94,6 +94,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
                 Card card = (Card) arg;
                 manaCurve.add(card.cost);
                 pickList.addCard(card);
+                picks += 1;
             }
             updateButtons(arena);
         }
@@ -126,7 +127,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
                         break;
                     }
                 }
-                picks += 1;
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
