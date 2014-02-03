@@ -73,7 +73,10 @@ public class MainPanel {
         frame.setVisible(true);
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                "- You can now select possible rarities before drafting.\n" +
-                "- Much code refactoring. Many computer scientist.");
+                "- Fixed bug, where you would only draft 29 cards.\n" +
+                "- Added several missing shaman cards\n" +
+                "- Added about 50 missing cards for all classes to database.\n" +
+                "- Fixed about 45 wrong cards in database.\n" +
+                "- Database should now be complete and match the actual game.");
     }
 }
