@@ -14,7 +14,6 @@ import java.util.Observable;
  * Created by Andreas on 11-01-14.
  */
 public class Arena extends Observable {
-
     private int choices = 3;
     private HashMap<Card, Integer> cards;
     private Draft draft;
@@ -32,8 +31,7 @@ public class Arena extends Observable {
         this.sameCardLimit = otherArena.sameCardLimit;
         this.rarities = otherArena.rarities;
         this.odds = otherArena.odds;
-        this.heroChoices = otherArena.heroChoices;
-
+        this.choices = otherArena.choices;
         this.heroPick = true;
     }
 
@@ -43,7 +41,20 @@ public class Arena extends Observable {
         this.sameCardLimit = limit;
 
         this.heroPick = true;
+    }
+
+    public Arena start() {
         heroChoices = Arrays.copyOf(RandUtil.getRandomObjects(HeroClass.HEROES, choices), choices, HeroClass[].class);
+        return this;
+    }
+
+    public Arena setChoices(int choiceCount) {
+        this.choices = choiceCount;
+        return this;
+    }
+
+    public int getChoices() {
+        return choices;
     }
 
     public Arena setRarities(Rarity[] rarities) {

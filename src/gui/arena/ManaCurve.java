@@ -1,4 +1,4 @@
-package gui;
+package gui.arena;
 
 import javax.swing.*;
 import java.awt.*;

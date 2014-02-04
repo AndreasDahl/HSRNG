@@ -24,6 +24,7 @@ public class MainPanel {
     private JCheckBox rareCheckBox;
     private JCheckBox epicCheckBox;
     private JCheckBox legendaryCheckBox;
+    private JSpinner choicesSpinner;
 
     public MainPanel() {
         arenaButton.addActionListener(new ActionListener() {
@@ -55,8 +56,11 @@ public class MainPanel {
                 }
 
                 try {
-
-                    ArenaPanel.init(new Arena(2).setRarities(rarities));
+                    Arena arena = new Arena(2)
+                            .setRarities(rarities)
+                            .setChoices((Integer) choicesSpinner.getValue())
+                            .start();
+                    ArenaPanel.init(arena);
                     ScreenUtil.frameTransition(frame, ArenaPanel.frame);
                     frame.setVisible(false);
                 }catch (IOException ex) {
@@ -68,7 +72,7 @@ public class MainPanel {
     }
 
     public static void init() {
-        frame = new JFrame("MainPanel");
+        frame = new JFrame(PROGRAM_NAME);
         frame.setContentPane(new MainPanel().panel1);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
@@ -80,7 +84,19 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                "- Fixed bug where a card already drafted could show up after ban." +
-                "- New screen now shows up where old one was.");
+                "- Fixed bug where a card already drafted could show up after ban.\n" +
+                "- New screen now shows up where old one was.\n" +
+                "- Program frame now has program name as title.\n" +
+                "- You can now define how many choices you have pr. draft.\n" +
+                "- Patch notes dialog \"redesigned\"", "Patch Notes", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private void createUIComponents() {
+        choicesSpinner = new JSpinner();
+        SpinnerNumberModel snm = new SpinnerNumberModel();
+        snm.setMinimum(1);
+        snm.setMaximum(9);
+        snm.setValue(3);
+        choicesSpinner.setModel(snm);
     }
 }

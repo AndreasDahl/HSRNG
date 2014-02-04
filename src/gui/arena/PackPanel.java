@@ -1,4 +1,4 @@
-package gui;
+package gui.arena;
 
 import logic.Card;
 import logic.CardDatabase;

@@ -1,7 +1,6 @@
 package gui.arena;
 
 import gui.MainPanel;
-import gui.ManaCurve;
 import logic.Arena;
 import logic.Card;
 import util.HeroClass;
@@ -23,8 +22,6 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
     private static final int DECK_SIZE = 30;
     public static JFrame frame;
 
-    private int choices = 3;
-
     private PickList pickList;
     private JButton[] buttons;
     private ManaCurve manaCurve;
@@ -34,13 +31,13 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
 
     public ArenaPanel(Arena arena) throws IOException {
         this.arena = arena;
+        int choices = arena.getChoices();
         arena.addObserver(this);
 
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c =  new GridBagConstraints();
         this.setLayout(layout);
         c.fill = GridBagConstraints.VERTICAL;
-
         String[] buttonTitles = arena.getPickNames();
         buttons = new JButton[choices];
         for (int i = 0; i < choices; i++) {
@@ -71,7 +68,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
         c.ipady = 100;
         c.gridwidth = 2;
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = choices;
         add(manaCurve, c);
 
         setKeyBindings();
@@ -209,7 +206,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
     public void reset() {
         Point point = frame.getLocation();
         frame.setVisible(false);
-        init(new Arena(arena));
+        init(new Arena(arena).start());
         frame.setLocation(point);
     }
 
