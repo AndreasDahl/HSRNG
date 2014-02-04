@@ -7,6 +7,7 @@ import util.Rarity;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,10 +22,10 @@ public class Draft {
             Rarity.LEGENDARY};
     public static final double[] ODDS = {71.32, 22.93, 4.55, 1.20};
 
+    private CardLoader cl;
     private Rarity[] possibleRarities;
     private double[] odds;
     private int choices;
-    private HeroClass clss;
     private Rarity rarity;
     private Card[] cards;
     private List<Card> bans;
@@ -35,20 +36,19 @@ public class Draft {
 
     public Draft(int choices, HeroClass clss, List<Card> bans) throws IOException {
         init(choices, clss, bans);
+    }
 
+    private void init(int choices, HeroClass clss, List<Card> bans) throws IOException {
+        this.choices = choices;
+        this.bans = bans;
+        this.cl = new CardLoader(clss);
+        cards = new Card[choices];
     }
 
     public Draft setRarities(Rarity[] rarities, double[] odds) {
         this.possibleRarities = rarities;
         this.odds = odds;
         return this;
-    }
-
-    private void init(int choices, HeroClass clss, List<Card> bans) {
-        this.choices = choices;
-        this.clss = clss;
-        this.bans = bans;
-        cards = new Card[choices];
     }
 
     public List<Card> getCards() {
@@ -59,12 +59,11 @@ public class Draft {
         return rarity;
     }
 
-    public Card ban(int choice) throws IOException {
+    public Card ban(int choice) {
         Card banned = cards[choice];
         bans.add(banned);
 
-        CardLoader cl = new CardLoader(clss);
-        Card pick = generateCard(rarity, cl, bans);
+        Card pick = generateCard(rarity);
         cards[choice] = pick;
         return banned;
     }
@@ -73,8 +72,12 @@ public class Draft {
         return cards[choice];
     }
 
-    private Card generateCard(Rarity rarity, CardLoader cl, List<Card> banSum) {
+    private Card generateCard(Rarity rarity) {
         List<Card> cardpool = cl.getCardsWithRarity(rarity);
+        List<Card> banSum = new ArrayList<Card>();
+        banSum.addAll(bans);
+        banSum.addAll(Arrays.asList(cards));
+        banSum.removeAll(Collections.singleton(null));
         try {
             return RandUtil.getRandomCard(cardpool, banSum);
         } catch (IllegalArgumentException e) {
@@ -85,7 +88,7 @@ public class Draft {
                         index = j;
                 }
                 if (index > 0) {
-                    return generateCard(possibleRarities[index-1], cl, banSum);
+                    return generateCard(possibleRarities[index-1]);
                 }
             }
             System.err.println("Rarity: " + rarity);
@@ -93,17 +96,13 @@ public class Draft {
         }
     }
 
-    public Draft generateCards() throws IOException {
+    public Draft generateCards() {
         if (rarity == null)
             randomizeRarity();
 
-        CardLoader cl = new CardLoader(clss);
-        ArrayList<Card> banSum = new ArrayList<Card>();
-        banSum.addAll(bans);
         for (int i = 0; i < choices; i++) {
-            Card pick = generateCard(rarity, cl, banSum);
+            Card pick = generateCard(rarity);
             cards[i] = pick;
-            banSum.add(pick);
         }
         return this;
     }

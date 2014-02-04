@@ -83,7 +83,7 @@ public class Arena extends Observable {
         notifyObservers(hero);
     }
 
-    public void ban(int choice) throws IOException {
+    public void ban(int choice) {
         draft.ban(choice);
         setChanged();
         notifyObservers();

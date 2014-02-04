@@ -3,6 +3,7 @@ package gui;
 import gui.arena.ArenaPanel;
 import logic.Arena;
 import util.Rarity;
+import util.ScreenUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -53,9 +54,11 @@ public class MainPanel {
                     i++;
                 }
 
-                frame.setVisible(false);
                 try {
-                ArenaPanel.init(new Arena(2).setRarities(rarities));
+
+                    ArenaPanel.init(new Arena(2).setRarities(rarities));
+                    ScreenUtil.frameTransition(frame, ArenaPanel.frame);
+                    frame.setVisible(false);
                 }catch (IOException ex) {
                     ex.printStackTrace();
                     System.exit(1);
@@ -77,11 +80,7 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                "- Draft will now generate cards from a rarity tier lower if no more cards are available in the given rarity.\n" +
-                "- Fixed bug, where you would only draft 29 cards.\n" +
-                "- Added several missing shaman cards\n" +
-                "- Added about 50 missing cards for all classes to database.\n" +
-                "- Fixed about 45 wrong cards in database.\n" +
-                "- Database should now be complete and match the actual game.");
+                "- Fixed bug where a card already drafted could show up after ban." +
+                "- New screen now shows up where old one was.");
     }
 }

@@ -6,6 +6,7 @@ import logic.Arena;
 import logic.Card;
 import util.HeroClass;
 import util.Rarity;
+import util.ScreenUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,7 @@ import java.util.Observer;
  */
 public class ArenaPanel extends JPanel implements ActionListener, Observer {
     private static final int DECK_SIZE = 30;
-    private static JFrame frame;
+    public static JFrame frame;
 
     private int choices = 3;
 
@@ -110,9 +111,10 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
 
         @Override
         public void actionPerformed(ActionEvent actionEvt) {
+            MainPanel.init();
+            ScreenUtil.frameTransition(frame, MainPanel.frame);
             frame.setVisible(false);
             frame = null;
-            MainPanel.init();
         }
     }
 
@@ -135,7 +137,10 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            String msg = ex.getMessage();
+            if (msg.length() < 1)
+                msg = ex.toString();
+            JOptionPane.showMessageDialog(frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
             reset();
         }
     }
@@ -206,13 +211,6 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
         frame.setVisible(false);
         init(new Arena(arena));
         frame.setLocation(point);
-    }
-
-    public static void centerWindow(Window frame) {
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
-        frame.setLocation(x, y);
     }
 
     public static void init(Arena arena) {
