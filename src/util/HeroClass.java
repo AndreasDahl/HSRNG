@@ -1,26 +1,29 @@
 package util;
 
-import java.util.ArrayList;
+import logic.IPickable;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Andreas on 25-01-14.
  */
-public enum HeroClass {
-    WARROR("Warrior"),
-    SHAMAN("Shaman"),
-    ROGUE("Rogue"),
-    PALADIN("Paladin"),
-    HUNTER("Hunter"),
-    DRUID("Druid"),
-    WARLOCK("Warlock"),
-    MAGE("Mage"),
-    PRIEST("Priest"),
-    ALL("All");
+public enum HeroClass implements IPickable {
+    WARRIOR("Warrior", new Color(0xC79C6E)),
+    SHAMAN("Shaman", new Color(0x0070DE)),
+    ROGUE("Rogue", new Color(0xFFF569)),
+    PALADIN("Paladin", new Color(0xF58CBA)),
+    HUNTER("Hunter", new Color(0xABD473)),
+    DRUID("Druid", new Color(0xFF7D0A)),
+    WARLOCK("Warlock", new Color(0x9482C9)),
+    MAGE("Mage", new Color(0x69CCF0)),
+    PRIEST("Priest", new Color(0xFFFFFF)),
+    ALL("All", new Color(0x7f7f7f));
 
     public static final HeroClass[] HEROES = {
-            WARROR,
+            WARRIOR,
             SHAMAN,
             ROGUE,
             PALADIN,
@@ -32,9 +35,11 @@ public enum HeroClass {
     };
 
     private final String ext;
+    private final Color color;
 
-    private HeroClass(final String s) {
+    private HeroClass(final String s, final Color c) {
         ext = s;
+        color = c;
     }
 
     public String toString() {
@@ -42,7 +47,7 @@ public enum HeroClass {
     }
 
     public static HeroClass fromString(String clss) {
-        if (clss.equalsIgnoreCase("Warrior"))   return WARROR;
+        if (clss.equalsIgnoreCase("Warrior"))   return WARRIOR;
         if (clss.equalsIgnoreCase("Shaman"))    return SHAMAN;
         if (clss.equalsIgnoreCase("Rogue"))     return ROGUE;
         if (clss.equalsIgnoreCase("Paladin"))   return PALADIN;
@@ -55,6 +60,12 @@ public enum HeroClass {
     }
 
     public static List<HeroClass> getHeroList() {
-        return new ArrayList<HeroClass>(Arrays.asList(HEROES));
+        return Arrays.asList(HEROES);
+    }
+
+    @Override
+    public void styleButton(JButton button) {
+        button.setText(String.format("%s", toString()));
+        button.setBackground(color);
     }
 }

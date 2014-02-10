@@ -1,7 +1,10 @@
 package gui;
 
+import com.esotericsoftware.minlog.Log;
 import gui.arena.ArenaPanel;
 import logic.Arena;
+import logic.RemoteArena;
+import net.SameArenaGame;
 import util.Rarity;
 import util.ScreenUtil;
 
@@ -15,6 +18,7 @@ import java.io.IOException;
  */
 public class MainPanel {
     public static final String PROGRAM_NAME = "HSRNG";
+    public static int LOG_LEVEL = Log.LEVEL_INFO;
 
     public static JFrame frame;
     public static JPanel panel;
@@ -25,6 +29,10 @@ public class MainPanel {
     private JCheckBox epicCheckBox;
     private JCheckBox legendaryCheckBox;
     private JSpinner choicesSpinner;
+    private JButton remoteArena;
+    private JButton joinButton;
+    private JPanel ButtonPanel;
+    private JPanel OptionsPanel;
 
     public MainPanel() {
         arenaButton.addActionListener(new ActionListener() {
@@ -58,14 +66,46 @@ public class MainPanel {
                 try {
                     Arena arena = new Arena(2)
                             .setRarities(rarities)
-                            .setChoices((Integer) choicesSpinner.getValue())
-                            .start();
+                            .setChoices((Integer) choicesSpinner.getValue());
                     ArenaPanel.init(arena);
                     ScreenUtil.frameTransition(frame, ArenaPanel.frame);
                     frame.setVisible(false);
-                }catch (IOException ex) {
-                    ex.printStackTrace();
+                } catch (IOException ex) {
+                    ScreenUtil.displayError(frame, ex);
                     System.exit(1);
+                }
+            }
+        });
+        remoteArena.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    ChooseClassDialog dialog = new ChooseClassDialog();
+                    dialog.pack();
+                    dialog.setLocationRelativeTo(frame);
+                    dialog.setVisible(true);
+                    if (dialog.getChoice() != null) {
+                        SameArenaGame.startServer(dialog.getChoice());
+                        JOptionPane.showMessageDialog(frame, "Server Started");
+                    }
+                } catch (Exception ex) {
+                    ScreenUtil.displayError(frame, ex);
+                    System.exit(1);
+                }
+            }
+        });
+        joinButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = JOptionPane.showInputDialog(frame, "Server IP");
+                if (input != null) {
+                    try {
+                        ArenaPanel.init(new RemoteArena(input));
+                        ScreenUtil.frameTransition(frame, ArenaPanel.frame);
+                        frame.setVisible(false);
+                    } catch (IOException ex) {
+                        ScreenUtil.displayError(frame, ex);
+                    }
                 }
             }
         });
@@ -81,14 +121,15 @@ public class MainPanel {
     }
 
     public static void main(String[] args) {
+        Log.set(LOG_LEVEL);
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                "- Fixed bug where a card already drafted could show up after ban.\n" +
-                "- New screen now shows up where old one was.\n" +
-                "- Program frame now has program name as title.\n" +
-                "- You can now define how many choices you have pr. draft.\n" +
-                "- Patch notes dialog \"redesigned\"", "Patch Notes", JOptionPane.PLAIN_MESSAGE);
+                "- FIRST ONLINE DRAFTING MODE (WIP)\n" +
+                "  * Any joining player will get the exact same drafts\n" +
+                "  * Currently not possible to set options for this mode\n" +
+                "  * Banning in this mode is currently not available\n",
+                "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void createUIComponents() {

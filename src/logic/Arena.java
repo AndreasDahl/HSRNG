@@ -1,5 +1,6 @@
 package logic;
 
+import net.response.ArenaResponse;
 import util.HeroClass;
 import util.RandUtil;
 import util.Rarity;
@@ -8,13 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Observable;
 
 /**
  * Created by Andreas on 11-01-14.
  */
-public class Arena extends Observable {
-    private int choices = 3;
+public class Arena extends AbstractArena {
     private HashMap<Card, Integer> cards;
     private Draft draft;
     private HeroClass hero;
@@ -24,6 +23,9 @@ public class Arena extends Observable {
     private HeroClass[] heroChoices;
     private Rarity[] rarities;
     private double[] odds;
+    private int choices;
+    private int deckSize = 30;
+    private int pickedCards = 0;
 
     public Arena(Arena otherArena) {
         this.cards = otherArena.cards;
@@ -39,22 +41,28 @@ public class Arena extends Observable {
         this.cards = new HashMap<Card, Integer>();
         this.bans = new ArrayList<Card>();
         this.sameCardLimit = limit;
-
+        this.choices = 3;
         this.heroPick = true;
     }
 
+
+    public Arena setDeckSize(int newSize) {
+        this.deckSize = newSize;
+        return this;
+    }
+
+    @Override
     public Arena start() {
         heroChoices = Arrays.copyOf(RandUtil.getRandomObjects(HeroClass.HEROES, choices), choices, HeroClass[].class);
+        setPicks(heroChoices);
+        setChanged();
+        notifyObservers(getPicks());
         return this;
     }
 
     public Arena setChoices(int choiceCount) {
         this.choices = choiceCount;
         return this;
-    }
-
-    public int getChoices() {
-        return choices;
     }
 
     public Arena setRarities(Rarity[] rarities) {
@@ -79,34 +87,39 @@ public class Arena extends Observable {
         return this;
     }
 
-    private Draft newDraft() throws IOException {
-        if (rarities == null)
-            return new Draft(choices, hero, bans).generateCards();
-        else
-            return new Draft(choices, hero, bans).setRarities(rarities, odds).generateCards();
+    private void newDraft() throws IOException {
+        if (rarities == null) {
+            draft = new Draft(choices, hero, bans).generateCards();
+        } else {
+            draft = new Draft(choices, hero, bans).setRarities(rarities, odds).generateCards();
+        }
+        setPicks(draft.getCardsArray());
+        setChanged();
+        notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, getPicks()));
     }
 
     private void pickHero(int choice) throws IOException {
         hero = heroChoices[choice];
         heroPick = false;
-        this.draft = newDraft();
+        newDraft();
         setChanged();
-        notifyObservers(hero);
+        notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.PICK, hero));
     }
 
+    @Override
     public void ban(int choice) {
         draft.ban(choice);
         setChanged();
-        notifyObservers();
+        notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, getPicks()));
     }
 
+    @Override
     public void pick(int choice) throws IOException {
         if (heroPick)
             pickHero(choice);
         else  {
             Card card = draft.pick(choice);
             int newAmount;
-
             if (cards.containsKey(card))
                 newAmount = cards.get(card) + 1;
             else
@@ -114,21 +127,33 @@ public class Arena extends Observable {
             if (newAmount >= sameCardLimit || card.rarity.equals(Rarity.LEGENDARY.toString()))
                 bans.add(card);
             cards.put(card, newAmount);
-            draft = newDraft();
+            pickedCards++;
             setChanged();
-            notifyObservers(card);
+            notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.PICK, card));
+            if (pickedCards >= deckSize) {
+                setChanged();
+                notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.STOP));
+            } else {
+                newDraft();
+            }
+
+
+
         }
     }
 
-    public String[] getPickNames() {
-        String[] ret = new String[choices];
+    @Override
+    public void update() {
+        setChanged();
         if (heroPick)
-            for (int i = 0; i < choices; i++)
-                ret[i] = heroChoices[i].toString();
+            notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, heroChoices));
         else
-            for (int i = 0; i < choices; i++)
-                ret[i] = getDraft().getCards().get(i).name;
-        return ret;
+            notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, getPicks()));
+    }
+
+    @Override
+    public AbstractArena clone() {
+        return new Arena(this);
     }
 
     public Draft getDraft() {

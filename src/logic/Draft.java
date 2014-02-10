@@ -55,6 +55,10 @@ public class Draft {
         return Arrays.asList(cards);
     }
 
+    public Card[] getCardsArray() {
+        return cards;
+    }
+
     public Rarity getRarity() {
         return rarity;
     }
