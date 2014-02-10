@@ -2,11 +2,14 @@ package logic;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import util.Rarity;
+
+import javax.swing.*;
 
 /**
  * Created by Andreas on 08-01-14.
  */
-public class Card implements Comparable<Card> {
+public class Card implements Comparable<Card>, IPickable {
     public String name;
     public String heroClass;
     public String rarity;
@@ -76,5 +79,11 @@ public class Card implements Comparable<Card> {
         if (costCompare == 0)
             return name.compareTo(c.name);
         return costCompare;
+    }
+
+    @Override
+    public void styleButton(JButton button) {
+        button.setText(String.format("%s (%d)", name, cost)  );
+        button.setBackground(Rarity.fromString(rarity).toColor());
     }
 }
