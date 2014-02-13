@@ -5,16 +5,12 @@ import util.RandUtil;
 import util.Rarity;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Andreas on 11-01-14.
  */
 public class Draft {
-    private static final int DEFAULT_CHOICES = 3;
     public static final Rarity[] RARITIES = {
             Rarity.COMMON,
             Rarity.RARE,
@@ -29,6 +25,7 @@ public class Draft {
     private Rarity rarity;
     private Card[] cards;
     private List<Card> bans;
+    private HeroClass heroClass;
 
     public Draft(int choices, HeroClass clss) throws IOException {
         this(choices, clss, new ArrayList<Card>());
@@ -41,7 +38,8 @@ public class Draft {
     private void init(int choices, HeroClass clss, List<Card> bans) throws IOException {
         this.choices = choices;
         this.bans = bans;
-        this.cl = new CardLoader(clss);
+        this.cl = CardLoader.getInstance();
+        this.heroClass = clss;
         cards = new Card[choices];
     }
 
@@ -77,7 +75,7 @@ public class Draft {
     }
 
     private Card generateCard(Rarity rarity) {
-        List<Card> cardpool = cl.getCardsWithRarity(rarity);
+        Set<Card> cardpool = cl.getCardsAvailable(heroClass, rarity);
         List<Card> banSum = new ArrayList<Card>();
         banSum.addAll(bans);
         banSum.addAll(Arrays.asList(cards));

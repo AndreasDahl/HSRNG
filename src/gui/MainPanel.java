@@ -2,23 +2,33 @@ package gui;
 
 import com.esotericsoftware.minlog.Log;
 import gui.arena.ArenaPanel;
-import logic.Arena;
-import logic.RemoteArena;
+import gui.custom.CardSelectionList;
+import io.CardListLoader;
+import javafx.util.Pair;
+import logic.*;
 import net.SameArenaGame;
 import util.Rarity;
 import util.ScreenUtil;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Andreas on 08-01-14.
  */
 public class MainPanel {
     public static final String PROGRAM_NAME = "HSRNG";
-    public static int LOG_LEVEL = Log.LEVEL_INFO;
+    public static int LOG_LEVEL = Log.LEVEL_DEBUG;
 
     public static JFrame frame;
     public static JPanel panel;
@@ -33,6 +43,8 @@ public class MainPanel {
     private JButton joinButton;
     private JPanel ButtonPanel;
     private JPanel OptionsPanel;
+    private JList<CardCount> list;
+    private JScrollPane listPane;
 
     public MainPanel() {
         arenaButton.addActionListener(new ActionListener() {
@@ -133,11 +145,36 @@ public class MainPanel {
     }
 
     private void createUIComponents() {
+        // Choices Spinner
         choicesSpinner = new JSpinner();
         SpinnerNumberModel snm = new SpinnerNumberModel();
         snm.setMinimum(1);
         snm.setMaximum(9);
         snm.setValue(3);
         choicesSpinner.setModel(snm);
+
+        // List
+        try {
+            CardListLoader.loadCardList();
+
+            List<CardCount> cardCounts = CardListLoader.loadCardList();
+
+            CardCount[] cardArray = new CardCount[cardCounts.size()];
+            int i = 0;
+            for (CardCount cardCount : cardCounts) {
+                cardArray[i] = cardCount;
+                i++;
+            }
+
+            list = new CardSelectionList(cardArray);
+            listPane = new JScrollPane(list);
+        } catch (IOException e) {
+            Log.error("MainPanel", e);
+        }
+
+
+
+
+
     }
 }

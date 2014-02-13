@@ -85,7 +85,6 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        Log.info(arg.toString());
         if (o instanceof AbstractArena && arg instanceof ArenaResponse) {
             ArenaResponse up = (ArenaResponse) arg;
             Log.info("ArenaPanel", up.type.toString());

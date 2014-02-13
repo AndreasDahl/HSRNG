@@ -12,7 +12,7 @@ import java.util.TreeSet;
 /**
  * Created by Andreas on 29-01-14.
  */
-public class PickList extends JPanel {
+public class PickList extends JList {
     JLabel title;
     HashMap<Card, CardLabel> cards;
 

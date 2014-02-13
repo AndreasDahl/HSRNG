@@ -2,12 +2,12 @@ package util;
 
 import logic.Card;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * Created by Andreas on 11-01-14.
+ * @author Andreas Dahl
  */
 public class RandUtil<E> {
     private static Random random;
@@ -18,39 +18,15 @@ public class RandUtil<E> {
         return random;
     }
 
-//    public E[] getRandomObjects(E[] arr, int amount) {
-//        if (amount > arr.length)
-//            throw new IllegalArgumentException("cannot pick " + amount + " elements from a list of " + arr.length);
-//        else if (amount == arr.length) {
-//            return arr.clone();
-//        } else {
-//            Random rand = getInstance();
-//            @SuppressWarnings("unchecked")
-//            E[] res = (E[]) Array.newInstance(arr.getClass(), amount);
-//            boolean[] oldPicks = new boolean[arr.length];
-//            int startAmount = amount;
-//            while (amount > 0) {
-//                int pick = rand.nextInt(arr.length - (startAmount - amount));
-//                for (int i = 0; i <= pick; i++) {
-//                    if (oldPicks[i])
-//                        pick += 1;
-//                }
-//                oldPicks[pick] = true;
-//                res[res.length-amount] = arr[pick];
-//                amount--;
-//            }
-//            return res;
-//        }
-//    }
-
-    public static Object[] getRandomObjects(Object[] arr, int amount) {
+    @SuppressWarnings("unchecked")
+    public static <T> T[] getRandomObjects(T[] arr, int amount) {
         if (amount > arr.length)
             throw new IllegalArgumentException("cannot pick " + amount + " elements from a list of " + arr.length);
         else if (amount == arr.length) {
             return arr.clone();
         } else {
             Random rand = getInstance();
-            Object[] res = new Object[amount];
+            T[] res = (T[]) Array.newInstance(arr.getClass().getComponentType(), amount);
             boolean[] oldPicks = new boolean[arr.length];
             int startAmount = amount;
             while (amount > 0) {
@@ -67,16 +43,16 @@ public class RandUtil<E> {
         }
     }
 
-    public static List<Object> getRandomObjects(List<? extends Object> list, int amount) {
+    public static <T> List<T> getRandomObjects(List<T> list, int amount) {
         if (amount > list.size())
             throw new IllegalArgumentException("cannot pick " + amount + " elements from a list of " + list.size());
         else if (amount == list.size()) {
-            ArrayList<Object> retList = new ArrayList<Object>();
+            ArrayList<T> retList = new ArrayList<T>();
             retList.addAll(list);
             return retList;
         } else {
             Random rand = getInstance();
-            ArrayList<Object> retList = new ArrayList<Object>();
+            ArrayList<T> retList = new ArrayList<T>();
             while (amount > 0) {
                 int pick = rand.nextInt(amount);
                 retList.add(list.get(pick));
@@ -86,9 +62,9 @@ public class RandUtil<E> {
         }
     }
 
-    public static Object getRandomObject(List<? extends Object> list, List<? extends Object> bans) {
-        ArrayList<Object> allowed = new ArrayList<Object>();
-        for (Object o : list) {
+    public static <T> T getRandomObject(List<T> list, List<T> bans) {
+        ArrayList<T> allowed = new ArrayList<T>();
+        for (T o : list) {
             if (!bans.contains(o)) {
                 allowed.add(o);
             }
@@ -98,17 +74,17 @@ public class RandUtil<E> {
         return getRandomObject(allowed);
     }
 
-    public static Object getRandomObject(List<? extends Object> list) {
+    public static <T> T getRandomObject(List<T> list) {
         Random rand = RandUtil.getInstance();
         int i =  rand.nextInt(list.size());
         return list.get(i);
     }
 
     public static Card getRandomCard(List<Card> cardList) {
-        return (Card) getRandomObject(cardList);
+        return getRandomObject(cardList);
     }
 
-    public static Card getRandomCard(List<Card> cardList, List<Card> bans) {
+    public static Card getRandomCard(Collection<Card> cardList, Collection<Card> bans) {
         ArrayList<Card> allowedCards = new ArrayList<Card>();
         for (Card card : cardList) {
             if (!bans.contains(card))
@@ -127,7 +103,7 @@ public class RandUtil<E> {
         return getRandomCard(allowedCards);
     }
 
-    public static Object getRandomByOdds(Object[] obs, double[] odds) {
+    public static <T> T getRandomByOdds(T[] obs, double[] odds) {
         if (obs.length != odds.length)
             throw new IllegalArgumentException("obs must have same length as odds, not " + obs.length + " and " + odds.length);
         double oddsSum = 0;
