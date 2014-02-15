@@ -2,22 +2,15 @@ package gui.custom;
 
 import com.esotericsoftware.minlog.Log;
 import io.CardListLoader;
-import javafx.util.Pair;
-import logic.Card;
-import logic.CardCount;
-import logic.CardLoader;
-import util.Rarity;
+import util.CardCount;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
 
 /**
  * Created by Andreas on 12-02-14.
@@ -42,6 +35,10 @@ public class CardSelectionList extends JList<CardCount> {
         this.addMouseListener(new CardSelectionListListener());
 
         setCellRenderer(new CardCellRenderer());
+    }
+
+    public CardCount[] getCardCounts() {
+        return items;
     }
 
     private class CardSelectionListListener implements MouseListener {
@@ -77,7 +74,7 @@ public class CardSelectionList extends JList<CardCount> {
             }
             cardCount.count %= values;
 
-            // TODO: Only save list in key moments. And probably only when changed.
+            // TODO: Only save list in key moments. And only if changed.
             try {
                 CardListLoader.saveCardList(Arrays.asList(items));
             } catch (IOException ex) {

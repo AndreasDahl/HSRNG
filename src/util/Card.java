@@ -1,8 +1,8 @@
-package logic;
+package util;
 
+import logic.IPickable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import util.Rarity;
 
 import javax.swing.*;
 
@@ -75,10 +75,14 @@ public class Card implements Comparable<Card>, IPickable {
 
     @Override
     public int compareTo(Card c) {
-        int costCompare = new Integer(cost).compareTo(c.cost);
-        if (costCompare == 0)
-            return name.compareTo(c.name);
-        return costCompare;
+        int compare = new Integer(cost).compareTo(c.cost);
+        if (compare == 0) {
+            compare = new CardTypeComparator().compare(type, c.type);
+            if (compare == 0) {
+                compare =  name.compareTo(c.name);
+            }
+        }
+        return compare;
     }
 
     @Override

@@ -4,9 +4,9 @@ import com.esotericsoftware.minlog.Log;
 import gui.MainPanel;
 import logic.AbstractArena;
 import logic.Arena;
-import logic.Card;
 import logic.IPickable;
 import net.response.ArenaResponse;
+import util.Card;
 import util.HeroClass;
 import util.ScreenUtil;
 
@@ -123,7 +123,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
         @Override
         public void actionPerformed(ActionEvent actionEvt) {
             MainPanel.init();
-            ScreenUtil.frameTransition(frame, MainPanel.frame);
+            ScreenUtil.setFramePosition(frame, MainPanel.frame);
             frame.setVisible(false);
             frame = null;
         }

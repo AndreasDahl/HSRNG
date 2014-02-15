@@ -3,24 +3,20 @@ package gui;
 import com.esotericsoftware.minlog.Log;
 import gui.arena.ArenaPanel;
 import gui.custom.CardSelectionList;
+import gui.server.ServerGUI;
 import io.CardListLoader;
-import javafx.util.Pair;
-import logic.*;
+import logic.Arena;
+import logic.RemoteArena;
 import net.SameArenaGame;
+import util.CardCount;
 import util.Rarity;
 import util.ScreenUtil;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,6 +26,7 @@ public class MainPanel {
     public static final String PROGRAM_NAME = "HSRNG";
     public static int LOG_LEVEL = Log.LEVEL_DEBUG;
 
+    public static MainPanel instance;
     public static JFrame frame;
     public static JPanel panel;
     private JPanel panel1;
@@ -43,10 +40,16 @@ public class MainPanel {
     private JButton joinButton;
     private JPanel ButtonPanel;
     private JPanel OptionsPanel;
-    private JList<CardCount> list;
+    private CardSelectionList list;
     private JScrollPane listPane;
 
-    public MainPanel() {
+    public static MainPanel getInstance() {
+        if (instance == null)
+            instance = new MainPanel();
+        return instance;
+    }
+
+    private MainPanel() {
         arenaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,7 +83,7 @@ public class MainPanel {
                             .setRarities(rarities)
                             .setChoices((Integer) choicesSpinner.getValue());
                     ArenaPanel.init(arena);
-                    ScreenUtil.frameTransition(frame, ArenaPanel.frame);
+                    ScreenUtil.setFramePosition(frame, ArenaPanel.frame);
                     frame.setVisible(false);
                 } catch (IOException ex) {
                     ScreenUtil.displayError(frame, ex);
@@ -97,8 +100,14 @@ public class MainPanel {
                     dialog.setLocationRelativeTo(frame);
                     dialog.setVisible(true);
                     if (dialog.getChoice() != null) {
-                        SameArenaGame.startServer(dialog.getChoice());
-                        JOptionPane.showMessageDialog(frame, "Server Started");
+                        SameArenaGame game = new SameArenaGame(dialog.getChoice());
+                        ServerGUI gui = new ServerGUI(game);
+
+                        JFrame frame = new JFrame("Server");
+                        frame.add(gui.panel);
+                        frame.pack();
+                        ScreenUtil.setFramePosition(MainPanel.frame, frame);
+                        frame.setVisible(true);
                     }
                 } catch (Exception ex) {
                     ScreenUtil.displayError(frame, ex);
@@ -113,7 +122,7 @@ public class MainPanel {
                 if (input != null) {
                     try {
                         ArenaPanel.init(new RemoteArena(input));
-                        ScreenUtil.frameTransition(frame, ArenaPanel.frame);
+                        ScreenUtil.setFramePosition(frame, ArenaPanel.frame);
                         frame.setVisible(false);
                     } catch (IOException ex) {
                         ScreenUtil.displayError(frame, ex);
@@ -123,9 +132,13 @@ public class MainPanel {
         });
     }
 
+    public CardCount[] getCardCounts() {
+        return list.getCardCounts();
+    }
+
     public static void init() {
         frame = new JFrame(PROGRAM_NAME);
-        frame.setContentPane(new MainPanel().panel1);
+        frame.setContentPane(getInstance().panel1);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -137,10 +150,10 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                "- FIRST ONLINE DRAFTING MODE (WIP)\n" +
-                "  * Any joining player will get the exact same drafts\n" +
-                "  * Currently not possible to set options for this mode\n" +
-                "  * Banning in this mode is currently not available\n",
+                "- Owned Card list. This list is saved on your computer independently of your installation.\n" +
+                "- The list of your owned cards is sent to remote games to make sure nobody gets a card they don't own.\n" +
+                "- Card Owned list now contains all cards.\n" +
+                "- Card sorting improved to better match game",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 
@@ -155,9 +168,8 @@ public class MainPanel {
 
         // List
         try {
-            CardListLoader.loadCardList();
-
             List<CardCount> cardCounts = CardListLoader.loadCardList();
+            Collections.sort(cardCounts);
 
             CardCount[] cardArray = new CardCount[cardCounts.size()];
             int i = 0;

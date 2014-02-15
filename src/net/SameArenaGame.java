@@ -4,11 +4,13 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
-import logic.Card;
+import io.CardLoader;
 import logic.Draft;
 import logic.IPickable;
 import net.request.ArenaRequest;
 import net.response.ArenaResponse;
+import util.Card;
+import util.CardCountSlim;
 import util.HeroClass;
 import util.Rarity;
 
@@ -35,27 +37,75 @@ public class SameArenaGame {
     private HeroClass heroClass;
     private boolean started;
     private final int deckSize = 30;
+    private Server server;
 
-    public SameArenaGame(HeroClass heroClass) throws IOException {
+    public SameArenaGame(final HeroClass heroClass) throws IOException {
         this.heroClass = heroClass;
         drafts = new ArrayList<Draft>();
         draftedCards = new HashMap<Card, Integer>();
         progress = new HashMap<Connection, Integer>();
         bans = new ArrayList<Card>();
         started = false;
+
+        server = new Server(16384, 6144);
+        KryoUtil.register(server.getKryo());
+        server.start();
+        server.bind(KryoUtil.PORT, KryoUtil.PORT);
+        server.addListener(new Listener() {
+            @Override
+            public void connected(Connection connection) {
+                addPlayer(connection);
+            }
+
+            @Override
+            public void received (Connection connection, Object object) {
+                if (object instanceof ArenaRequest) {
+                    ArenaRequest request = (ArenaRequest) object;
+                    ArenaRequest.RequestType type = request.type;
+                    Log.info(TAG, "RECEIVED REQUEST: " + type);
+                    switch (type) {
+                        case PICK:
+                            pick(connection, (Integer) request.argument);
+                            break;
+                        case BAN:
+                            ban(connection, (Integer) request.argument);
+                            break;
+                        case UPDATE:
+//                            updatePlayer(connection);
+                            break;
+                        case READY:
+                            Log.info(TAG, "SENDING: PICK: " + heroClass);
+                            if (request.argument instanceof CardCountSlim[]) {
+                                try {
+                                    addBanList((CardCountSlim[]) request.argument);
+                                } catch (IOException ex) {
+                                    Log.error("SameArenaGame", ex);
+                                }
+                            }
+                            connection.sendTCP(new ArenaResponse(ArenaResponse.ResponseType.PICK, heroClass));
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     private void addPlayer(Connection player) {
         player_count++;
         progress.put(player, 0);
-
-
     }
 
-    private void start() throws IOException {
+    public void start() throws IOException {
         started = true;
         for (int i = 0; i < DECK_SIZE; i++) {
             drafts.add(getDraft());
+        }
+        Connection[] connections = server.getConnections();
+        for (Connection connection : connections) {
+            updatePlayer(connection);
+        }
+        for (Card ban : bans) {
+            Log.info("SameArenaGame", ban.toString());
         }
     }
 
@@ -106,49 +156,24 @@ public class SameArenaGame {
     private void ban(Connection player, int choice) {
     }
 
-
-    public static void startServer(HeroClass heroClass) throws IOException {
-        final SameArenaGame game = new SameArenaGame(heroClass);
-        game.start();
-
-        Server server = new Server();
-        KryoUtil.register(server.getKryo());
-        server.start();
-        server.bind(KryoUtil.PORT, KryoUtil.PORT);
-        server.addListener(new Listener() {
-            @Override
-            public void connected(Connection connection) {
-                game.addPlayer(connection);
+    private void addBanList(CardCountSlim[] cardCounts) throws IOException {
+        CardLoader cl = CardLoader.getInstance();
+        for (CardCountSlim cardCount : cardCounts) {
+            int banCount = 2 - cardCount.count;
+            Card card = cl.getCard(cardCount.card);
+            if (draftedCards.containsKey(card)) {
+                if (banCount > draftedCards.get(card))
+                    addCard(card);
             }
-
-            @Override
-            public void received (Connection connection, Object object) {
-                if (object instanceof ArenaRequest) {
-                    ArenaRequest request = (ArenaRequest) object;
-                    ArenaRequest.RequestType type = request.type;
-                    Log.info(TAG, "RECEIVED REQUEST: " + type);
-                    switch (type) {
-                        case PICK:
-                            game.pick(connection, (Integer) request.argument);
-                            break;
-                        case BAN:
-                            game.ban(connection, (Integer) request.argument);
-                            break;
-                        case UPDATE:
-                            game.updatePlayer(connection);
-                            break;
-                        case READY:
-                            Log.info(TAG, "SENDING: PICK: " + game.heroClass);
-                            connection.sendTCP(new ArenaResponse(ArenaResponse.ResponseType.PICK, game.heroClass));
-                            break;
-                    }
+            else {
+                for (int i = 0; i < banCount; i++) {
+                    addCard(card);
                 }
             }
-        });
+        }
     }
 
-    public static void main(String[] args) throws Exception {
-        Log.set(Log.LEVEL_DEBUG);
-        startServer(HeroClass.DRUID);
+    public Server getServer() {
+        return server;
     }
 }

@@ -1,8 +1,8 @@
 package gui.arena;
 
-import logic.Card;
-import logic.CardDatabase;
+import io.CardDatabase;
 import logic.Pack;
+import util.Card;
 import util.RandUtil;
 
 import javax.swing.*;

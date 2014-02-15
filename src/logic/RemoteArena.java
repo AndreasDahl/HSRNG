@@ -4,9 +4,12 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import gui.MainPanel;
 import net.KryoUtil;
 import net.request.ArenaRequest;
 import net.response.ArenaResponse;
+import util.CardCount;
+import util.CardCountSlim;
 
 import java.io.IOException;
 
@@ -19,7 +22,7 @@ public class RemoteArena extends AbstractArena {
     private Client client;
 
     public RemoteArena(String ip) throws IOException {
-        this.client = new Client();
+        this.client = new Client(8192 , 6144);
         KryoUtil.register(client.getKryo());
         client.addListener(new RemoteArenaListener());
         client.start();
@@ -29,7 +32,12 @@ public class RemoteArena extends AbstractArena {
     @Override
     public RemoteArena start() {
         Log.info(TAG, "SENDING: READY");
-        client.sendTCP(new ArenaRequest(ArenaRequest.RequestType.READY));
+        CardCount[] cardCounts = MainPanel.getInstance().getCardCounts();
+        CardCountSlim[] slims = new CardCountSlim[cardCounts.length];
+        for (int i = 0; i < cardCounts.length; i++) {
+            slims[i] = new CardCountSlim(cardCounts[i].card.name, cardCounts[i].count);
+        }
+        client.sendTCP(new ArenaRequest(ArenaRequest.RequestType.READY, slims));
         return this;
     }
 

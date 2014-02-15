@@ -1,5 +1,7 @@
 package logic;
 
+import io.CardDatabase;
+import util.Card;
 import util.RandUtil;
 
 import java.sql.SQLException;

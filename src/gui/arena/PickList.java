@@ -1,6 +1,6 @@
 package gui.arena;
 
-import logic.Card;
+import util.Card;
 import util.Rarity;
 
 import javax.swing.*;

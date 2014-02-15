@@ -1,13 +1,17 @@
-package logic;
+package io;
 
 import au.com.bytecode.opencsv.CSVReader;
+import util.Card;
 import util.HeroClass;
 import util.Rarity;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Andreas on 08-01-14.

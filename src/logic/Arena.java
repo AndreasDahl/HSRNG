@@ -1,6 +1,7 @@
 package logic;
 
 import net.response.ArenaResponse;
+import util.Card;
 import util.HeroClass;
 import util.RandUtil;
 import util.Rarity;

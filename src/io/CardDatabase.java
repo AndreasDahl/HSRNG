@@ -1,4 +1,6 @@
-package logic;
+package io;
+
+import util.Card;
 
 import java.sql.*;
 import java.util.ArrayList;
