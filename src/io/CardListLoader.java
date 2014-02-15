@@ -20,23 +20,18 @@ public class CardListLoader {
     private static final String VERSION_TAG = "version";
     private static final String VERSION = "1";
 
-    private static void createNewProperties(File file, List<CardCount> cardList) throws IOException {
+    private static void populateNewCardList(List<CardCount> cardList) throws IOException {
         CardLoader cl = CardLoader.getInstance();
 
         Set<Card> cards = cl.getAllCards();
-        Properties prop =  new Properties();
         for (Card card : cards) {
             if (card.rarity.equalsIgnoreCase("Basic")) {
-                prop.setProperty(card.name, "2");
                 cardList.add(new CardCount(card, 2));
             } else {
-                prop.setProperty(card.name, "0");
                 cardList.add(new CardCount(card, 0));
             }
 
         }
-
-        prop.store(new FileOutputStream(file), null);
     }
 
     public static List<CardCount> loadCardList() throws IOException {
@@ -46,18 +41,18 @@ public class CardListLoader {
         File file = new File(FULL_PATH);
         file.getParentFile().mkdirs();
         if (file.createNewFile()) {
-            createNewProperties(file, cardList);
+            populateNewCardList(cardList);
         } else {
             Properties prop = new Properties();
             prop.load(new BufferedReader(new FileReader(file)));
-            if (prop.contains(VERSION_TAG) && prop.getProperty(VERSION_TAG).equals(VERSION)) {
+            if (prop.getProperty(VERSION_TAG, "ERROR").equals(VERSION)) {
                 prop.remove(VERSION_TAG);
                 for (String name : prop.stringPropertyNames()) {
                     cardList.add(new CardCount(
                             cl.getCard(name), Integer.parseInt(prop.getProperty(name, "0"))));
                 }
             } else
-                createNewProperties(file, cardList);
+                populateNewCardList(cardList);
         }
 
         return cardList;
