@@ -1,5 +1,7 @@
 package logic;
 
+import util.CardCount;
+
 import java.io.IOException;
 import java.util.Observable;
 
@@ -14,6 +16,7 @@ public abstract class AbstractArena extends Observable {
     public abstract void pick(int choice) throws IOException;
     public abstract void update();
     public abstract AbstractArena clone();
+    public abstract AbstractArena addOwnedCards(CardCount[] ownedCards);
 
     protected void setPicks(IPickable[] picks) {
         this.picks = picks;

@@ -1,10 +1,7 @@
 package logic;
 
 import net.response.ArenaResponse;
-import util.Card;
-import util.HeroClass;
-import util.RandUtil;
-import util.Rarity;
+import util.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,6 +85,16 @@ public class Arena extends AbstractArena {
         return this;
     }
 
+    @Override
+    public Arena addOwnedCards(CardCount[] ownedCards) {
+        for (CardCount cardCount : ownedCards) {
+            for (int i = 0; i < (2 - cardCount.count); i++) {
+                addCard(cardCount.card);
+            }
+        }
+        return this;
+    }
+
     private void newDraft() throws IOException {
         if (rarities == null) {
             draft = new Draft(choices, hero, bans).generateCards();
@@ -114,20 +121,24 @@ public class Arena extends AbstractArena {
         notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, getPicks()));
     }
 
+    private void addCard(Card card) {
+        int newAmount;
+        if (cards.containsKey(card))
+            newAmount = cards.get(card) + 1;
+        else
+            newAmount = 1;
+        if (newAmount >= sameCardLimit || card.rarity.equals(Rarity.LEGENDARY.toString()))
+            bans.add(card);
+        cards.put(card, newAmount);
+    }
+
     @Override
     public void pick(int choice) throws IOException {
         if (heroPick)
             pickHero(choice);
         else  {
             Card card = draft.pick(choice);
-            int newAmount;
-            if (cards.containsKey(card))
-                newAmount = cards.get(card) + 1;
-            else
-                newAmount = 1;
-            if (newAmount >= sameCardLimit || card.rarity.equals(Rarity.LEGENDARY.toString()))
-                bans.add(card);
-            cards.put(card, newAmount);
+            addCard(card);
             pickedCards++;
             setChanged();
             notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.PICK, card));
@@ -137,9 +148,6 @@ public class Arena extends AbstractArena {
             } else {
                 newDraft();
             }
-
-
-
         }
     }
 

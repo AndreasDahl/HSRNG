@@ -81,7 +81,8 @@ public class MainPanel {
                 try {
                     Arena arena = new Arena(2)
                             .setRarities(rarities)
-                            .setChoices((Integer) choicesSpinner.getValue());
+                            .setChoices((Integer) choicesSpinner.getValue())
+                            .addOwnedCards(getCardCounts());
                     ArenaPanel.init(arena);
                     ScreenUtil.setFramePosition(frame, ArenaPanel.frame);
                     frame.setVisible(false);
@@ -121,7 +122,7 @@ public class MainPanel {
                 String input = JOptionPane.showInputDialog(frame, "Server IP");
                 if (input != null) {
                     try {
-                        ArenaPanel.init(new RemoteArena(input));
+                        ArenaPanel.init(new RemoteArena(input).addOwnedCards(getCardCounts()));
                         ScreenUtil.setFramePosition(frame, ArenaPanel.frame);
                         frame.setVisible(false);
                     } catch (IOException ex) {
@@ -154,7 +155,8 @@ public class MainPanel {
                 "- New looks on card list\n" +
                 "- Fixed errors in card database\n" +
                 "- Made card list loading adaptive, so it hopefully never have to be reset.\n" +
-                "- You can now decide how many choices there are available in a SameArenaGame.",
+                "- You can now decide how many choices there are available in a SameArenaGame.\n" +
+                "- Owned card list now applies in local arena.",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 

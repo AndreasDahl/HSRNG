@@ -20,6 +20,7 @@ public class RemoteArena extends AbstractArena {
     private static String TAG = "RemoteArena";
 
     private Client client;
+    private CardCountSlim[] ownedCards;
 
     public RemoteArena(String ip) throws IOException {
         this.client = new Client(8192 , 6144);
@@ -32,12 +33,17 @@ public class RemoteArena extends AbstractArena {
     @Override
     public RemoteArena start() {
         Log.info(TAG, "SENDING: READY");
+        client.sendTCP(new ArenaRequest(ArenaRequest.RequestType.READY, ownedCards));
+        return this;
+    }
+
+    @Override
+    public RemoteArena addOwnedCards(CardCount[] ownedCards) {
         CardCount[] cardCounts = MainPanel.getInstance().getCardCounts();
         CardCountSlim[] slims = new CardCountSlim[cardCounts.length];
         for (int i = 0; i < cardCounts.length; i++) {
             slims[i] = new CardCountSlim(cardCounts[i].card.name, cardCounts[i].count);
         }
-        client.sendTCP(new ArenaRequest(ArenaRequest.RequestType.READY, slims));
         return this;
     }
 
