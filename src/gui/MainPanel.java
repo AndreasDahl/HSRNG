@@ -106,7 +106,7 @@ public class MainPanel {
                         JFrame frame = new JFrame("Server");
                         frame.add(gui.panel);
                         frame.pack();
-                        ScreenUtil.setFramePosition(MainPanel.frame, frame);
+                        ScreenUtil.setFramePosition(MainPanel.frame, frame); // TODO: Appear on dialog location.
                         frame.setVisible(true);
                     }
                 } catch (Exception ex) {
@@ -150,10 +150,7 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                "- Owned Card list. This list is saved on your computer independently of your installation.\n" +
-                "- The list of your owned cards is sent to remote games to make sure nobody gets a card they don't own.\n" +
-                "- Card Owned list now contains all cards.\n" +
-                "- Card sorting improved to better match game",
+                "- Fixed Mana Curve drawing.\n",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 

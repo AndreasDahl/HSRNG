@@ -61,7 +61,7 @@ public class ManaCurve extends JPanel {
             for (int i = 0; i < tags.length; i++) {
                 float rate = (((float) amount[i]) / ((float) maxAmount));
                 int p = Math.round(((float) getHeight()) * rate);
-                g.fillRect(x, getHeight(), columnWidth, -p);
+                g.fillRect(x, getHeight()-p, columnWidth, p);
                 x += columnWidth;
             }
         }
