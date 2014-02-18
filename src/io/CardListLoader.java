@@ -20,17 +20,11 @@ public class CardListLoader {
     private static final String VERSION_TAG = "version";
     private static final String VERSION = "1";
 
-    private static void populateNewCardList(List<CardCount> cardList) throws IOException {
-        CardLoader cl = CardLoader.getInstance();
-
-        Set<Card> cards = cl.getAllCards();
-        for (Card card : cards) {
-            if (card.rarity.equalsIgnoreCase("Basic")) {
-                cardList.add(new CardCount(card, 2));
-            } else {
-                cardList.add(new CardCount(card, 0));
-            }
-
+    private static void addMissingCard(List<CardCount> cardList, Card card) throws IOException {
+        if (card.rarity.equalsIgnoreCase("Basic")) {
+            cardList.add(new CardCount(card, 2));
+        } else {
+            cardList.add(new CardCount(card, 0));
         }
     }
 
@@ -40,21 +34,21 @@ public class CardListLoader {
 
         File file = new File(FULL_PATH);
         file.getParentFile().mkdirs();
-        if (file.createNewFile()) {
-            populateNewCardList(cardList);
-        } else {
+        if (!file.createNewFile()) {
             Properties prop = new Properties();
             prop.load(new BufferedReader(new FileReader(file)));
-            if (prop.getProperty(VERSION_TAG, "ERROR").equals(VERSION)) {
-                prop.remove(VERSION_TAG);
-                for (String name : prop.stringPropertyNames()) {
-                    cardList.add(new CardCount(
-                            cl.getCard(name), Integer.parseInt(prop.getProperty(name, "0"))));
-                }
-            } else
-                populateNewCardList(cardList);
+            if (!prop.getProperty(VERSION_TAG, "ERROR").equals(VERSION)) {
+                prop = new Properties();
+            }
+            Set<Card> allCards = cl.getAllCards();
+            for (Card card : allCards) {
+                String propRes = prop.getProperty(card.name);
+                if (propRes == null)
+                    addMissingCard(cardList, card);
+                else
+                    cardList.add(new CardCount(card, Integer.parseInt(propRes)));
+            }
         }
-
         return cardList;
     }
 

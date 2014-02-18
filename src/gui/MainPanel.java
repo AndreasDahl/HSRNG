@@ -150,7 +150,10 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                "- Fixed Mana Curve drawing.\n",
+                "- Fixed Mana Curve drawing.\n" +
+                "- New looks on card list\n" +
+                "- Fixed errors in card database\n" +
+                "- Made card list loading adaptive, so it hopefully never have to be reset.",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 

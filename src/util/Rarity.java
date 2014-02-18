@@ -25,7 +25,7 @@ public enum Rarity {
         switch (this) {
             case COMMON:    return Color.WHITE;
             case RARE:      return new Color(0xff66bbff);
-            case EPIC:      return new Color(0xffdd77dd);
+            case EPIC:      return new Color(0xffdd88dd);
             case LEGENDARY: return Color.ORANGE;
         }
         return null;

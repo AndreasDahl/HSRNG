@@ -2,7 +2,9 @@ package gui.custom;
 
 import com.esotericsoftware.minlog.Log;
 import io.CardListLoader;
+import util.Card;
 import util.CardCount;
+import util.Rarity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,7 +74,10 @@ public class CardSelectionList extends JList<CardCount> {
             } else {
                 cardCount.count += 1;
             }
-            cardCount.count %= values;
+            if (Rarity.fromString(cardCount.card.rarity).equals(Rarity.LEGENDARY))
+                cardCount.count %= 2;
+            else
+                cardCount.count %= values;
 
             // TODO: Only save list in key moments. And only if changed.
             try {
@@ -96,18 +101,44 @@ public class CardSelectionList extends JList<CardCount> {
         }
     }
 
+    private class CardCell extends JPanel {
+        private int count;
+        private Color color;
+        private Card card;
+
+        public CardCell(CardCount cardCount) {
+            super();
+            this.card = cardCount.card;
+            this.count = cardCount.count;
+            this.color = Rarity.fromString(cardCount.card.rarity).toColor();
+
+            setBackground(color.darker());
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            Rarity rarity = Rarity.fromString(card.rarity);
+            int max = rarity.equals(Rarity.LEGENDARY) ? 1 : 2;
+
+            int unitWidth = getWidth() / max;
+
+            g.setColor(this.color);
+            g.fillRect(0,0, unitWidth * count, getHeight());
+
+            g.setColor(color.darker().darker());
+            g.drawLine(0,0,getWidth(),0);
+        }
+    }
+
     private class CardCellRenderer implements ListCellRenderer<CardCount> {
 
         @Override
         public Component getListCellRendererComponent(JList<? extends CardCount> list, CardCount value, int index, boolean isSelected, boolean cellHasFocus) {
-            JComponent ret = new JPanel();
-            if (value.count == 0)
-                ret.setBackground(Color.LIGHT_GRAY);
-            else
-                ret.setBackground(Color.WHITE);
+            JComponent ret = new CardCell(value);
+
             ret.setLayout(new BoxLayout(ret, BoxLayout.X_AXIS));
-
-
 
             JLabel text = new JLabel(value.card.name, SwingConstants.LEFT);
             ret.add(text);
