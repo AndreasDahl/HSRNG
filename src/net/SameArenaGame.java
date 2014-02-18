@@ -90,6 +90,10 @@ public class SameArenaGame {
         });
     }
 
+    public void setChoices(int choices) {
+        this.choices = choices;
+    }
+
     private void addPlayer(Connection player) {
         player_count++;
         progress.put(player, 0);
