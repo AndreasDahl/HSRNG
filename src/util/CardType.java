@@ -24,7 +24,7 @@ public enum  CardType {
         switch (this) {
             case MINION:    return Color.ORANGE;
             case SPELL:      return new Color(0xff66bbff);
-            case WEAPON:      return Color.RED;
+            case WEAPON:      return new Color(0xff964B00);
         }
         return null;
     }

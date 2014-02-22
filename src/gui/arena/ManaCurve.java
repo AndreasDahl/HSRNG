@@ -70,6 +70,7 @@ public class ManaCurve extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
 
         g.setColor(Color.ORANGE);
 
@@ -84,19 +85,58 @@ public class ManaCurve extends JPanel {
             for (int i = 0; i < tags.length; i++) {
                 float rate = (((float) amount[i]) / ((float) maxAmount));
                 int p = Math.round(((float) getHeight()) * rate);
+
+                float gradientHeight = (float) p / amount[i] / 2;
+
                 // draw weapon
                 int weapH = Math.round((float)weapons[i] / (float)amount[i] * p);
                 int spellH = Math.round((float)spells[i] / (float)amount[i] * p);
                 int minionH = Math.round((float)minions[i] / (float)amount[i] * p);
 
+                if  (weapH > 0) {
+                    g.setColor(CardType.WEAPON.toColor());
+                    g.fillRect(x, getHeight() - p, columnWidth, weapH);
+                }
 
-                g.setColor(CardType.WEAPON.toColor());
-                g.fillRect(x, getHeight() - p, columnWidth, weapH);
                 g.setColor(CardType.SPELL.toColor());
                 g.fillRect(x, getHeight() - p + weapH, columnWidth, spellH);
                 g.setColor(CardType.MINION.toColor());
                 g.fillRect(x, getHeight()-p+weapH+spellH, columnWidth, minionH);
-                g.setColor(Color.WHITE);
+
+                // Paint gradients
+                if (weapons[i] > 0) {
+                    if (spells[i] > 0) {
+                        g2d.setPaint(new GradientPaint(
+                                x,
+                                getHeight() - p + weapH - gradientHeight / 2,
+                                CardType.WEAPON.toColor(),
+                                x,
+                                getHeight() - p + weapH + gradientHeight / 2,
+                                CardType.SPELL.toColor()));
+                        g2d.fillRect(x, Math.round(getHeight() - p + weapH - gradientHeight / 2), columnWidth, Math.round(gradientHeight));
+                    } else if (minions[i] > 0) {
+                        g2d.setPaint(new GradientPaint(
+                                x,
+                                getHeight() - p + weapH - gradientHeight / 2,
+                                CardType.WEAPON.toColor(),
+                                x,
+                                getHeight() - p + weapH + gradientHeight / 2,
+                                CardType.MINION.toColor()));
+                        g2d.fillRect(x, Math.round(getHeight() - p + weapH - gradientHeight / 2), columnWidth, Math.round(gradientHeight));
+                    }
+                }
+                if (spells[i] > 0 && minions[i] > 0) {
+                    g2d.setPaint(new GradientPaint(
+                            x,
+                            getHeight() - p + weapH + spellH - gradientHeight / 2,
+                            CardType.SPELL.toColor(),
+                            x,
+                            getHeight() - p + weapH + spellH + gradientHeight / 2,
+                            CardType.MINION.toColor()));
+                    g2d.fillRect(x, Math.round(getHeight() - p + weapH + spellH - gradientHeight / 2), columnWidth, Math.round(gradientHeight));
+                }
+
+                g.setColor(Color.BLACK);
                 g.drawLine(x, getHeight()-p, x+columnWidth, getHeight()-p);
 
                 x += columnWidth;
