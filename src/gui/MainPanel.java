@@ -151,12 +151,9 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                "- Fixed Mana Curve drawing.\n" +
-                "- New looks on card list\n" +
-                "- Fixed errors in card database\n" +
-                "- Made card list loading adaptive, so it hopefully never have to be reset.\n" +
-                "- You can now decide how many choices there are available in a SameArenaGame.\n" +
-                "- Owned card list now applies in local arena.",
+                "- Fixed card list bug in SameArenaGame\n" +
+                "- New experimental mana curve design\n" +
+                "- Fixed not being able to get a legendary draft",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 

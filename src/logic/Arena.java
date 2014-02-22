@@ -88,7 +88,13 @@ public class Arena extends AbstractArena {
     @Override
     public Arena addOwnedCards(CardCount[] ownedCards) {
         for (CardCount cardCount : ownedCards) {
-            for (int i = 0; i < (2 - cardCount.count); i++) {
+            int cardLimit;
+            if (Rarity.fromString(cardCount.card.rarity).equals(Rarity.LEGENDARY)) {
+                cardLimit = 1;
+            } else {
+                cardLimit = 2;
+            }
+            for (int i = 0; i < (cardLimit - cardCount.count); i++) {
                 addCard(cardCount.card);
             }
         }

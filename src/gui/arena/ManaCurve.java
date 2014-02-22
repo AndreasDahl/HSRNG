@@ -1,5 +1,7 @@
 package gui.arena;
 
+import util.CardType;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,11 +9,19 @@ import java.awt.*;
  * Created by Andreas on 26-01-14.
  */
 public class ManaCurve extends JPanel {
-    private int[] amount;
     private String[] tags = {"0","1","2","3","4","5","6","7+"};
+    private int[] amount;
+    private int[] weapons;
+    private int[] spells;
+    private int[] minions;
+
+
 
     public ManaCurve() {
-        amount = new int[tags.length];
+        amount  = new int[tags.length];
+        weapons = new int[tags.length];
+        spells  = new int[tags.length];
+        minions = new int[tags.length];
 
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c =  new GridBagConstraints();
@@ -35,11 +45,24 @@ public class ManaCurve extends JPanel {
         }
     }
 
-    public void add(int cost) {
+    public void add(int cost, CardType type) {
+        int index;
         if (cost < 7) {
-            amount[cost] += 1;
+            index = cost;
         } else {
-            amount[7] += 1;
+            index = 7;
+        }
+        amount[index] += 1;
+        switch (type) {
+            case MINION:
+                minions[index] += 1;
+                break;
+            case SPELL:
+                spells[index] += 1;
+                break;
+            case WEAPON:
+                weapons[index] += 1;
+                break;
         }
         this.repaint();
     }
@@ -61,7 +84,21 @@ public class ManaCurve extends JPanel {
             for (int i = 0; i < tags.length; i++) {
                 float rate = (((float) amount[i]) / ((float) maxAmount));
                 int p = Math.round(((float) getHeight()) * rate);
-                g.fillRect(x, getHeight()-p, columnWidth, p);
+                // draw weapon
+                int weapH = Math.round((float)weapons[i] / (float)amount[i] * p);
+                int spellH = Math.round((float)spells[i] / (float)amount[i] * p);
+                int minionH = Math.round((float)minions[i] / (float)amount[i] * p);
+
+
+                g.setColor(CardType.WEAPON.toColor());
+                g.fillRect(x, getHeight() - p, columnWidth, weapH);
+                g.setColor(CardType.SPELL.toColor());
+                g.fillRect(x, getHeight() - p + weapH, columnWidth, spellH);
+                g.setColor(CardType.MINION.toColor());
+                g.fillRect(x, getHeight()-p+weapH+spellH, columnWidth, minionH);
+                g.setColor(Color.WHITE);
+                g.drawLine(x, getHeight()-p, x+columnWidth, getHeight()-p);
+
                 x += columnWidth;
             }
         }

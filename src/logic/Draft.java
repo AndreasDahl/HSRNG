@@ -18,7 +18,7 @@ public class Draft {
             Rarity.RARE,
             Rarity.EPIC,
             Rarity.LEGENDARY};
-    public static final double[] ODDS = {71.32, 22.93, 4.55, 1.20};
+    public static final double[] ODDS = {78.59, 16.90, 3.76, 0.75};
 
     private CardLoader cl;
     private Rarity[] possibleRarities;

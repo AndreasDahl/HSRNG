@@ -7,6 +7,7 @@ import logic.Arena;
 import logic.IPickable;
 import net.response.ArenaResponse;
 import util.Card;
+import util.CardType;
 import util.HeroClass;
 import util.ScreenUtil;
 
@@ -94,7 +95,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
                         pickList.setTitle(up.argument.toString());
                     } else if (up.argument instanceof Card) {
                         Card card = (Card) up.argument;
-                        manaCurve.add(card.cost);
+                        manaCurve.add(card.cost, CardType.fromString(card.type));
                         pickList.addCard(card);
                     }
                     break;

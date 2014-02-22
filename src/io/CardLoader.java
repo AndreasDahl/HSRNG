@@ -65,8 +65,6 @@ public class CardLoader {
             putInBasicOrExpert(card);
             putInRaritySet(card);
             putInHeroIndex(card);
-
-
         }
         reader.close();
     }

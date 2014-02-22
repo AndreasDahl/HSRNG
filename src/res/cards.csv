@@ -351,7 +351,7 @@ Tirion Fordring,Paladin,Legendary,Minion,,8,6,6,Divine Shield. Taunt. Deathrattl
 Totemic Might,Shaman,Basic,Spell,,0,,,Give your Totems +2 Health.
 Tracking,Hunter,Basic,Spell,,1,,,Look at the top three cards of your deck. Draw one and discard the others.
 Truesilver Champion,Paladin,Basic,Weapon,,4,4,2,"Whenever your hero attacks, restore 2 Health to it."
-Tundra Rhino,Hunter,Common,Minion,Beast,5,2,5,Your Beasts have Charge.
+Tundra Rhino,Hunter,Basic,Minion,Beast,5,2,5,Your Beasts have Charge.
 Twillight Drake,All,Rare,Minion,,4,4,1,Battlecry: Gain +1 Health for each card in your hand.
 Twisting Nether,Warlock,Epic,Spell,,8,,,Destroy all minions.
 Unbound Elemental,Shaman,Common,Minion,,3,2,4,"Whenever you play a card with Overload, gain +1/+1.."

@@ -163,10 +163,17 @@ public class SameArenaGame {
     private void addBanList(CardCountSlim[] cardCounts) throws IOException {
         CardLoader cl = CardLoader.getInstance();
         for (CardCountSlim cardCount : cardCounts) {
-            int banCount = 2 - cardCount.count;
             Card card = cl.getCard(cardCount.card);
+            int cardLimit;
+            if (Rarity.fromString(card.rarity).equals(Rarity.LEGENDARY)) {
+                cardLimit = 1;
+            } else {
+                cardLimit = 2;
+            }
+            int banCount = cardLimit - cardCount.count;
+
             if (draftedCards.containsKey(card)) {
-                if (banCount > draftedCards.get(card))
+                while (banCount > draftedCards.get(card))
                     addCard(card);
             }
             else {
