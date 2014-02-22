@@ -2,6 +2,7 @@ package io;
 
 import util.Card;
 import util.CardCount;
+import util.Rarity;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class CardListLoader {
     private static final String VERSION = "1";
 
     private static void addMissingCard(List<CardCount> cardList, Card card) throws IOException {
-        if (card.rarity.equalsIgnoreCase("Basic")) {
+        if (card.rarity.equals(Rarity.BASIC)) {
             cardList.add(new CardCount(card, 2));
         } else {
             cardList.add(new CardCount(card, 0));

@@ -6,6 +6,7 @@ import java.awt.*;
  * Created by Andreas on 25-01-14.
  */
 public enum Rarity {
+    BASIC("Basic"),
     COMMON("Common"),
     RARE("Rare"),
     EPIC("Epic"),
@@ -23,6 +24,7 @@ public enum Rarity {
 
     public Color toColor() {
         switch (this) {
+            case BASIC:;    return Color.WHITE;
             case COMMON:    return Color.WHITE;
             case RARE:      return new Color(0xff66bbff);
             case EPIC:      return new Color(0xffdd88dd);
@@ -32,7 +34,7 @@ public enum Rarity {
     }
 
     public static Rarity fromString(String clss) {
-        if (clss.equalsIgnoreCase("Basic"))     return COMMON;
+        if (clss.equalsIgnoreCase("Basic"))     return BASIC;
         if (clss.equalsIgnoreCase("Common"))    return COMMON;
         if (clss.equalsIgnoreCase("Rare"))      return RARE;
         if (clss.equalsIgnoreCase("Epic"))      return EPIC;

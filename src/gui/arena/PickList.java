@@ -1,7 +1,6 @@
 package gui.arena;
 
 import util.Card;
-import util.Rarity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,7 +60,7 @@ public class PickList extends JList {
             count = 1;
             this.card = card;
             setOpaque(true);
-            setBackground(Rarity.fromString(card.rarity).toColor());
+            setBackground(card.rarity.toColor());
             updateText();
         }
 

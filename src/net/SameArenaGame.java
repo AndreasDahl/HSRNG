@@ -123,7 +123,7 @@ public class SameArenaGame {
     }
 
     private void addCard(Card card) {
-        if (Rarity.fromString(card.rarity).equals(Rarity.LEGENDARY)) {
+        if (card.rarity.equals(Rarity.LEGENDARY)) {
             bans.add(card);
         } else if (draftedCards.containsKey(card)) {
             bans.add(card);
@@ -165,7 +165,7 @@ public class SameArenaGame {
         for (CardCountSlim cardCount : cardCounts) {
             Card card = cl.getCard(cardCount.card);
             int cardLimit;
-            if (Rarity.fromString(card.rarity).equals(Rarity.LEGENDARY)) {
+            if (card.rarity.equals(Rarity.LEGENDARY)) {
                 cardLimit = 1;
             } else {
                 cardLimit = 2;

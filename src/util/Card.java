@@ -12,7 +12,7 @@ import javax.swing.*;
 public class Card implements Comparable<Card>, IPickable {
     public String name;
     public String heroClass;
-    public String rarity;
+    public Rarity rarity;
     public String type;
     public String race;
     public int cost;
@@ -88,6 +88,6 @@ public class Card implements Comparable<Card>, IPickable {
     @Override
     public void styleButton(JButton button) {
         button.setText(String.format("%s (%d)", name, cost)  );
-        button.setBackground(Rarity.fromString(rarity).toColor());
+        button.setBackground(rarity.toColor());
     }
 }

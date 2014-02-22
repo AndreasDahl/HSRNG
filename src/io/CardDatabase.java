@@ -1,6 +1,7 @@
 package io;
 
 import util.Card;
+import util.Rarity;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class CardDatabase {
             Card card = new Card();
             card.name        = rs.getString(1);
             card.heroClass   = rs.getString(2);
-            card.rarity      = rs.getString(3);
+            card.rarity      = Rarity.fromString(rs.getString(3));
             card.type        = rs.getString(4);
             card.race        = rs.getString(5);
             card.cost        = rs.getInt(6);

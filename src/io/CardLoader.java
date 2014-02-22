@@ -52,7 +52,7 @@ public class CardLoader {
             Card card = new Card();
             card.name        = c[0];
             card.heroClass   = c[1];
-            card.rarity      = c[2];
+            card.rarity      = Rarity.fromString(c[2]);
             card.type        = c[3];
             card.race        = c[4];
             card.cost        = getCost(c[5]);
@@ -79,7 +79,7 @@ public class CardLoader {
 
 
     private void putInBasicOrExpert(Card card) {
-        if (card.rarity.equalsIgnoreCase("basic")) {
+        if (card.rarity.equals(Rarity.BASIC)) {
             basic.add(card);
         } else {
             expert.add(card);
@@ -87,9 +87,14 @@ public class CardLoader {
     }
 
     private void putInRaritySet(Card card) {
-        Rarity rarity = Rarity.fromString(card.rarity);
+        Rarity rarity = card.rarity;
         if (rarity != null) {
-            Set<Card> cardSet = rarityIndex.get(rarity);
+            Set<Card> cardSet;
+            if (rarity.equals(Rarity.BASIC)) {
+                cardSet = rarityIndex.get(Rarity.COMMON);
+            } else {
+                cardSet = rarityIndex.get(rarity);
+            }
             cardSet.add(card);
         }
     }

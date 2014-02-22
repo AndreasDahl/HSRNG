@@ -89,7 +89,7 @@ public class Arena extends AbstractArena {
     public Arena addOwnedCards(CardCount[] ownedCards) {
         for (CardCount cardCount : ownedCards) {
             int cardLimit;
-            if (Rarity.fromString(cardCount.card.rarity).equals(Rarity.LEGENDARY)) {
+            if (cardCount.card.rarity.equals(Rarity.LEGENDARY)) {
                 cardLimit = 1;
             } else {
                 cardLimit = 2;
