@@ -1,7 +1,7 @@
 package gui.arena;
 
 import com.esotericsoftware.minlog.Log;
-import gui.MainPanel;
+import gui.main.MainPanel;
 import logic.AbstractArena;
 import logic.Arena;
 import logic.IPickable;
@@ -124,7 +124,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
         @Override
         public void actionPerformed(ActionEvent actionEvt) {
             MainPanel.init();
-            ScreenUtil.setFramePosition(frame, MainPanel.frame);
+            ScreenUtil.setFramePosition(frame, MainPanel.getMainFrame());
             frame.setVisible(false);
             frame = null;
         }
@@ -208,7 +208,10 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                reset();
+                MainPanel.init();
+                ScreenUtil.setFramePosition(frame, MainPanel.getMainFrame());
+                frame.setVisible(false);
+                frame = null;
             }
 
         }

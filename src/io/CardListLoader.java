@@ -20,6 +20,14 @@ public class CardListLoader {
     private static final String FULL_PATH = FILE_DIR + "/" + FILE_NAME;
     private static final String VERSION_TAG = "version";
     private static final String VERSION = "1";
+    private static List<CardCount> mainCardList;
+
+    public static List<CardCount> getCardList() throws IOException {
+        if (mainCardList == null) {
+            loadCardList();
+        }
+        return mainCardList;
+    }
 
     private static void addMissingCard(List<CardCount> cardList, Card card) throws IOException {
         if (card.rarity.equals(Rarity.BASIC)) {
@@ -29,7 +37,7 @@ public class CardListLoader {
         }
     }
 
-    public static List<CardCount> loadCardList() throws IOException {
+    private static void loadCardList() throws IOException {
         List<CardCount> cardList = new ArrayList<CardCount>();
         CardLoader cl = CardLoader.getInstance();
 
@@ -50,11 +58,13 @@ public class CardListLoader {
                     cardList.add(new CardCount(card, Integer.parseInt(propRes)));
             }
         }
-        return cardList;
+        mainCardList = cardList;
     }
 
     public static void saveCardList(List<CardCount> cardCounts) throws IOException {
         File file = new File(FULL_PATH);
+
+        mainCardList = cardCounts;
 
         file.getParentFile().mkdirs();
         file.createNewFile();

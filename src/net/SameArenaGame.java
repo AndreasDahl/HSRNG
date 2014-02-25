@@ -18,11 +18,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by Andreas on 07-02-14.
  */
-public class SameArenaGame {
+public class SameArenaGame extends Observable {
     public static final String TAG = "SameArenaGame";
     public static final int DECK_SIZE = 30;
 
@@ -55,6 +56,14 @@ public class SameArenaGame {
             @Override
             public void connected(Connection connection) {
                 addPlayer(connection);
+                setChanged();
+                notifyObservers(server.getConnections());
+            }
+
+            @Override
+            public void disconnected(Connection connection) {
+                setChanged();
+                notifyObservers(server.getConnections());
             }
 
             @Override
@@ -90,8 +99,9 @@ public class SameArenaGame {
         });
     }
 
-    public void setChoices(int choices) {
+    public SameArenaGame setChoices(int choices) {
         this.choices = choices;
+        return this;
     }
 
     private void addPlayer(Connection player) {

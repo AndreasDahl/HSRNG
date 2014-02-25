@@ -6,6 +6,7 @@ import util.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -86,7 +87,7 @@ public class Arena extends AbstractArena {
     }
 
     @Override
-    public Arena addOwnedCards(CardCount[] ownedCards) {
+    public Arena addOwnedCards(Collection<CardCount> ownedCards) {
         for (CardCount cardCount : ownedCards) {
             int cardLimit;
             if (cardCount.card.rarity.equals(Rarity.LEGENDARY)) {
@@ -133,7 +134,7 @@ public class Arena extends AbstractArena {
             newAmount = cards.get(card) + 1;
         else
             newAmount = 1;
-        if (newAmount >= sameCardLimit || card.rarity.equals(Rarity.LEGENDARY.toString()))
+        if (newAmount >= sameCardLimit || card.rarity.equals(Rarity.LEGENDARY))
             bans.add(card);
         cards.put(card, newAmount);
     }

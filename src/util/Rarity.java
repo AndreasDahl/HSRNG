@@ -6,20 +6,21 @@ import java.awt.*;
  * Created by Andreas on 25-01-14.
  */
 public enum Rarity {
-    BASIC("Basic"),
-    COMMON("Common"),
-    RARE("Rare"),
-    EPIC("Epic"),
-    LEGENDARY("Legendary");
-
-    private final String ext;
-
-    private Rarity(final String s) {
-        ext = s;
-    }
+    BASIC,
+    COMMON,
+    RARE,
+    EPIC,
+    LEGENDARY;
 
     public String toString() {
-        return ext;
+        switch (this) {
+            case BASIC:;    return "Basic";
+            case COMMON:    return "Common";
+            case RARE:      return "Rare";
+            case EPIC:      return "Epic";
+            case LEGENDARY: return "Legendary";
+        }
+        return super.toString();
     }
 
     public Color toColor() {

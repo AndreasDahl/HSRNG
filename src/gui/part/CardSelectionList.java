@@ -1,4 +1,4 @@
-package gui.custom;
+package gui.part;
 
 import com.esotericsoftware.minlog.Log;
 import io.CardListLoader;
