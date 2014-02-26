@@ -146,7 +146,10 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
             if (msg.length() < 1)
                 msg = ex.toString();
             JOptionPane.showMessageDialog(frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
-            reset();
+            MainPanel.init();
+            ScreenUtil.setFramePosition(frame, MainPanel.getMainFrame());
+            frame.setVisible(false);
+            frame = null;
         }
     }
 
@@ -228,14 +231,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
     }
 
     public static void main(String[] args) throws IOException {
-        init(new Arena(2));
-    }
-
-    public void reset() {
-        Point point = frame.getLocation();
-        frame.setVisible(false);
-        init(arena.clone());
-        frame.setLocation(point);
+        init(new Arena());
     }
 
     public static void init(AbstractArena arena) {

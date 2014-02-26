@@ -22,7 +22,7 @@ public class ArenaServer {
     private static Arena arena;
 
     public static void start() throws IOException {
-        arena = new Arena(2);
+        arena = new Arena();
         arena.start();
         arena.addObserver(new Observer() {
             @Override

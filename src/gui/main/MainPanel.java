@@ -20,6 +20,7 @@ public class MainPanel {
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
     private JScrollPane listPane;
+    private JTabbedPane tabbedPane2;
     private CardSelectionList list;
 
     private static JFrame frame;
@@ -69,9 +70,8 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                        "- NEW MAIN UI!\n" +
-                        "- New server frame\n" +
-                        "- Fixed legendary drafts not using card list",
+                        "- New game mode. Fair-Arena\n" +
+                        "  * All joining players get individual arenas drafted so any of them can build it",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 }

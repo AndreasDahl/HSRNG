@@ -1,6 +1,7 @@
 package io;
 
 import au.com.bytecode.opencsv.CSVReader;
+import com.esotericsoftware.minlog.Log;
 import util.Card;
 import util.HeroClass;
 import util.Rarity;
@@ -25,48 +26,53 @@ public class CardLoader {
     private HashMap<Rarity, Set<Card>> rarityIndex;
     private HashMap<HeroClass, Set<Card>> heroIndex;
 
-    public static CardLoader getInstance() throws IOException {
+    public static CardLoader getInstance() {
         if (instance == null)
             instance = new CardLoader();
         return instance;
     }
 
-    private CardLoader() throws IOException {
-        all         = new HashSet<Card>();
-        basic       = new HashSet<Card>();
-        expert      = new HashSet<Card>();
-        nameIndex   = new HashMap<String, Card>();
-        rarityIndex = new HashMap<Rarity, Set<Card>>();
-        for (Rarity rarity : Rarity.values()) {
-            rarityIndex.put(rarity, new HashSet<Card>());
-        }
-        heroIndex   = new HashMap<HeroClass, Set<Card>>();
-        for (HeroClass heroClass : HeroClass.values()) {
-            heroIndex.put(heroClass, new HashSet<Card>());
-        }
-        InputStream stream = CardLoader.class.getResourceAsStream(DB_PATH);
-        CSVReader reader = new CSVReader(new InputStreamReader(stream), ',', '"');
-        reader.readNext();
-        List<String[]> rawLines = reader.readAll();
-        for (String[] c : rawLines) {
-            Card card = new Card();
-            card.name        = c[0];
-            card.heroClass   = c[1];
-            card.rarity      = Rarity.fromString(c[2]);
-            card.type        = c[3];
-            card.race        = c[4];
-            card.cost        = getCost(c[5]);
-            card.atk         = getCost(c[6]);
-            card.health      = getCost(c[7]);
-            card.description = c[8];
+    private CardLoader() {
+        try {
+            all         = new HashSet<Card>();
+            basic       = new HashSet<Card>();
+            expert      = new HashSet<Card>();
+            nameIndex   = new HashMap<String, Card>();
+            rarityIndex = new HashMap<Rarity, Set<Card>>();
+            for (Rarity rarity : Rarity.values()) {
+                rarityIndex.put(rarity, new HashSet<Card>());
+            }
+            heroIndex   = new HashMap<HeroClass, Set<Card>>();
+            for (HeroClass heroClass : HeroClass.values()) {
+                heroIndex.put(heroClass, new HashSet<Card>());
+            }
+            InputStream stream = CardLoader.class.getResourceAsStream(DB_PATH);
+            CSVReader reader = new CSVReader(new InputStreamReader(stream), ',', '"');
+            reader.readNext();
+            List<String[]> rawLines = reader.readAll();
+            for (String[] c : rawLines) {
+                Card card = new Card();
+                card.name        = c[0];
+                card.heroClass   = c[1];
+                card.rarity      = Rarity.fromString(c[2]);
+                card.type        = c[3];
+                card.race        = c[4];
+                card.cost        = getCost(c[5]);
+                card.atk         = getCost(c[6]);
+                card.health      = getCost(c[7]);
+                card.description = c[8];
 
-            all.add(card);
-            nameIndex.put(card.name, card);
-            putInBasicOrExpert(card);
-            putInRaritySet(card);
-            putInHeroIndex(card);
+                all.add(card);
+                nameIndex.put(card.name, card);
+                putInBasicOrExpert(card);
+                putInRaritySet(card);
+                putInHeroIndex(card);
+            }
+            reader.close();
+        } catch (IOException e) {
+            Log.error("Could not load card database", e);
+            System.exit(1);
         }
-        reader.close();
     }
 
     private void putInHeroIndex(Card card) {

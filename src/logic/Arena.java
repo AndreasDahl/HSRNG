@@ -3,11 +3,10 @@ package logic;
 import net.response.ArenaResponse;
 import util.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Andreas on 11-01-14.
@@ -36,10 +35,10 @@ public class Arena extends AbstractArena {
         this.heroPick = true;
     }
 
-    public Arena(int limit) throws IOException {
+    public Arena() {
         this.cards = new HashMap<Card, Integer>();
         this.bans = new ArrayList<Card>();
-        this.sameCardLimit = limit;
+        this.sameCardLimit = 2;
         this.choices = 3;
         this.heroPick = true;
     }
@@ -55,7 +54,7 @@ public class Arena extends AbstractArena {
         heroChoices = Arrays.copyOf(RandUtil.getRandomObjects(HeroClass.HEROES, choices), choices, HeroClass[].class);
         setPicks(heroChoices);
         setChanged();
-        notifyObservers(getPicks());
+        notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES ,getPicks()));
         return this;
     }
 
@@ -87,7 +86,7 @@ public class Arena extends AbstractArena {
     }
 
     @Override
-    public Arena addOwnedCards(Collection<CardCount> ownedCards) {
+    public Arena addOwnedCards(List<CardCount> ownedCards) {
         for (CardCount cardCount : ownedCards) {
             int cardLimit;
             if (cardCount.card.rarity.equals(Rarity.LEGENDARY)) {
@@ -102,7 +101,7 @@ public class Arena extends AbstractArena {
         return this;
     }
 
-    private void newDraft() throws IOException {
+    private void newDraft() {
         if (rarities == null) {
             draft = new Draft(choices, hero, bans).generateCards();
         } else {
@@ -113,7 +112,7 @@ public class Arena extends AbstractArena {
         notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, getPicks()));
     }
 
-    private void pickHero(int choice) throws IOException {
+    private void pickHero(int choice) {
         hero = heroChoices[choice];
         heroPick = false;
         newDraft();
@@ -140,7 +139,7 @@ public class Arena extends AbstractArena {
     }
 
     @Override
-    public void pick(int choice) throws IOException {
+    public void pick(int choice) {
         if (heroPick)
             pickHero(choice);
         else  {
@@ -165,11 +164,6 @@ public class Arena extends AbstractArena {
             notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, heroChoices));
         else
             notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, getPicks()));
-    }
-
-    @Override
-    public AbstractArena clone() {
-        return new Arena(this);
     }
 
     public Draft getDraft() {

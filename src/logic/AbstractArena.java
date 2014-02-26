@@ -1,11 +1,10 @@
 package logic;
 
+import util.Card;
 import util.CardCount;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * Created by Andreas on 05-02-14.
@@ -17,8 +16,15 @@ public abstract class AbstractArena extends Observable {
     public abstract void ban(int choice);
     public abstract void pick(int choice) throws IOException;
     public abstract void update();
-    public abstract AbstractArena clone();
-    public abstract AbstractArena addOwnedCards(Collection<CardCount> ownedCards);
+    public abstract AbstractArena addOwnedCards(List<CardCount> ownedCards);
+
+    public AbstractArena addOwnedCards(Map<Card, Integer> ownedCards) {
+        ArrayList<CardCount> cardCounts = new ArrayList<CardCount>();
+        for (Card card : ownedCards.keySet()) {
+            cardCounts.add(new CardCount(card, ownedCards.get(card)));
+        }
+        return addOwnedCards(cardCounts);
+    }
 
     public AbstractArena addOwnedCards(CardCount[] ownedCards) {
         addOwnedCards(Arrays.asList(ownedCards));

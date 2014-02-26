@@ -2,7 +2,7 @@ package gui.server;
 
 import com.esotericsoftware.kryonet.Connection;
 import gui.main.MainPanel;
-import net.SameArenaGame;
+import logic.server.BaseServer;
 import util.ScreenUtil;
 
 import javax.swing.*;
@@ -24,7 +24,7 @@ public class ServerGUI implements Observer {
     private JList<String> joinedList;
     private JSpinner choicesSpinner;
 
-    public ServerGUI(final SameArenaGame game) {
+    public ServerGUI(final BaseServer game) {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,7 +40,7 @@ public class ServerGUI implements Observer {
         });
     }
 
-    public static void init(final SameArenaGame game) {
+    public static void init(final BaseServer game) {
         ServerGUI gui = new ServerGUI(game);
         game.addObserver(gui);
 
@@ -48,7 +48,7 @@ public class ServerGUI implements Observer {
         frame.addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
-                game.getServer().close();
+                game.close();
             }
 
             @Override

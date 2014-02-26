@@ -11,7 +11,7 @@ import util.CardCount;
 import util.CardCountSlim;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Andreas on 06-02-14.
@@ -38,11 +38,10 @@ public class RemoteArena extends AbstractArena {
     }
 
     @Override
-    public RemoteArena addOwnedCards(Collection<CardCount> ownedCards) {
+    public RemoteArena addOwnedCards(List<CardCount> ownedCards) {
         this.ownedCards = new CardCountSlim[ownedCards.size()];
         for (int i = 0; i < ownedCards.size(); i++) {
-        for (CardCount cardCount : ownedCards)
-            this.ownedCards[i] = new CardCountSlim(cardCount.card.name, cardCount.count);
+            this.ownedCards[i] = new CardCountSlim(ownedCards.get(i).card.name, ownedCards.get(i).count);
         }
         return this;
     }

@@ -35,7 +35,7 @@ public class LocalArenaPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Arena arena = new Arena(2)
+                    Arena arena = new Arena()
                             .setRarities(drawPanel.getSelection())
                             .setChoices((Integer) choicesSpinner.getValue())
                             .addOwnedCards(CardListLoader.getCardList());

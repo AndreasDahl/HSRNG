@@ -33,11 +33,11 @@ public class Draft {
         this(choices, clss, new ArrayList<Card>());
     }
 
-    public Draft(int choices, HeroClass clss, List<Card> bans) throws IOException {
+    public Draft(int choices, HeroClass clss, List<Card> bans) {
         init(choices, clss, bans);
     }
 
-    private void init(int choices, HeroClass clss, List<Card> bans) throws IOException {
+    private void init(int choices, HeroClass clss, List<Card> bans) {
         this.choices = choices;
         this.bans = bans;
         this.cl = CardLoader.getInstance();
@@ -111,17 +111,11 @@ public class Draft {
         return this;
     }
 
-    public void prettyPrint() {
-        for (Card card : getCards()) {
-            System.out.println(card.toString());
-        }
-    }
-
     private void randomizeRarity() {
         if (possibleRarities == null || odds == null) {
             possibleRarities = RARITIES;
             odds = ODDS;
         }
-        rarity = (Rarity) RandUtil.getRandomByOdds(possibleRarities, odds);
+        rarity = RandUtil.getRandomByOdds(possibleRarities, odds);
     }
 }
