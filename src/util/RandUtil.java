@@ -75,6 +75,12 @@ public class RandUtil<E> {
         return getRandomObject(allowed);
     }
 
+    public static <T> T getRandomObject(T[] arr) {
+        Random rand = RandUtil.getInstance();
+        int i = rand.nextInt(arr.length);
+        return arr[i];
+    }
+
     public static <T> T getRandomObject(List<T> list) {
         Random rand = RandUtil.getInstance();
         int i =  rand.nextInt(list.size());
