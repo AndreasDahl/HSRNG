@@ -30,6 +30,8 @@ public class SameArenaGame extends BaseServer {
     private int choices = 3;
     private HeroClass heroClass;
     private final int deckSize = 30;
+    private Rarity[] rarities;
+    private double[] odds;
 
     public SameArenaGame(final HeroClass heroClass) throws IOException {
         super();
@@ -62,8 +64,31 @@ public class SameArenaGame extends BaseServer {
         }
     }
 
+    public SameArenaGame setRarities(Rarity[] rarities) {
+        this.rarities = rarities;
+        odds = new double[rarities.length];
+        for (int i = 0; i < rarities.length; i++) {
+            switch (rarities[i]) {
+                case COMMON:
+                    odds[i] = Draft.ODDS[0];
+                    break;
+                case RARE:
+                    odds[i] = Draft.ODDS[1];
+                    break;
+                case EPIC:
+                    odds[i] = Draft.ODDS[2];
+                    break;
+                default:
+                    odds[i] = Draft.ODDS[3];
+                    break;
+            }
+        }
+        return this;
+    }
+
     private Draft getDraft() {
         Draft draft = new Draft(choices, heroClass, bans);
+        draft.setRarities(rarities, odds);
         draft.generateCards();
         for (Card card : draft.getCardsArray()) {
             addCard(card);

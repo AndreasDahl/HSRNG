@@ -70,8 +70,7 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                        "- New game mode. Fair-Arena\n" +
-                        "  * All joining players get individual arenas drafted so any of them can build it",
+                        "- You can now select rarities for Same-Arena",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 }

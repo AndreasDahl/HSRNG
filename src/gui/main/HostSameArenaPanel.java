@@ -1,5 +1,6 @@
 package gui.main;
 
+import gui.part.PossibleDrawComp;
 import gui.server.ServerGUI;
 import logic.server.SameArenaGame;
 import util.HeroClass;
@@ -18,6 +19,7 @@ public class HostSameArenaPanel {
     private JButton hostDraftButton;
     private JSpinner choicesSpinner;
     private JPanel root;
+    private PossibleDrawComp rarityChooser;
 
     public HostSameArenaPanel() {
         ActionMap actionMap = root.getActionMap();
@@ -35,7 +37,8 @@ public class HostSameArenaPanel {
                 try {
                     SameArenaGame game =
                             new SameArenaGame((HeroClass) comboBox1.getSelectedItem())
-                            .setChoices((Integer) choicesSpinner.getValue());
+                            .setChoices((Integer) choicesSpinner.getValue())
+                            .setRarities(rarityChooser.getSelection());
                     ServerGUI.init(game);
                 } catch (Exception ex) {
                     ScreenUtil.displayError(MainPanel.getMainFrame(), ex);
