@@ -13,16 +13,17 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Andreas on 12-02-14.
  */
 public class CardSelectionList extends JList<CardCount> {
-    CardCount[] items;
+    private DefaultListModel<CardCount> model;
 
-    public CardSelectionList(CardCount[] cards) {
+    public CardSelectionList(DefaultListModel<CardCount> cards) {
         super(cards);
-        items = cards;
+        model = cards;
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // Remove mouselisteners
@@ -39,9 +40,6 @@ public class CardSelectionList extends JList<CardCount> {
         setCellRenderer(new CardCellRenderer());
     }
 
-    public CardCount[] getCardCounts() {
-        return items;
-    }
 
     private class CardSelectionListListener implements MouseListener {
         boolean pressed = false;
@@ -81,7 +79,10 @@ public class CardSelectionList extends JList<CardCount> {
 
             // TODO: Only save list in key moments. And only if changed.
             try {
-                CardListLoader.saveCardList(Arrays.asList(items));
+                CardCount[] cardCountArr = new CardCount[model.size()];
+                model.copyInto(cardCountArr);
+                List<CardCount> cardCounts = Arrays.asList(cardCountArr);
+                CardListLoader.saveCardList();
             } catch (IOException ex) {
                 Log.error("CardSelectionList", ex);
             }

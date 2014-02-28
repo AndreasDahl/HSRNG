@@ -23,6 +23,13 @@ public enum Rarity {
         return super.toString();
     }
 
+    public int getCardMax() {
+        switch (this) {
+            case LEGENDARY: return 1;
+            default:        return 2;
+        }
+    }
+
     public Color toColor() {
         switch (this) {
             case BASIC:;    return Color.WHITE;

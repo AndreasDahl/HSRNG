@@ -1,5 +1,6 @@
 package io;
 
+import com.esotericsoftware.minlog.Log;
 import util.Card;
 import util.CardCount;
 import util.Rarity;
@@ -22,7 +23,7 @@ public class CardListLoader {
     private static final String VERSION = "1";
     private static List<CardCount> mainCardList;
 
-    public static List<CardCount> getCardList() throws IOException {
+    public static List<CardCount> getCardList() {
         if (mainCardList == null) {
             loadCardList();
         }
@@ -37,17 +38,20 @@ public class CardListLoader {
         }
     }
 
-    private static void loadCardList() throws IOException {
-        List<CardCount> cardList = new ArrayList<CardCount>();
-        CardLoader cl = CardLoader.getInstance();
-
-        File file = new File(FULL_PATH);
-        file.getParentFile().mkdirs();
-        if (!file.createNewFile()) {
+    private static void loadCardList() {
+        try {
+            List<CardCount> cardList = new ArrayList<CardCount>();
+            CardLoader cl = CardLoader.getInstance();
             Properties prop = new Properties();
-            prop.load(new BufferedReader(new FileReader(file)));
-            if (!prop.getProperty(VERSION_TAG, "ERROR").equals(VERSION)) {
-                prop = new Properties();
+
+            File file = new File(FULL_PATH);
+            // Try load properties file
+            file.getParentFile().mkdirs();
+            if (!file.createNewFile()) {
+                prop.load(new BufferedReader(new FileReader(file)));
+                if (!prop.getProperty(VERSION_TAG, "ERROR").equals(VERSION)) {
+                    prop = new Properties();
+                }
             }
             Set<Card> allCards = cl.getAllCards();
             for (Card card : allCards) {
@@ -57,14 +61,15 @@ public class CardListLoader {
                 else
                     cardList.add(new CardCount(card, Integer.parseInt(propRes)));
             }
+            mainCardList = cardList;
+        } catch (IOException e) {
+            Log.error("Could not load card list", e);
+            System.exit(1);
         }
-        mainCardList = cardList;
     }
 
-    public static void saveCardList(List<CardCount> cardCounts) throws IOException {
+    public static void saveCardList() throws IOException {
         File file = new File(FULL_PATH);
-
-        mainCardList = cardCounts;
 
         file.getParentFile().mkdirs();
         file.createNewFile();
@@ -72,7 +77,7 @@ public class CardListLoader {
         Properties prop = new Properties();
 
         prop.setProperty(VERSION_TAG, VERSION);
-        for (CardCount cardCount : cardCounts) {
+        for (CardCount cardCount : mainCardList) {
             prop.setProperty(cardCount.card.name, String.valueOf(cardCount.count));
         }
         prop.store(new FileOutputStream(file), null);

@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 
 /**
  * Created by Andreas on 24-02-14.
@@ -34,17 +33,13 @@ public class LocalArenaPanel extends JPanel {
         startArenaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Arena arena = new Arena()
-                            .setRarities(drawPanel.getSelection())
-                            .setChoices((Integer) choicesSpinner.getValue())
-                            .addOwnedCards(CardListLoader.getCardList());
-                    ArenaPanel.init(arena);
-                    ScreenUtil.setFramePosition(root, ArenaPanel.frame);
-                    MainPanel.getMainFrame().setVisible(false);
-                } catch (IOException ex) {
-                    ScreenUtil.displayError(root, ex);
-                }
+                Arena arena = new Arena()
+                        .setRarities(drawPanel.getSelection())
+                        .setChoices((Integer) choicesSpinner.getValue())
+                        .addOwnedCards(CardListLoader.getCardList());
+                ArenaPanel.init(arena);
+                ScreenUtil.setFramePosition(root, ArenaPanel.frame);
+                MainPanel.getMainFrame().setVisible(false);
             }
         });
     }
