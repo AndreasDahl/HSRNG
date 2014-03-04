@@ -2,6 +2,10 @@ package io;
 
 import au.com.bytecode.opencsv.CSVReader;
 import com.esotericsoftware.minlog.Log;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import util.Card;
 import util.HeroClass;
 import util.Rarity;
@@ -9,7 +13,6 @@ import util.Rarity;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,10 +24,10 @@ public class CardLoader {
     private static final String DB_PATH = "/res/cards.csv";
     private static CardLoader instance;
 
-    private Set<Card> all, basic, expert;
-    private HashMap<String, Card> nameIndex;
-    private HashMap<Rarity, Set<Card>> rarityIndex;
-    private HashMap<HeroClass, Set<Card>> heroIndex;
+    private ImmutableSet<Card> all, basic, expert;
+    private ImmutableMap<String, Card> nameIndex;
+    private ImmutableSetMultimap<Rarity, Card> rarityIndex;
+    private ImmutableSetMultimap<HeroClass, Card> heroIndex;
 
     public static CardLoader getInstance() {
         if (instance == null)
@@ -34,18 +37,14 @@ public class CardLoader {
 
     private CardLoader() {
         try {
-            all         = new HashSet<Card>();
-            basic       = new HashSet<Card>();
-            expert      = new HashSet<Card>();
-            nameIndex   = new HashMap<String, Card>();
-            rarityIndex = new HashMap<Rarity, Set<Card>>();
-            for (Rarity rarity : Rarity.values()) {
-                rarityIndex.put(rarity, new HashSet<Card>());
-            }
-            heroIndex   = new HashMap<HeroClass, Set<Card>>();
-            for (HeroClass heroClass : HeroClass.values()) {
-                heroIndex.put(heroClass, new HashSet<Card>());
-            }
+            // Setup Builders
+            ImmutableSet.Builder<Card> allBuilder = ImmutableSet.builder();
+            ImmutableSet.Builder<Card> basicBuilder = ImmutableSet.builder();
+            ImmutableSet.Builder<Card> expertBuilder = ImmutableSet.builder();
+            ImmutableMap.Builder<String, Card> nameIndexBuilder = ImmutableMap.builder();
+            ImmutableSetMultimap.Builder<Rarity, Card> rarityIndexBuilder = ImmutableSetMultimap.builder();
+            ImmutableSetMultimap.Builder<HeroClass, Card> heroIndexBuilder = ImmutableSetMultimap.builder();
+
             InputStream stream = CardLoader.class.getResourceAsStream(DB_PATH);
             CSVReader reader = new CSVReader(new InputStreamReader(stream), ',', '"');
             reader.readNext();
@@ -53,7 +52,7 @@ public class CardLoader {
             for (String[] c : rawLines) {
                 Card card = new Card(
                     c[0],
-                    c[1],
+                    HeroClass.fromString(c[1]),
                     Rarity.fromString(c[2]),
                     c[3],
                     c[4],
@@ -63,47 +62,40 @@ public class CardLoader {
                     c[8]
                 );
 
-                all.add(card);
-                nameIndex.put(card.getName(), card);
-                putInBasicOrExpert(card);
-                putInRaritySet(card);
-                putInHeroIndex(card);
+                // Add card to correct indexes
+                allBuilder.add(card);
+                nameIndexBuilder.put(card.getName(), card);
+                putInBasicOrExpert(card, basicBuilder, expertBuilder);
+                putInRaritySet(card, rarityIndexBuilder);
+                heroIndexBuilder.put(card.getHeroClass(), card);
             }
             reader.close();
+
+            // Build Immutables
+            all = allBuilder.build();
+            basic = basicBuilder.build();
+            expert = expertBuilder.build();
+            nameIndex = nameIndexBuilder.build();
+            rarityIndex = rarityIndexBuilder.build();
+            heroIndex = heroIndexBuilder.build();
         } catch (IOException e) {
             Log.error("Could not load card database", e);
             System.exit(1);
         }
     }
 
-    private void putInHeroIndex(Card card) {
-        HeroClass heroClass = HeroClass.fromString(card.getHeroClass());
-        if (heroClass != null) {
-            Set<Card> cardSet = heroIndex.get(heroClass);
-            cardSet.add(card);
-        }
-    }
-
-
-    private void putInBasicOrExpert(Card card) {
+    private void putInBasicOrExpert(Card card, ImmutableSet.Builder<Card> basicBuilder, ImmutableSet.Builder<Card> expertBuilder) {
         if (card.getRarity().equals(Rarity.BASIC)) {
-            basic.add(card);
+            basicBuilder.add(card);
         } else {
-            expert.add(card);
+            expertBuilder.add(card);
         }
     }
 
-    private void putInRaritySet(Card card) {
+    private void putInRaritySet(Card card, ImmutableMultimap.Builder<Rarity, Card> builder) {
         Rarity rarity = card.getRarity();
-        if (rarity != null) {
-            Set<Card> cardSet;
-            if (rarity.equals(Rarity.BASIC)) {
-                cardSet = rarityIndex.get(Rarity.COMMON);
-            } else {
-                cardSet = rarityIndex.get(rarity);
-            }
-            cardSet.add(card);
-        }
+        rarity = rarity == Rarity.BASIC ? Rarity.COMMON : rarity;
+        builder.put(rarity, card);
     }
 
     private int getCost(String rawCost) {
@@ -114,43 +106,43 @@ public class CardLoader {
         }
     }
 
-    public Set<Card> getCardsAvailable(HeroClass heroClass) {
+    public ImmutableSet<Card> getCardsAvailable(HeroClass heroClass) {
         Set<Card> retSet = new HashSet<Card>(heroIndex.get(HeroClass.ALL));
         retSet.addAll(heroIndex.get(heroClass));
-        return retSet;
+        return ImmutableSet.copyOf(retSet);
     }
 
-    public Set<Card> getCardsAvailable(HeroClass heroClass, Rarity rarity) {
+    public ImmutableSet<Card> getCardsAvailable(HeroClass heroClass, Rarity rarity) {
         Set<Card> retSet = new HashSet<Card>(heroIndex.get(HeroClass.ALL));
         retSet.addAll(heroIndex.get(heroClass));    // Union hero
         retSet.retainAll(rarityIndex.get(rarity));  // Intersect rarity
-        return retSet;
+        return ImmutableSet.copyOf(retSet);
     }
 
-    public Set<Card> getCards(Rarity rarity, HeroClass heroClass) {
+    public ImmutableSet<Card> getCards(Rarity rarity, HeroClass heroClass) {
         Set<Card> retSet = new HashSet<Card>(rarityIndex.get(rarity));
         retSet.retainAll(heroIndex.get(heroClass));
-        return retSet;
+        return ImmutableSet.copyOf(retSet);
     }
 
-    public Set<Card> getCards(Rarity rarity) {
-        return new HashSet<Card>(rarityIndex.get(rarity));
-    }
-
-    @Deprecated
-    public Set<Card> getCardsWithRarity(Rarity rarity) {
+    public ImmutableSet<Card> getCards(Rarity rarity) {
         return rarityIndex.get(rarity);
     }
 
-    public Set<Card> getAllCards() {
+    @Deprecated
+    public ImmutableSet<Card> getCardsWithRarity(Rarity rarity) {
+        return rarityIndex.get(rarity);
+    }
+
+    public ImmutableSet<Card> getAllCards() {
         return all;
     }
 
-    public Set<Card> getBasicCards() {
+    public ImmutableSet<Card> getBasicCards() {
         return basic;
     }
 
-    public Set<Card> getExpertCards() {
+    public ImmutableSet<Card> getExpertCards() {
         return expert;
     }
 

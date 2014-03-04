@@ -1,6 +1,7 @@
 package io;
 
 import com.esotericsoftware.minlog.Log;
+import com.google.common.collect.ImmutableSet;
 import util.Card;
 import util.CardCount;
 import util.Rarity;
@@ -9,7 +10,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 /**
  * Created by Andreas on 12-02-14.
@@ -53,7 +53,7 @@ public class CardListLoader {
                     prop = new Properties();
                 }
             }
-            Set<Card> allCards = cl.getAllCards();
+            ImmutableSet<Card> allCards = cl.getAllCards();
             for (Card card : allCards) {
                 String propRes = prop.getProperty(card.getName());
                 if (propRes == null)

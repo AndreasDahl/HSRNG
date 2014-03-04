@@ -11,7 +11,7 @@ import javax.swing.*;
  */
 public final class Card implements Comparable<Card>, IPickable {
     private final String name;
-    private final String heroClass;
+    private final HeroClass heroClass;
     private final Rarity rarity;
     private final String type;
     private final String race;
@@ -20,7 +20,15 @@ public final class Card implements Comparable<Card>, IPickable {
     private final int health;
     private final String description;
 
-    public Card(String name, String heroClass, Rarity rarity, String type, String race, int cost, int atk, int health, String description) {
+    public Card(String name,
+                HeroClass heroClass,
+                Rarity rarity,
+                String type,
+                String race,
+                int cost,
+                int atk,
+                int health,
+                String description) {
         this.name = name;
         this.heroClass = heroClass;
         this.rarity = rarity;
@@ -107,7 +115,7 @@ public final class Card implements Comparable<Card>, IPickable {
         return name;
     }
 
-    public String getHeroClass() {
+    public HeroClass getHeroClass() {
         return heroClass;
     }
 
