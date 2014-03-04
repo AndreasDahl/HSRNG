@@ -72,7 +72,7 @@ public class CardSelectionList extends JList<CardCount> {
             } else {
                 cardCount.count += 1;
             }
-            if (cardCount.card.rarity.equals(Rarity.LEGENDARY))
+            if (cardCount.card.getRarity().equals(Rarity.LEGENDARY))
                 cardCount.count %= 2;
             else
                 cardCount.count %= values;
@@ -111,7 +111,7 @@ public class CardSelectionList extends JList<CardCount> {
             super();
             this.card = cardCount.card;
             this.count = cardCount.count;
-            this.color = cardCount.card.rarity.toColor();
+            this.color = cardCount.card.getRarity().toColor();
 
             setBackground(color.darker());
         }
@@ -120,7 +120,7 @@ public class CardSelectionList extends JList<CardCount> {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            Rarity rarity = card.rarity;
+            Rarity rarity = card.getRarity();
             int max = rarity.equals(Rarity.LEGENDARY) ? 1 : 2;
 
             int unitWidth = getWidth() / max;
@@ -141,7 +141,7 @@ public class CardSelectionList extends JList<CardCount> {
 
             ret.setLayout(new BoxLayout(ret, BoxLayout.X_AXIS));
 
-            JLabel text = new JLabel(value.card.name, SwingConstants.LEFT);
+            JLabel text = new JLabel(value.card.getName(), SwingConstants.LEFT);
             ret.add(text);
 
             ret.add(Box.createHorizontalGlue());

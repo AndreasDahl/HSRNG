@@ -37,7 +37,7 @@ public class SettingsPanel {
 
         model.removeAllElements();
         for (CardCount cardCount : cardCounts) {
-            if (!hideMissing || (hideMissing && cardCount.count < cardCount.card.rarity.getCardMax()))
+            if (!hideMissing || (hideMissing && cardCount.count < cardCount.card.getRarity().getCardMax()))
                 model.addElement(cardCount);
         }
     }

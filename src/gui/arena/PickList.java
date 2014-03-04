@@ -60,12 +60,12 @@ public class PickList extends JList {
             count = 1;
             this.card = card;
             setOpaque(true);
-            setBackground(card.rarity.toColor());
+            setBackground(card.getRarity().toColor());
             updateText();
         }
 
         private void updateText() {
-            setText(String.format(format, count, card.cost,card.name));
+            setText(String.format(format, count, card.getCost(),card.getName()));
         }
 
         public void increment() {

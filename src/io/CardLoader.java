@@ -51,19 +51,20 @@ public class CardLoader {
             reader.readNext();
             List<String[]> rawLines = reader.readAll();
             for (String[] c : rawLines) {
-                Card card = new Card();
-                card.name        = c[0];
-                card.heroClass   = c[1];
-                card.rarity      = Rarity.fromString(c[2]);
-                card.type        = c[3];
-                card.race        = c[4];
-                card.cost        = getCost(c[5]);
-                card.atk         = getCost(c[6]);
-                card.health      = getCost(c[7]);
-                card.description = c[8];
+                Card card = new Card(
+                    c[0],
+                    c[1],
+                    Rarity.fromString(c[2]),
+                    c[3],
+                    c[4],
+                    getCost(c[5]),
+                    getCost(c[6]),
+                    getCost(c[7]),
+                    c[8]
+                );
 
                 all.add(card);
-                nameIndex.put(card.name, card);
+                nameIndex.put(card.getName(), card);
                 putInBasicOrExpert(card);
                 putInRaritySet(card);
                 putInHeroIndex(card);
@@ -76,7 +77,7 @@ public class CardLoader {
     }
 
     private void putInHeroIndex(Card card) {
-        HeroClass heroClass = HeroClass.fromString(card.heroClass);
+        HeroClass heroClass = HeroClass.fromString(card.getHeroClass());
         if (heroClass != null) {
             Set<Card> cardSet = heroIndex.get(heroClass);
             cardSet.add(card);
@@ -85,7 +86,7 @@ public class CardLoader {
 
 
     private void putInBasicOrExpert(Card card) {
-        if (card.rarity.equals(Rarity.BASIC)) {
+        if (card.getRarity().equals(Rarity.BASIC)) {
             basic.add(card);
         } else {
             expert.add(card);
@@ -93,7 +94,7 @@ public class CardLoader {
     }
 
     private void putInRaritySet(Card card) {
-        Rarity rarity = card.rarity;
+        Rarity rarity = card.getRarity();
         if (rarity != null) {
             Set<Card> cardSet;
             if (rarity.equals(Rarity.BASIC)) {

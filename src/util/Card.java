@@ -9,16 +9,28 @@ import javax.swing.*;
 /**
  * Created by Andreas on 08-01-14.
  */
-public class Card implements Comparable<Card>, IPickable {
-    public String name;
-    public String heroClass;
-    public Rarity rarity;
-    public String type;
-    public String race;
-    public int cost;
-    public int atk;
-    public int health;
-    public String description;
+public final class Card implements Comparable<Card>, IPickable {
+    private final String name;
+    private final String heroClass;
+    private final Rarity rarity;
+    private final String type;
+    private final String race;
+    private final int cost;
+    private final int atk;
+    private final int health;
+    private final String description;
+
+    public Card(String name, String heroClass, Rarity rarity, String type, String race, int cost, int atk, int health, String description) {
+        this.name = name;
+        this.heroClass = heroClass;
+        this.rarity = rarity;
+        this.type = type;
+        this.race = race;
+        this.cost = cost;
+        this.atk = atk;
+        this.health = health;
+        this.description = description;
+    }
 
     @Override
     public String toString() {
@@ -89,5 +101,41 @@ public class Card implements Comparable<Card>, IPickable {
     public void styleButton(JButton button) {
         button.setText(String.format("%s (%d)", name, cost)  );
         button.setBackground(rarity.toColor());
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getHeroClass() {
+        return heroClass;
+    }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public int getAtk() {
+        return atk;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

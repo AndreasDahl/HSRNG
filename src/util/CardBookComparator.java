@@ -8,7 +8,8 @@ import java.util.Comparator;
 public class CardBookComparator implements Comparator<Card> {
     @Override
     public int compare(Card o1, Card o2) {
-        int compare = new HeroBookComparator().compare(HeroClass.fromString(o1.heroClass), (HeroClass.fromString(o2.heroClass))); // Compare Hero class
+        int compare = new HeroBookComparator()
+                .compare(HeroClass.fromString(o1.getHeroClass()), (HeroClass.fromString(o2.getHeroClass()))); // Compare Hero class
         if (compare == 0) {
             compare = o1.compareTo(o2);
         }

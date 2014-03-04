@@ -95,7 +95,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
                         pickList.setTitle(up.argument.toString());
                     } else if (up.argument instanceof Card) {
                         Card card = (Card) up.argument;
-                        manaCurve.add(card.cost, CardType.fromString(card.type));
+                        manaCurve.add(card.getCost(), CardType.fromString(card.getType()));
                         pickList.addCard(card);
                     }
                     break;

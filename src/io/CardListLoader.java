@@ -31,7 +31,7 @@ public class CardListLoader {
     }
 
     private static void addMissingCard(List<CardCount> cardList, Card card) throws IOException {
-        if (card.rarity.equals(Rarity.BASIC)) {
+        if (card.getRarity().equals(Rarity.BASIC)) {
             cardList.add(new CardCount(card, 2));
         } else {
             cardList.add(new CardCount(card, 0));
@@ -55,7 +55,7 @@ public class CardListLoader {
             }
             Set<Card> allCards = cl.getAllCards();
             for (Card card : allCards) {
-                String propRes = prop.getProperty(card.name);
+                String propRes = prop.getProperty(card.getName());
                 if (propRes == null)
                     addMissingCard(cardList, card);
                 else
@@ -78,7 +78,7 @@ public class CardListLoader {
 
         prop.setProperty(VERSION_TAG, VERSION);
         for (CardCount cardCount : mainCardList) {
-            prop.setProperty(cardCount.card.name, String.valueOf(cardCount.count));
+            prop.setProperty(cardCount.card.getName(), String.valueOf(cardCount.count));
         }
         prop.store(new FileOutputStream(file), null);
     }

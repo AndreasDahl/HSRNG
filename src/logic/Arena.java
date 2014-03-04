@@ -89,7 +89,7 @@ public class Arena extends AbstractArena {
     public Arena addOwnedCards(List<CardCount> ownedCards) {
         for (CardCount cardCount : ownedCards) {
             int cardLimit;
-            if (cardCount.card.rarity.equals(Rarity.LEGENDARY)) {
+            if (cardCount.card.getRarity().equals(Rarity.LEGENDARY)) {
                 cardLimit = 1;
             } else {
                 cardLimit = 2;
@@ -133,7 +133,7 @@ public class Arena extends AbstractArena {
             newAmount = cards.get(card) + 1;
         else
             newAmount = 1;
-        if (newAmount >= sameCardLimit || card.rarity.equals(Rarity.LEGENDARY))
+        if (newAmount >= sameCardLimit || card.getRarity().equals(Rarity.LEGENDARY))
             bans.add(card);
         cards.put(card, newAmount);
     }

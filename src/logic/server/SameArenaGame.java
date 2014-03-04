@@ -97,7 +97,7 @@ public class SameArenaGame extends BaseServer {
     }
 
     private void addCard(Card card) {
-        if (card.rarity.equals(Rarity.LEGENDARY)) {
+        if (card.getRarity().equals(Rarity.LEGENDARY)) {
             bans.add(card);
         } else if (draftedCards.containsKey(card)) {
             bans.add(card);
@@ -150,7 +150,7 @@ public class SameArenaGame extends BaseServer {
         for (CardCountSlim cardCount : cardCounts) {
             Card card = cl.getCard(cardCount.card);
             int cardLimit;
-            if (card.rarity.equals(Rarity.LEGENDARY)) {
+            if (card.getRarity().equals(Rarity.LEGENDARY)) {
                 cardLimit = 1;
             } else {
                 cardLimit = 2;

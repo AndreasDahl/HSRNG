@@ -41,7 +41,7 @@ public class RemoteArena extends AbstractArena {
     public RemoteArena addOwnedCards(List<CardCount> ownedCards) {
         this.ownedCards = new CardCountSlim[ownedCards.size()];
         for (int i = 0; i < ownedCards.size(); i++) {
-            this.ownedCards[i] = new CardCountSlim(ownedCards.get(i).card.name, ownedCards.get(i).count);
+            this.ownedCards[i] = new CardCountSlim(ownedCards.get(i).card.getName(), ownedCards.get(i).count);
         }
         return this;
     }
