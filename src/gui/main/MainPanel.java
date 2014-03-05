@@ -6,11 +6,12 @@ import gui.part.CardSelectionList;
 import javax.swing.*;
 
 /**
- * Created by Andreas on 23-02-14.
+ * @author Andreas
+ * @since 23-02-14
  */
 public class MainPanel {
     public static final String PROGRAM_NAME = "HSRNG";
-    public static int LOG_LEVEL = Log.LEVEL_DEBUG;
+    public static final int LOG_LEVEL = Log.LEVEL_DEBUG;
 
     private JPanel panel1;
     private JTabbedPane tabbedPane1;

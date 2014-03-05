@@ -12,7 +12,8 @@ import util.Rarity;
 import java.io.IOException;
 
 /**
- * Created by Andreas on 05-02-14.
+ * @author Andreas
+ * @since 05-02-14
  */
 public class KryoUtil {
     public static final int PORT = 12221;

@@ -1,7 +1,8 @@
 package net.response;
 
 /**
- * Created by Andreas on 09-02-14.
+ * @author Andreas
+ * @since 09-02-14
  */
 public class ArenaResponse {
     public ResponseType type;

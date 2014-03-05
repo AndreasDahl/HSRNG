@@ -6,25 +6,25 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Andreas on 26-01-14.
+ * @author Andreas
+ * @since 26-01-14
  */
 public class ManaCurve extends JPanel {
-    private String[] tags = {"0","1","2","3","4","5","6","7+"};
-    private int[] amount;
-    private int[] weapons;
-    private int[] spells;
-    private int[] minions;
-
+    private static final String[] TAGS = {"0", "1", "2", "3", "4", "5", "6", "7+"};
+    private final int[] amount;
+    private final int[] weapons;
+    private final int[] spells;
+    private final int[] minions;
 
 
     public ManaCurve() {
-        amount  = new int[tags.length];
-        weapons = new int[tags.length];
-        spells  = new int[tags.length];
-        minions = new int[tags.length];
+        amount = new int[TAGS.length];
+        weapons = new int[TAGS.length];
+        spells = new int[TAGS.length];
+        minions = new int[TAGS.length];
 
         GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints c =  new GridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
         this.setLayout(layout);
 
         c.weighty = 5;
@@ -34,12 +34,12 @@ public class ManaCurve extends JPanel {
         panel.setOpaque(false);
         add(panel, c);
 
-        for (int i = 0; i < tags.length; i++) {
+        for (int i = 0; i < TAGS.length; i++) {
             c.weightx = 1;
             c.weighty = 1;
             c.gridx = i;
             c.gridy = 1;
-            JLabel label = new JLabel(tags[i]);
+            JLabel label = new JLabel(TAGS[i]);
             label.setHorizontalAlignment(SwingConstants.CENTER);
             add(label, c);
         }
@@ -75,25 +75,25 @@ public class ManaCurve extends JPanel {
         g.setColor(Color.ORANGE);
 
         int x = 0;
-        int columnWidth = getWidth() / tags.length;
+        int columnWidth = getWidth() / TAGS.length;
         int maxAmount = 0;
         for (int a : amount) {
             maxAmount = Math.max(maxAmount, a);
         }
 
         if (maxAmount > 0) {
-            for (int i = 0; i < tags.length; i++) {
+            for (int i = 0; i < TAGS.length; i++) {
                 float rate = (((float) amount[i]) / ((float) maxAmount));
                 int p = Math.round(((float) getHeight()) * rate);
 
                 float gradientHeight = (float) p / amount[i] / 2;
 
                 // draw weapon
-                int weapH = Math.round((float)weapons[i] / (float)amount[i] * p);
-                int spellH = Math.round((float)spells[i] / (float)amount[i] * p);
-                int minionH = Math.round((float)minions[i] / (float)amount[i] * p);
+                int weapH = Math.round((float) weapons[i] / (float) amount[i] * p);
+                int spellH = Math.round((float) spells[i] / (float) amount[i] * p);
+                int minionH = Math.round((float) minions[i] / (float) amount[i] * p);
 
-                if  (weapH > 0) {
+                if (weapH > 0) {
                     g.setColor(CardType.WEAPON.toColor());
                     g.fillRect(x, getHeight() - p, columnWidth, weapH);
                 }
@@ -101,7 +101,7 @@ public class ManaCurve extends JPanel {
                 g.setColor(CardType.SPELL.toColor());
                 g.fillRect(x, getHeight() - p + weapH, columnWidth, spellH);
                 g.setColor(CardType.MINION.toColor());
-                g.fillRect(x, getHeight()-p+weapH+spellH, columnWidth, minionH);
+                g.fillRect(x, getHeight() - p + weapH + spellH, columnWidth, minionH);
 
                 // Paint gradients
                 if (weapons[i] > 0) {
@@ -137,7 +137,7 @@ public class ManaCurve extends JPanel {
                 }
 
                 g.setColor(Color.BLACK);
-                g.drawLine(x, getHeight()-p, x+columnWidth, getHeight()-p);
+                g.drawLine(x, getHeight() - p, x + columnWidth, getHeight() - p);
 
                 x += columnWidth;
             }
@@ -145,10 +145,10 @@ public class ManaCurve extends JPanel {
 
         g.setColor(Color.BLACK);
         x = columnWidth;
-        for (int i = 0; i < tags.length -1; i++ ) {
+        for (int i = 0; i < TAGS.length - 1; i++) {
             g.drawLine(x, 0, x, getHeight());
             x += columnWidth;
         }
-        g.drawRect(0, 0, getWidth()-1, getHeight()-1);
+        g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
     }
 }

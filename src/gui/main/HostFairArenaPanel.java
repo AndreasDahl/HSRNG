@@ -11,7 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
- * Created by Andreas on 26-02-14.
+ * @author Andreas
+ * @since 26-02-14
  */
 public class HostFairArenaPanel {
     private JButton hostDraftButton;
@@ -22,7 +23,7 @@ public class HostFairArenaPanel {
     public HostFairArenaPanel() {
         ActionMap actionMap = root.getActionMap();
         int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        InputMap inputMap = root.getInputMap(condition );
+        InputMap inputMap = root.getInputMap(condition);
         String vkEnter = "VK_ENTER";
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), vkEnter);
         actionMap.put(vkEnter, new KeyAction(vkEnter));

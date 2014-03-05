@@ -9,11 +9,13 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * Created by Andreas on 29-01-14.
+ * @author Andreas
+ * @since 29-01-14
  */
 public class PickList extends JList {
-    JLabel title;
-    HashMap<Card, CardLabel> cards;
+    // TODO: Use JList properly
+    private final JLabel title;
+    private final HashMap<Card, CardLabel> cards;
 
     public PickList() {
         title = new JLabel("");
@@ -54,7 +56,7 @@ public class PickList extends JList {
     private class CardLabel extends JLabel {
         private static final String format = "%d x (%d)%s";
         int count;
-        Card card;
+        final Card card;
 
         public CardLabel(Card card) {
             count = 1;
@@ -65,7 +67,7 @@ public class PickList extends JList {
         }
 
         private void updateText() {
-            setText(String.format(format, count, card.getCost(),card.getName()));
+            setText(String.format(format, count, card.getCost(), card.getName()));
         }
 
         public void increment() {

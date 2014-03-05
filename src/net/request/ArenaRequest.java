@@ -1,11 +1,13 @@
 package net.request;
 
 /**
- * Created by Andreas on 06-02-14.
+ * @author Andreas
+ * @since 06-02-14
  */
 public class ArenaRequest {
     public RequestType type;
     public Object argument;
+
 
     public ArenaRequest() {
 

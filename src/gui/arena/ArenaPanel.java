@@ -19,19 +19,19 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by Andreas on 25-01-14.
+ * @author Andreas
+ * @since 25-01-14
  */
 public class ArenaPanel extends JPanel implements ActionListener, Observer {
     public static JFrame frame;
 
-    private PickList pickList;
+    private final PickList pickList;
+    private final JPanel buttonPanel;
+    private final ManaCurve manaCurve;
+    private final AbstractArena arena;
     private JButton[] buttons;
-    private JPanel buttonPanel;
-    private ManaCurve manaCurve;
 
-    private AbstractArena arena;
-
-    public ArenaPanel(AbstractArena arena) throws IOException {
+    private ArenaPanel(AbstractArena arena) {
         this.arena = arena;
         arena.addObserver(this);
 
@@ -76,7 +76,7 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
     private void setKeyBindings() {
         ActionMap actionMap = getActionMap();
         int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        InputMap inputMap = getInputMap(condition );
+        InputMap inputMap = getInputMap(condition);
 
         String vkR = "VK_R";
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), vkR);
@@ -113,7 +113,6 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
             }
         }
     }
-
 
 
     private class KeyAction extends AbstractAction {
@@ -173,14 +172,8 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
         buttonPanel.repaint();
     }
 
-    private void updateButtons(String[] titles) {
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setText(titles[i]);
-        }
-    }
-
     private class ArenaMouseAdapter extends MouseAdapter {
-        private boolean  pressed;
+        private boolean pressed;
 
         @Override
         public void mousePressed(MouseEvent e) {
@@ -238,16 +231,10 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
         frame = new JFrame("Arena");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        try {
-            frame.add(new ArenaPanel(arena));
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(frame, "Internal Error.", "Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
+        frame.add(new ArenaPanel(arena));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
 

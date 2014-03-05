@@ -12,7 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
- * Created by Andreas on 24-02-14.
+ * @author Andreas
+ * @since 24-02-14
  */
 public class HostSameArenaPanel {
     private JComboBox<HeroClass> comboBox1;
@@ -24,7 +25,7 @@ public class HostSameArenaPanel {
     public HostSameArenaPanel() {
         ActionMap actionMap = root.getActionMap();
         int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        InputMap inputMap = root.getInputMap(condition );
+        InputMap inputMap = root.getInputMap(condition);
 
         String vkEnter = "VK_ENTER";
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), vkEnter);
@@ -37,8 +38,8 @@ public class HostSameArenaPanel {
                 try {
                     SameArenaGame game =
                             new SameArenaGame((HeroClass) comboBox1.getSelectedItem())
-                            .setChoices((Integer) choicesSpinner.getValue())
-                            .setRarities(rarityChooser.getSelection());
+                                    .setChoices((Integer) choicesSpinner.getValue())
+                                    .setRarities(rarityChooser.getSelection());
                     ServerGUI.init(game);
                 } catch (Exception ex) {
                     ScreenUtil.displayError(MainPanel.getMainFrame(), ex);

@@ -15,14 +15,14 @@ import java.awt.event.ItemListener;
 import java.util.List;
 
 /**
- * Created by Andreas on 28-02-14.
+ * @author Andreas
+ * @since 28-02-14
  */
 public class SettingsPanel {
     private JPanel root;
     private JScrollPane scrollPanel;
     private JCheckBox onlyShowMissingCheckBox;
-    private CardSelectionList list;
-    private DefaultListModel<CardCount> model; // TODO: Refactor away CardCount
+    private DefaultListModel<CardCount> model;
     private List<Card> shownCards;
 
     public SettingsPanel() {
@@ -40,7 +40,7 @@ public class SettingsPanel {
 
         model.removeAllElements();
         for (Card card : allCards) {
-            if (!hideMissing || (hideMissing && ownedCards.count(card) < card.getRarity().getCardMax()))
+            if (!hideMissing || (ownedCards.count(card) < card.getRarity().getCardMax()))
                 model.addElement(new CardCount(card, ownedCards.count(card)));
         }
     }
@@ -49,7 +49,7 @@ public class SettingsPanel {
         model = new DefaultListModel<CardCount>();
         rePopulateModel(false);
 
-        list = new CardSelectionList(model);
+        CardSelectionList list = new CardSelectionList(model);
         scrollPanel = new JScrollPane(list);
     }
 }

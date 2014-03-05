@@ -7,7 +7,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import javax.swing.*;
 
 /**
- * Created by Andreas on 08-01-14.
+ * @author Andreas
+ * @since 08-01-14
  */
 public final class Card implements Comparable<Card>, IPickable {
     private final String name;
@@ -42,18 +43,16 @@ public final class Card implements Comparable<Card>, IPickable {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("[");
-        builder.append(name).append(", ");
-        builder.append(heroClass).append(", ");
-        builder.append(rarity).append(", ");
-        builder.append(type).append(", ");
-        builder.append(race).append(", ");
-        builder.append(cost).append(", ");
-        builder.append(atk).append(", ");
-        builder.append(health).append(", ");
-        builder.append(description).append("]");
-
-        return builder.toString();
+        return "[" + name +
+                ", " + heroClass +
+                ", " + rarity +
+                ", " + type +
+                ", " + race +
+                ", " + cost +
+                ", " + atk +
+                ", " + health +
+                ", " + description +
+                "]";
     }
 
     @Override
@@ -93,13 +92,14 @@ public final class Card implements Comparable<Card>, IPickable {
                 isEquals();
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public int compareTo(Card c) {
         int compare = new Integer(cost).compareTo(c.cost);
         if (compare == 0) {
             compare = new CardTypeComparator().compare(type, c.type);
             if (compare == 0) {
-                compare =  name.compareTo(c.name);
+                compare = name.compareTo(c.name);
             }
         }
         return compare;
@@ -107,42 +107,51 @@ public final class Card implements Comparable<Card>, IPickable {
 
     @Override
     public void styleButton(JButton button) {
-        button.setText(String.format("%s (%d)", name, cost)  );
+        button.setText(String.format("%s (%d)", name, cost));
         button.setBackground(rarity.toColor());
     }
 
+    @SuppressWarnings("unused")
     public String getName() {
         return name;
     }
 
+    @SuppressWarnings("unused")
     public HeroClass getHeroClass() {
         return heroClass;
     }
 
+    @SuppressWarnings("unused")
     public Rarity getRarity() {
         return rarity;
     }
 
+    @SuppressWarnings("unused")
     public String getType() {
         return type;
     }
 
+    @SuppressWarnings("unused")
     public String getRace() {
         return race;
     }
 
+    @SuppressWarnings("unused")
     public int getCost() {
         return cost;
     }
 
+    @SuppressWarnings("unused")
     public int getAtk() {
         return atk;
     }
 
+    @SuppressWarnings("unused")
     public int getHealth() {
         return health;
     }
 
+    @SuppressWarnings("unused")
     public String getDescription() {
         return description;
     }

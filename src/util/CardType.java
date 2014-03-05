@@ -3,9 +3,10 @@ package util;
 import java.awt.*;
 
 /**
- * Created by Andreas on 22-02-14.
+ * @author Andreas
+ * @since 22-02-14
  */
-public enum  CardType {
+public enum CardType {
     MINION("Minion"),
     SPELL("Spell"),
     WEAPON("Weapon");
@@ -22,16 +23,19 @@ public enum  CardType {
 
     public Color toColor() {
         switch (this) {
-            case MINION:    return Color.ORANGE;
-            case SPELL:      return new Color(0xff66bbff);
-            case WEAPON:      return new Color(0xff964B00);
+            case MINION:
+                return Color.ORANGE;
+            case SPELL:
+                return new Color(0xff66bbff);
+            case WEAPON:
+                return new Color(0xff964B00);
         }
         return null;
     }
 
     public static CardType fromString(String typeString) {
         if (typeString.equalsIgnoreCase("Minion")) return MINION;
-        if (typeString.equalsIgnoreCase("Spell"))  return SPELL;
+        if (typeString.equalsIgnoreCase("Spell")) return SPELL;
         if (typeString.equalsIgnoreCase("Weapon")) return WEAPON;
         return null;
     }

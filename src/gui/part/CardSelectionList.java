@@ -12,18 +12,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
- * Created by Andreas on 12-02-14.
+ * @author Andreas
+ * @since 12-02-14
  */
 public class CardSelectionList extends JList<CardCount> {
-    private DefaultListModel<CardCount> model;
 
-    public CardSelectionList(DefaultListModel<CardCount> cards) {
-        super(cards);
-        model = cards;
+    public CardSelectionList(DefaultListModel<CardCount> model) {
+        super(model);
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // Remove mouselisteners
@@ -42,16 +39,12 @@ public class CardSelectionList extends JList<CardCount> {
 
 
     private class CardSelectionListListener implements MouseListener {
-        boolean pressed = false;
-
         @Override
         public void mouseClicked(MouseEvent e) {
-
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-            pressed = true;
         }
 
         @Override
@@ -61,27 +54,20 @@ public class CardSelectionList extends JList<CardCount> {
             source.setSelectedIndex(index);
 
             CardCount cardCount = source.getSelectedValue();
-            int values = 3;
+            int values = cardCount.card.getRarity().getCardMax() + 1;
             if (SwingUtilities.isRightMouseButton(e)) {
                 cardCount.count -= 1;
                 if (cardCount.count < 0) {
-                    Log.info(String.valueOf(cardCount.count));
                     cardCount.count = values + cardCount.count;
                 }
-
             } else {
                 cardCount.count += 1;
             }
-            if (cardCount.card.getRarity().equals(Rarity.LEGENDARY))
-                cardCount.count %= 2;
-            else
-                cardCount.count %= values;
+            cardCount.count %= values;
 
             // TODO: Only save list in key moments. And only if changed.
             try {
-                CardCount[] cardCountArr = new CardCount[model.size()];
-                model.copyInto(cardCountArr);
-                List<CardCount> cardCounts = Arrays.asList(cardCountArr);
+                CardListLoader.getCardList().setCount(cardCount.card, cardCount.count);
                 CardListLoader.saveCardList();
             } catch (IOException ex) {
                 Log.error("CardSelectionList", ex);
@@ -103,9 +89,9 @@ public class CardSelectionList extends JList<CardCount> {
     }
 
     private class CardCell extends JPanel {
-        private int count;
-        private Color color;
-        private Card card;
+        private final int count;
+        private final Color color;
+        private final Card card;
 
         public CardCell(CardCount cardCount) {
             super();
@@ -126,10 +112,10 @@ public class CardSelectionList extends JList<CardCount> {
             int unitWidth = getWidth() / max;
 
             g.setColor(this.color);
-            g.fillRect(0,0, unitWidth * count, getHeight());
+            g.fillRect(0, 0, unitWidth * count, getHeight());
 
             g.setColor(color.darker().darker());
-            g.drawLine(0,0,getWidth(),0);
+            g.drawLine(0, 0, getWidth(), 0);
         }
     }
 

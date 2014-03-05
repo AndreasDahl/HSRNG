@@ -1,7 +1,8 @@
 package util;
 
 /**
- * Created by Andreas on 12-02-14.
+ * @author Andreas
+ * @since 12-02-14
  */
 public class CardCount implements Comparable<CardCount> {
     public Card card;
@@ -16,6 +17,7 @@ public class CardCount implements Comparable<CardCount> {
         this.count = count;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public int compareTo(CardCount o) {
         return new CardBookComparator().compare(this.card, o.card);

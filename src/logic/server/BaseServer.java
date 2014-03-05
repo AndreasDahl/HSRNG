@@ -12,10 +12,11 @@ import java.io.IOException;
 import java.util.Observable;
 
 /**
- * Created by Andreas on 26-02-14.
+ * @author Andreas
+ * @since 26-02-14
  */
 public abstract class BaseServer extends Observable {
-    private Server server;
+    private final Server server;
     private boolean isStarted = false;
 
     public BaseServer() throws IOException {
@@ -43,10 +44,15 @@ public abstract class BaseServer extends Observable {
     }
 
     protected abstract void ban(Connection player, int choice);
+
     protected abstract void pick(Connection player, int choice);
+
     protected abstract void ready(Connection player);
+
     protected abstract void updatePlayer(Connection player);
+
     protected abstract void addOwnedCards(Connection player, CardCountSlim[] cardCounts);
+
     protected abstract String getTag();
 
     private class GameServerListener extends Listener {
@@ -63,7 +69,7 @@ public abstract class BaseServer extends Observable {
         }
 
         @Override
-        public void received (Connection connection, Object object) {
+        public void received(Connection connection, Object object) {
             if (object instanceof ArenaRequest) {
                 ArenaRequest request = (ArenaRequest) object;
                 ArenaRequest.RequestType type = request.type;

@@ -3,7 +3,8 @@ package util;
 import java.util.Comparator;
 
 /**
- * Created by Andreas on 15-02-14.
+ * @author Andreas
+ * @since 15-02-14
  */
 public class CardBookComparator implements Comparator<Card> {
     @Override

@@ -14,22 +14,22 @@ import util.Rarity;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Created by Andreas on 07-02-14.
+ * @author Andreas
+ * @since 07-02-14
  */
 public class SameArenaGame extends BaseServer {
     public static final int DECK_SIZE = 30;
 
-    public ArrayList<Draft> drafts;
-
+    private ArrayList<Draft> drafts;
     private HashMap<Card, Integer> draftedCards;
-    private List<Card> bans;
+    private Set<Card> bans;
     private HashMap<Connection, Integer> progress;
     private int choices = 3;
     private HeroClass heroClass;
-    private final int deckSize = 30;
     private Rarity[] rarities;
     private double[] odds;
 
@@ -40,7 +40,7 @@ public class SameArenaGame extends BaseServer {
         drafts = new ArrayList<Draft>();
         draftedCards = new HashMap<Card, Integer>();
         progress = new HashMap<Connection, Integer>();
-        bans = new ArrayList<Card>();
+        bans = new HashSet<Card>();
     }
 
     public SameArenaGame setChoices(int choices) {
@@ -115,7 +115,7 @@ public class SameArenaGame extends BaseServer {
     @Override
     protected void updatePlayer(Connection player) {
         int pProg = progress.get(player);
-        IPickable[] pickables =  drafts.get(pProg).getCardsArray();
+        IPickable[] pickables = drafts.get(pProg).getCardsArray();
         player.sendTCP(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, pickables));
     }
 
@@ -127,7 +127,7 @@ public class SameArenaGame extends BaseServer {
         int newProgress = progress.get(player) + 1;
         progress.put(player, newProgress);
 
-        if (newProgress < deckSize)
+        if (newProgress < DECK_SIZE)
             updatePlayer(player);
         else
             player.sendTCP(new ArenaResponse(ArenaResponse.ResponseType.STOP));
@@ -160,8 +160,7 @@ public class SameArenaGame extends BaseServer {
             if (draftedCards.containsKey(card)) {
                 while (banCount > draftedCards.get(card))
                     addCard(card);
-            }
-            else {
+            } else {
                 for (int i = 0; i < banCount; i++) {
                     addCard(card);
                 }

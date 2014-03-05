@@ -4,11 +4,10 @@ import logic.IPickable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
 
 /**
- * Created by Andreas on 25-01-14.
+ * @author Andreas
+ * @since 25-01-14
  */
 public enum HeroClass implements IPickable {
     WARRIOR("Warrior", new Color(0xC79C6E)),
@@ -47,20 +46,16 @@ public enum HeroClass implements IPickable {
     }
 
     public static HeroClass fromString(String clss) {
-        if (clss.equalsIgnoreCase("Warrior"))   return WARRIOR;
-        if (clss.equalsIgnoreCase("Shaman"))    return SHAMAN;
-        if (clss.equalsIgnoreCase("Rogue"))     return ROGUE;
-        if (clss.equalsIgnoreCase("Paladin"))   return PALADIN;
-        if (clss.equalsIgnoreCase("Hunter"))    return HUNTER;
-        if (clss.equalsIgnoreCase("Druid"))     return DRUID;
-        if (clss.equalsIgnoreCase("Warlock"))   return WARLOCK;
-        if (clss.equalsIgnoreCase("Mage"))      return MAGE;
-        if (clss.equalsIgnoreCase("Priest"))    return PRIEST;
+        if (clss.equalsIgnoreCase("Warrior")) return WARRIOR;
+        if (clss.equalsIgnoreCase("Shaman")) return SHAMAN;
+        if (clss.equalsIgnoreCase("Rogue")) return ROGUE;
+        if (clss.equalsIgnoreCase("Paladin")) return PALADIN;
+        if (clss.equalsIgnoreCase("Hunter")) return HUNTER;
+        if (clss.equalsIgnoreCase("Druid")) return DRUID;
+        if (clss.equalsIgnoreCase("Warlock")) return WARLOCK;
+        if (clss.equalsIgnoreCase("Mage")) return MAGE;
+        if (clss.equalsIgnoreCase("Priest")) return PRIEST;
         return ALL;
-    }
-
-    public static List<HeroClass> getHeroList() {
-        return Arrays.asList(HEROES);
     }
 
     @Override

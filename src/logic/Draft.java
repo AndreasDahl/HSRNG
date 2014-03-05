@@ -6,14 +6,14 @@ import util.HeroClass;
 import util.RandUtil;
 import util.Rarity;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by Andreas on 11-01-14.
+ * @author Andreas
+ * @since 11-01-14
  */
 public class Draft {
-    public static final Rarity[] RARITIES = {
+    private static final Rarity[] RARITIES = {
             Rarity.COMMON,
             Rarity.RARE,
             Rarity.EPIC,
@@ -26,18 +26,18 @@ public class Draft {
     private int choices;
     private Rarity rarity;
     private Card[] cards;
-    private List<Card> bans;
+    private Set<Card> bans;
     private HeroClass heroClass;
 
-    public Draft(int choices, HeroClass clss) throws IOException {
-        this(choices, clss, new ArrayList<Card>());
+    public Draft(int choices, HeroClass clss) {
+        this(choices, clss, new HashSet<Card>());
     }
 
-    public Draft(int choices, HeroClass clss, List<Card> bans) {
+    public Draft(int choices, HeroClass clss, Set<Card> bans) {
         init(choices, clss, bans);
     }
 
-    private void init(int choices, HeroClass clss, List<Card> bans) {
+    private void init(int choices, HeroClass clss, Set<Card> bans) {
         this.choices = choices;
         this.bans = bans;
         this.cl = CardLoader.getInstance();
@@ -49,10 +49,6 @@ public class Draft {
         this.possibleRarities = rarities;
         this.odds = odds;
         return this;
-    }
-
-    public List<Card> getCards() {
-        return Arrays.asList(cards);
     }
 
     public Card[] getCardsArray() {
@@ -92,7 +88,7 @@ public class Draft {
                         index = j;
                 }
                 if (index > 0) {
-                    return generateCard(possibleRarities[index-1]);
+                    return generateCard(possibleRarities[index - 1]);
                 }
             }
             System.err.println("Rarity: " + rarity);

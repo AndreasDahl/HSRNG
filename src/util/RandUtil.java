@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Andreas on 11-01-14.
- * @author Andreas Dahl
+ * @author Andreas
+ * @since 11-01-14
  */
 public class RandUtil<E> {
     private static Random random;
@@ -37,7 +37,7 @@ public class RandUtil<E> {
                         pick += 1;
                 }
                 oldPicks[pick] = true;
-                res[res.length-amount] = arr[pick];
+                res[res.length - amount] = arr[pick];
                 amount--;
             }
             return res;
@@ -75,6 +75,7 @@ public class RandUtil<E> {
         return getRandomObject(allowed);
     }
 
+    @SuppressWarnings("unused")
     public static <T> T getRandomObject(T[] arr) {
         Random rand = RandUtil.getInstance();
         int i = rand.nextInt(arr.length);
@@ -83,7 +84,7 @@ public class RandUtil<E> {
 
     public static <T> T getRandomObject(List<T> list) {
         Random rand = RandUtil.getInstance();
-        int i =  rand.nextInt(list.size());
+        int i = rand.nextInt(list.size());
         return list.get(i);
     }
 
@@ -124,6 +125,6 @@ public class RandUtil<E> {
             if (tmp > roll)
                 return obs[i];
         }
-        return obs[obs.length-1];
+        return obs[obs.length - 1];
     }
 }

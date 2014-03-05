@@ -12,7 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
- * Created by Andreas on 24-02-14.
+ * @author Andreas
+ * @since 24-02-14
  */
 public class LocalArenaPanel extends JPanel {
     private JPanel root;
@@ -23,7 +24,7 @@ public class LocalArenaPanel extends JPanel {
     public LocalArenaPanel() {
         ActionMap actionMap = root.getActionMap();
         int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        InputMap inputMap = root.getInputMap(condition );
+        InputMap inputMap = root.getInputMap(condition);
 
         String vkEnter = "VK_ENTER";
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), vkEnter);

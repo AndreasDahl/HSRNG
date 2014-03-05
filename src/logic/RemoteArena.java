@@ -14,16 +14,17 @@ import util.CardCountSlim;
 import java.io.IOException;
 
 /**
- * Created by Andreas on 06-02-14.
+ * @author Andreas
+ * @since 06-02-14
  */
 public class RemoteArena extends AbstractArena {
-    private static String TAG = "RemoteArena";
+    private static final String TAG = "RemoteArena";
 
-    private Client client;
+    private final Client client;
     private CardCountSlim[] ownedCards;
 
     public RemoteArena(String ip) throws IOException {
-        this.client = new Client(8192 , 6144);
+        this.client = new Client(8192, 6144);
         KryoUtil.register(client.getKryo());
         client.addListener(new RemoteArenaListener());
         client.start();
@@ -55,7 +56,7 @@ public class RemoteArena extends AbstractArena {
     }
 
     @Override
-    public void pick(int choice) throws IOException {
+    public void pick(int choice) {
         Log.info(TAG, "SENDING: PICK");
         client.sendTCP(new ArenaRequest(ArenaRequest.RequestType.PICK, choice));
     }
@@ -66,13 +67,8 @@ public class RemoteArena extends AbstractArena {
         client.sendTCP(new ArenaRequest(ArenaRequest.RequestType.UPDATE));
     }
 
-    @Override
-    public RemoteArena clone() {
-        return null;
-    }
-
     private class RemoteArenaListener extends Listener {
-        public void received (Connection connection, Object object) {
+        public void received(Connection connection, Object object) {
             if (object instanceof ArenaResponse) {
                 ArenaResponse response = (ArenaResponse) object;
                 Log.info(TAG, "RECIEVED: " + response.type + " - " + response.argument);

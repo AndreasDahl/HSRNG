@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Andreas on 08-01-14.
+ * @author Andreas
+ * @since 08-01-14
  */
 public class CardLoader {
     private static final String DB_PATH = "/res/cards.csv";
@@ -51,15 +52,15 @@ public class CardLoader {
             List<String[]> rawLines = reader.readAll();
             for (String[] c : rawLines) {
                 Card card = new Card(
-                    c[0],
-                    HeroClass.fromString(c[1]),
-                    Rarity.fromString(c[2]),
-                    c[3],
-                    c[4],
-                    getCost(c[5]),
-                    getCost(c[6]),
-                    getCost(c[7]),
-                    c[8]
+                        c[0],
+                        HeroClass.fromString(c[1]),
+                        Rarity.fromString(c[2]),
+                        c[3],
+                        c[4],
+                        getCost(c[5]),
+                        getCost(c[6]),
+                        getCost(c[7]),
+                        c[8]
                 );
 
                 // Add card to correct indexes
@@ -106,6 +107,7 @@ public class CardLoader {
         }
     }
 
+    @SuppressWarnings("unused")
     public ImmutableSet<Card> getCardsAvailable(HeroClass heroClass) {
         Set<Card> retSet = new HashSet<Card>(heroIndex.get(HeroClass.ALL));
         retSet.addAll(heroIndex.get(heroClass));
@@ -149,7 +151,6 @@ public class CardLoader {
     public Card getCard(String name) {
         return nameIndex.get(name);
     }
-
 
 
 }

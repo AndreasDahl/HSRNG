@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Andreas on 24-02-14.
+ * @author Andreas
+ * @since 24-02-14
  */
 public class PossibleDrawComp {
     private JCheckBox commonCheckBox;

@@ -11,12 +11,12 @@ import java.io.*;
 import java.util.Properties;
 
 /**
- * Created by Andreas on 12-02-14.
- * @author Andreas Dahl
+ * @author Andreas
+ * @since 12-02-14
  */
 public class CardListLoader {
     private static final String FILE_NAME = "owned_cards.properties";
-    private static final String FILE_DIR = System.getenv("APPDATA")+"/HSRNG";
+    private static final String FILE_DIR = System.getenv("APPDATA") + "/HSRNG";
     private static final String FULL_PATH = FILE_DIR + "/" + FILE_NAME;
     private static final String VERSION_TAG = "version";
     private static final String VERSION = "1";
@@ -29,7 +29,7 @@ public class CardListLoader {
         return mainCardList;
     }
 
-    private static void addMissingCard(Multiset<Card> cardList, Card card) throws IOException {
+    private static void addMissingCard(Multiset<Card> cardList, Card card) {
         if (card.getRarity().equals(Rarity.BASIC)) {
             cardList.add(card, 2);
         } else {
@@ -45,6 +45,7 @@ public class CardListLoader {
 
             File file = new File(FULL_PATH);
             // Try load properties file
+            //noinspection ResultOfMethodCallIgnored
             file.getParentFile().mkdirs();
             if (!file.createNewFile()) {
                 prop.load(new BufferedReader(new FileReader(file)));
@@ -67,6 +68,7 @@ public class CardListLoader {
         }
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void saveCardList() throws IOException {
         File file = new File(FULL_PATH);
 
@@ -76,7 +78,7 @@ public class CardListLoader {
         Properties prop = new Properties();
 
         prop.setProperty(VERSION_TAG, VERSION);
-        for (Card card : mainCardList) {
+        for (Card card : CardLoader.getInstance().getAllCards()) {
             prop.setProperty(card.getName(), String.valueOf(mainCardList.count(card)));
         }
         prop.store(new FileOutputStream(file), null);

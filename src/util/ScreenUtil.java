@@ -6,7 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Andreas on 04-02-14.
+ * @author Andreas
+ * @since 04-02-14
  */
 public class ScreenUtil {
     public static void setFramePosition(Component fromFrame, JFrame toFrame) {

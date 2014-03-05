@@ -15,16 +15,14 @@ import java.util.Observer;
 
 /**
  * @author Andreas
- * @since 15-02-14.
+ * @since 15-02-14
  */
 public class ServerGUI implements Observer {
-    private static JFrame frame;
-
     private JButton startButton;
     private JPanel panel;
     private JList<String> joinedList;
 
-    public ServerGUI(final BaseServer game) {
+    private ServerGUI(final BaseServer game) {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,24 +42,36 @@ public class ServerGUI implements Observer {
         ServerGUI gui = new ServerGUI(game);
         game.addObserver(gui);
 
-        frame = new JFrame("Server");
+        JFrame frame = new JFrame("Server");
         frame.addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
                 game.close();
             }
+
             @Override
-            public void windowOpened(WindowEvent e) {}
+            public void windowOpened(WindowEvent e) {
+            }
+
             @Override
-            public void windowClosed(WindowEvent e) {}
+            public void windowClosed(WindowEvent e) {
+            }
+
             @Override
-            public void windowIconified(WindowEvent e) {}
+            public void windowIconified(WindowEvent e) {
+            }
+
             @Override
-            public void windowDeiconified(WindowEvent e) {}
+            public void windowDeiconified(WindowEvent e) {
+            }
+
             @Override
-            public void windowActivated(WindowEvent e) {}
+            public void windowActivated(WindowEvent e) {
+            }
+
             @Override
-            public void windowDeactivated(WindowEvent e) {}
+            public void windowDeactivated(WindowEvent e) {
+            }
         });
 
         frame.add(gui.panel);

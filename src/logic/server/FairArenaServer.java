@@ -16,11 +16,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by Andreas on 26-02-14.
+ * @author Andreas
+ * @since 26-02-14
  */
 public class FairArenaServer extends BaseServer {
-    private HashMap<Connection, Arena> arenas;
-    private Multiset<Card> availableCards;
+    private final HashMap<Connection, Arena> arenas;
+    private final Multiset<Card> availableCards;
     private Integer choices;
     private Rarity[] rarities;
 
@@ -94,7 +95,7 @@ public class FairArenaServer extends BaseServer {
     }
 
     private class ArenaObserver implements Observer {
-        private Connection player;
+        private final Connection player;
 
         public ArenaObserver(Connection player) {
             this.player = player;
