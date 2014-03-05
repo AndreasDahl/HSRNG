@@ -1,12 +1,15 @@
 package logic;
 
+import com.google.common.collect.Multiset;
 import net.response.ArenaResponse;
-import util.*;
+import util.Card;
+import util.HeroClass;
+import util.RandUtil;
+import util.Rarity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Andreas on 11-01-14.
@@ -86,16 +89,16 @@ public class Arena extends AbstractArena {
     }
 
     @Override
-    public Arena addOwnedCards(List<CardCount> ownedCards) {
-        for (CardCount cardCount : ownedCards) {
+    public Arena addOwnedCards(Multiset<Card> ownedCards) {
+        for (Card card : ownedCards.elementSet()) {
             int cardLimit;
-            if (cardCount.card.getRarity().equals(Rarity.LEGENDARY)) {
+            if (card.getRarity().equals(Rarity.LEGENDARY)) {
                 cardLimit = 1;
             } else {
                 cardLimit = 2;
             }
-            for (int i = 0; i < (cardLimit - cardCount.count); i++) {
-                addCard(cardCount.card);
+            for (int i = 0; i < (cardLimit - ownedCards.count(card)); i++) {
+                addCard(card);
             }
         }
         return this;

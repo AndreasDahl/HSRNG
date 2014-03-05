@@ -1,14 +1,13 @@
 package io;
 
 import com.esotericsoftware.minlog.Log;
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multiset;
 import util.Card;
-import util.CardCount;
 import util.Rarity;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -21,26 +20,26 @@ public class CardListLoader {
     private static final String FULL_PATH = FILE_DIR + "/" + FILE_NAME;
     private static final String VERSION_TAG = "version";
     private static final String VERSION = "1";
-    private static List<CardCount> mainCardList;
+    private static Multiset<Card> mainCardList;
 
-    public static List<CardCount> getCardList() {
+    public static Multiset<Card> getCardList() {
         if (mainCardList == null) {
             loadCardList();
         }
         return mainCardList;
     }
 
-    private static void addMissingCard(List<CardCount> cardList, Card card) throws IOException {
+    private static void addMissingCard(Multiset<Card> cardList, Card card) throws IOException {
         if (card.getRarity().equals(Rarity.BASIC)) {
-            cardList.add(new CardCount(card, 2));
+            cardList.add(card, 2);
         } else {
-            cardList.add(new CardCount(card, 0));
+            cardList.add(card, 0);
         }
     }
 
     private static void loadCardList() {
         try {
-            List<CardCount> cardList = new ArrayList<CardCount>();
+            Multiset<Card> cardList = HashMultiset.create();
             CardLoader cl = CardLoader.getInstance();
             Properties prop = new Properties();
 
@@ -59,7 +58,7 @@ public class CardListLoader {
                 if (propRes == null)
                     addMissingCard(cardList, card);
                 else
-                    cardList.add(new CardCount(card, Integer.parseInt(propRes)));
+                    cardList.add(card, Integer.parseInt(propRes));
             }
             mainCardList = cardList;
         } catch (IOException e) {
@@ -77,8 +76,8 @@ public class CardListLoader {
         Properties prop = new Properties();
 
         prop.setProperty(VERSION_TAG, VERSION);
-        for (CardCount cardCount : mainCardList) {
-            prop.setProperty(cardCount.card.getName(), String.valueOf(cardCount.count));
+        for (Card card : mainCardList) {
+            prop.setProperty(card.getName(), String.valueOf(mainCardList.count(card)));
         }
         prop.store(new FileOutputStream(file), null);
     }

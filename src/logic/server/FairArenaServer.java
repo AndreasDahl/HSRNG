@@ -2,6 +2,8 @@ package logic.server;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.minlog.Log;
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 import io.CardLoader;
 import logic.Arena;
 import util.Card;
@@ -18,13 +20,13 @@ import java.util.Observer;
  */
 public class FairArenaServer extends BaseServer {
     private HashMap<Connection, Arena> arenas;
-    private HashMap<Card, Integer> availableCards;
+    private Multiset<Card> availableCards;
     private Integer choices;
     private Rarity[] rarities;
 
     public FairArenaServer() throws IOException {
         arenas = new HashMap<Connection, Arena>();
-        availableCards = new HashMap<Card, Integer>();
+        availableCards = HashMultiset.create();
     }
 
     public FairArenaServer setChoices(int choices) {
@@ -81,11 +83,8 @@ public class FairArenaServer extends BaseServer {
         CardLoader cl = CardLoader.getInstance();
         for (CardCountSlim cardCountSlim : cardCounts) {
             Card card = cl.getCard(cardCountSlim.card);
-            if (availableCards.containsKey(card)) {
-                availableCards.put(card, Math.min(cardCountSlim.count, availableCards.get(card)));
-            } else {
-                availableCards.put(card, cardCountSlim.count);
-            }
+            availableCards.setCount(card, Math.min(cardCountSlim.count, availableCards.count(card)));
+
         }
     }
 

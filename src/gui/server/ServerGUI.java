@@ -14,7 +14,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by Andreas on 15-02-14.
+ * @author Andreas
+ * @since 15-02-14.
  */
 public class ServerGUI implements Observer {
     private static JFrame frame;
@@ -22,7 +23,6 @@ public class ServerGUI implements Observer {
     private JButton startButton;
     private JPanel panel;
     private JList<String> joinedList;
-    private JSpinner choicesSpinner;
 
     public ServerGUI(final BaseServer game) {
         startButton.addActionListener(new ActionListener() {
@@ -50,7 +50,6 @@ public class ServerGUI implements Observer {
             public void windowClosing(WindowEvent e) {
                 game.close();
             }
-
             @Override
             public void windowOpened(WindowEvent e) {}
             @Override
@@ -69,16 +68,6 @@ public class ServerGUI implements Observer {
         frame.pack();
         ScreenUtil.setFramePosition(MainPanel.getMainFrame(), frame);
         frame.setVisible(true);
-    }
-
-    private void createUIComponents() {
-        // Choices Spinner
-        choicesSpinner = new JSpinner();
-        SpinnerNumberModel snm = new SpinnerNumberModel();
-        snm.setMinimum(1);
-        snm.setMaximum(9);
-        snm.setValue(3);
-        choicesSpinner.setModel(snm);
     }
 
     @Override

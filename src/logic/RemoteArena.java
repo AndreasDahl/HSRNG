@@ -4,14 +4,14 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import com.google.common.collect.Multiset;
 import net.KryoUtil;
 import net.request.ArenaRequest;
 import net.response.ArenaResponse;
-import util.CardCount;
+import util.Card;
 import util.CardCountSlim;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by Andreas on 06-02-14.
@@ -38,10 +38,12 @@ public class RemoteArena extends AbstractArena {
     }
 
     @Override
-    public RemoteArena addOwnedCards(List<CardCount> ownedCards) {
+    public RemoteArena addOwnedCards(Multiset<Card> ownedCards) {
         this.ownedCards = new CardCountSlim[ownedCards.size()];
-        for (int i = 0; i < ownedCards.size(); i++) {
-            this.ownedCards[i] = new CardCountSlim(ownedCards.get(i).card.getName(), ownedCards.get(i).count);
+        int i = 0;
+        for (Card card : ownedCards.elementSet()) {
+            this.ownedCards[i] = new CardCountSlim(card.getName(), ownedCards.count(card));
+            i++;
         }
         return this;
     }
