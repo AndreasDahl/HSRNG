@@ -2,12 +2,14 @@ package logic.server;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.minlog.Log;
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.Multiset;
 import io.CardLoader;
 import logic.Draft;
 import logic.IPickable;
 import net.response.ArenaResponse;
 import util.Card;
-import util.CardCountSlim;
 import util.HeroClass;
 import util.Rarity;
 
@@ -24,10 +26,10 @@ import java.util.Set;
 public class SameArenaGame extends BaseServer {
     public static final int DECK_SIZE = 30;
 
+    private final Multiset<Card> draftedCards;
+    private final Set<Card> bans;
+    private final HashMap<Connection, Integer> progress;
     private ArrayList<Draft> drafts;
-    private HashMap<Card, Integer> draftedCards;
-    private Set<Card> bans;
-    private HashMap<Connection, Integer> progress;
     private int choices = 3;
     private HeroClass heroClass;
     private Rarity[] rarities;
@@ -38,7 +40,7 @@ public class SameArenaGame extends BaseServer {
 
         this.heroClass = heroClass;
         drafts = new ArrayList<Draft>();
-        draftedCards = new HashMap<Card, Integer>();
+        draftedCards = HashMultiset.create();
         progress = new HashMap<Connection, Integer>();
         bans = new HashSet<Card>();
     }
@@ -97,14 +99,9 @@ public class SameArenaGame extends BaseServer {
     }
 
     private void addCard(Card card) {
-        if (card.getRarity().equals(Rarity.LEGENDARY)) {
+        draftedCards.add(card);
+        if (draftedCards.count(card) >= card.getRarity().getCardMax())
             bans.add(card);
-        } else if (draftedCards.containsKey(card)) {
-            bans.add(card);
-            draftedCards.put(card, 2);
-        } else {
-            draftedCards.put(card, 1);
-        }
     }
 
     private IPickable[] getPlayerPickables(Connection player) {
@@ -145,26 +142,14 @@ public class SameArenaGame extends BaseServer {
     }
 
     @Override
-    protected void addOwnedCards(Connection player, CardCountSlim[] cardCounts) {
-        CardLoader cl = CardLoader.getInstance();
-        for (CardCountSlim cardCount : cardCounts) {
-            Card card = cl.getCard(cardCount.card);
-            int cardLimit;
-            if (card.getRarity().equals(Rarity.LEGENDARY)) {
-                cardLimit = 1;
-            } else {
-                cardLimit = 2;
-            }
-            int banCount = cardLimit - cardCount.count;
+    protected void addOwnedCards(Connection player, ImmutableMultiset<Card> cardCounts) {
+        Set<Card> allCards = CardLoader.getInstance().getAllCards();
+        for (Card card : allCards) {
+            int cardLimit = card.getRarity().getCardMax();
+            int banCount = cardLimit - cardCounts.count(card);
 
-            if (draftedCards.containsKey(card)) {
-                while (banCount > draftedCards.get(card))
-                    addCard(card);
-            } else {
-                for (int i = 0; i < banCount; i++) {
-                    addCard(card);
-                }
-            }
+            while (banCount > draftedCards.count(card))
+                addCard(card);
         }
     }
 

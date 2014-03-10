@@ -3,11 +3,11 @@ package logic.server;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.minlog.Log;
 import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.Multiset;
-import io.CardLoader;
+import com.google.common.collect.Multisets;
 import logic.Arena;
 import util.Card;
-import util.CardCountSlim;
 import util.Rarity;
 
 import java.io.IOException;
@@ -80,13 +80,8 @@ public class FairArenaServer extends BaseServer {
     }
 
     @Override
-    protected void addOwnedCards(Connection player, CardCountSlim[] cardCounts) {
-        CardLoader cl = CardLoader.getInstance();
-        for (CardCountSlim cardCountSlim : cardCounts) {
-            Card card = cl.getCard(cardCountSlim.card);
-            availableCards.setCount(card, Math.min(cardCountSlim.count, availableCards.count(card)));
-
-        }
+    protected void addOwnedCards(Connection player, ImmutableMultiset<Card> cardCounts) {
+        Multisets.retainOccurrences(availableCards, cardCounts);
     }
 
     @Override

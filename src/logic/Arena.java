@@ -2,6 +2,7 @@ package logic;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+import io.CardLoader;
 import net.response.ArenaResponse;
 import util.Card;
 import util.HeroClass;
@@ -75,13 +76,10 @@ public class Arena extends AbstractArena {
 
     @Override
     public Arena addOwnedCards(Multiset<Card> ownedCards) {
-        for (Card card : ownedCards.elementSet()) {
-            int cardLimit;
-            if (card.getRarity().equals(Rarity.LEGENDARY)) {
-                cardLimit = 1;
-            } else {
-                cardLimit = 2;
-            }
+        Set<Card> allCards = CardLoader.getInstance().getAllCards();
+
+        for (Card card : allCards) {
+            int cardLimit = card.getRarity().getCardMax();
             for (int i = 0; i < (cardLimit - ownedCards.count(card)); i++) {
                 addCard(card);
             }

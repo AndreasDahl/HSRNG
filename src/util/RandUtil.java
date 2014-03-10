@@ -10,7 +10,7 @@ import java.util.Random;
  * @author Andreas
  * @since 11-01-14
  */
-public class RandUtil<E> {
+public class RandUtil {
     private static Random random;
 
     public static Random getInstance() {
@@ -63,7 +63,7 @@ public class RandUtil<E> {
         }
     }
 
-    public static <T> T getRandomObject(List<T> list, List<T> bans) {
+    public static <T> T getRandomObject(List<T> list, Collection<T> bans) {
         ArrayList<T> allowed = new ArrayList<T>();
         for (T o : list) {
             if (!bans.contains(o)) {
@@ -75,7 +75,6 @@ public class RandUtil<E> {
         return getRandomObject(allowed);
     }
 
-    @SuppressWarnings("unused")
     public static <T> T getRandomObject(T[] arr) {
         Random rand = RandUtil.getInstance();
         int i = rand.nextInt(arr.length);
@@ -88,27 +87,16 @@ public class RandUtil<E> {
         return list.get(i);
     }
 
-    public static Card getRandomCard(List<Card> cardList) {
-        return getRandomObject(cardList);
-    }
-
-    public static Card getRandomCard(Collection<Card> cardList, Collection<Card> bans) {
-        ArrayList<Card> allowedCards = new ArrayList<Card>();
-        for (Card card : cardList) {
+    public static <T> T getRandomObject(Collection<T> cardList, Collection<T> bans) {
+        ArrayList<T> allowedCards = new ArrayList<T>();
+        for (T card : cardList) {
             if (!bans.contains(card))
                 allowedCards.add(card);
         }
         if (allowedCards.size() < 1) {
-            System.err.println("CardList: " + cardList.size());
-            for (Card card : cardList)
-                System.err.println(card.toString());
-            System.err.println("Bans: " + bans.size());
-            for (Card card : bans)
-                System.err.println(card.toString());
-
             throw new IllegalArgumentException("No cards left...");
         }
-        return getRandomCard(allowedCards);
+        return getRandomObject(allowedCards);
     }
 
     public static <T> T getRandomByOdds(T[] obs, double[] odds) {

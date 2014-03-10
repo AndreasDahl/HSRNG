@@ -79,7 +79,7 @@ public class Draft {
         banSum.addAll(Arrays.asList(cards));
         banSum.removeAll(Collections.singleton(null));
         try {
-            return RandUtil.getRandomCard(cardpool, banSum);
+            return RandUtil.getRandomObject(cardpool, banSum);
         } catch (IllegalArgumentException e) {
             if (possibleRarities != null) {
                 int index = 0;

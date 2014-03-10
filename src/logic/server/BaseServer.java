@@ -4,8 +4,11 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
+import com.google.common.collect.ImmutableMultiset;
+import io.CardLoader;
 import net.KryoUtil;
 import net.request.ArenaRequest;
+import util.Card;
 import util.CardCountSlim;
 
 import java.io.IOException;
@@ -51,7 +54,7 @@ public abstract class BaseServer extends Observable {
 
     protected abstract void updatePlayer(Connection player);
 
-    protected abstract void addOwnedCards(Connection player, CardCountSlim[] cardCounts);
+    protected abstract void addOwnedCards(Connection player, ImmutableMultiset<Card> cardCounts);
 
     protected abstract String getTag();
 
@@ -85,8 +88,17 @@ public abstract class BaseServer extends Observable {
 //                        updatePlayer(connection);
                         break;
                     case READY:
-                        if (request.argument instanceof CardCountSlim[])
-                            addOwnedCards(connection, (CardCountSlim[]) request.argument);
+                        if (request.argument instanceof CardCountSlim[]) {
+                            CardLoader cl = CardLoader.getInstance();
+                            CardCountSlim[] slimArray = (CardCountSlim[]) request.argument;
+                            ImmutableMultiset.Builder<Card> ownedCardsBuilder = ImmutableMultiset.builder();
+                            for (CardCountSlim cardCountSlim : slimArray) {
+                                Log.debug(cardCountSlim.card + " " + cardCountSlim.count);
+                                ownedCardsBuilder.setCount(cl.getCard(cardCountSlim.card), cardCountSlim.count);
+                            }
+                            addOwnedCards(connection, ownedCardsBuilder.build());
+                        }
+
                         ready(connection);
                         break;
                 }

@@ -10,16 +10,18 @@ import javax.swing.*;
  * @author Andreas
  * @since 08-01-14
  */
-public final class Card implements Comparable<Card>, IPickable {
-    private final String name;
-    private final HeroClass heroClass;
-    private final Rarity rarity;
-    private final String type;
-    private final String race;
-    private final int cost;
-    private final int atk;
-    private final int health;
-    private final String description;
+public class Card implements Comparable<Card>, IPickable {
+    private String name;
+    private HeroClass heroClass;
+    private Rarity rarity;
+    private String type;
+    private String race;
+    private int cost;
+    private int atk;
+    private int health;
+    private String description;
+
+    public Card() {}
 
     public Card(String name,
                 HeroClass heroClass,
