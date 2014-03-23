@@ -3,7 +3,6 @@ package gui.arena;
 import com.esotericsoftware.minlog.Log;
 import gui.main.MainPanel;
 import logic.AbstractArena;
-import logic.Arena;
 import logic.IPickable;
 import net.response.ArenaResponse;
 import util.Card;
@@ -14,58 +13,26 @@ import util.ScreenUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
  * @author Andreas
- * @since 25-01-14
+ * @since 17-03-14
  */
-public class ArenaPanel extends JPanel implements ActionListener, Observer {
+public class ArenaPanel implements Observer, ActionListener {
     public static JFrame frame;
 
-    private final PickList pickList;
-    private final JPanel buttonPanel;
-    private final ManaCurve manaCurve;
-    private final AbstractArena arena;
+    private JPanel buttonPanel;
+    private JPanel mainPanel;
+    private PickList pickList;
+    private ManaCurve manaCurve;
+    private AbstractArena arena;
     private JButton[] buttons;
 
     private ArenaPanel(AbstractArena arena) {
         this.arena = arena;
         arena.addObserver(this);
-
-        GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        this.setLayout(layout);
-        c.fill = GridBagConstraints.VERTICAL;
-
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridBagLayout());
-
-        buttonPanel.setPreferredSize(new Dimension(200, -1));
-        c.fill = GridBagConstraints.VERTICAL;
-        c.gridx = 1;
-        c.gridy = 0;
-        add(buttonPanel, c);
-
-        pickList = new PickList();
-        pickList.setOpaque(true);
-        pickList.setBackground(Color.WHITE);
-        pickList.setPreferredSize(new Dimension(200, -1));
-        c.fill = GridBagConstraints.VERTICAL;
-        c.ipady = 550;
-        c.gridx = 0;
-        c.gridy = 0;
-        add(pickList, c);
-
-        manaCurve = new ManaCurve();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 100;
-        c.gridwidth = 2;
-        c.gridx = 0;
-        c.gridy = 2;
-        add(manaCurve, c);
 
         setKeyBindings();
 
@@ -74,59 +41,14 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
     }
 
     private void setKeyBindings() {
-        ActionMap actionMap = getActionMap();
+        ActionMap actionMap = mainPanel.getActionMap();
         int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        InputMap inputMap = getInputMap(condition);
+        InputMap inputMap = mainPanel.getInputMap(condition);
 
         String vkR = "VK_R";
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), vkR);
 
         actionMap.put(vkR, new KeyAction(vkR));
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof AbstractArena && arg instanceof ArenaResponse) {
-            ArenaResponse up = (ArenaResponse) arg;
-            Log.info("ArenaPanel", up.type.toString());
-            switch (up.type) {
-                case PICK:
-                    if (up.argument instanceof HeroClass) {
-                        pickList.setTitle(up.argument.toString());
-                    } else if (up.argument instanceof Card) {
-                        Card card = (Card) up.argument;
-                        manaCurve.add(card.getCost(), CardType.fromString(card.getType()));
-                        pickList.addCard(card);
-                    }
-                    break;
-                case CHOICES:
-                    if (up.argument instanceof IPickable[]) {
-                        updateButtons((IPickable[]) up.argument);
-                    } else {
-                        JOptionPane.showMessageDialog(frame, "Invalid ArenaResponse: " + up.argument.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    break;
-                case STOP:
-                    remove(buttonPanel);
-                    revalidate();
-                    repaint();
-            }
-        }
-    }
-
-
-    private class KeyAction extends AbstractAction {
-        public KeyAction(String actionCommand) {
-            putValue(ACTION_COMMAND_KEY, actionCommand);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent actionEvt) {
-            MainPanel.init();
-            ScreenUtil.setFramePosition(frame, MainPanel.getMainFrame());
-            frame.setVisible(false);
-            frame = null;
-        }
     }
 
     @Override
@@ -152,6 +74,20 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
         }
     }
 
+    private class KeyAction extends AbstractAction {
+        public KeyAction(String actionCommand) {
+            putValue(ACTION_COMMAND_KEY, actionCommand);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvt) {
+            MainPanel.init();
+            ScreenUtil.setFramePosition(frame, MainPanel.getMainFrame());
+            frame.setVisible(false);
+            frame = null;
+        }
+    }
+
     private void updateButtons(IPickable[] pickables) {
         buttons = new JButton[pickables.length];
         buttonPanel.removeAll();
@@ -161,9 +97,9 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
             buttons[i].addActionListener(this);
             buttons[i].addMouseListener(new ArenaMouseAdapter());
             pickables[i].styleButton(buttons[i]);
-            c.fill = GridBagConstraints.VERTICAL;
-            buttons[i].setPreferredSize(new Dimension(200, -1));
+            c.fill = GridBagConstraints.BOTH;
             c.weighty = 1;
+            c.weightx = 1;
             c.gridx = 1;
             c.gridy = i;
             buttonPanel.add(buttons[i], c);
@@ -223,18 +159,43 @@ public class ArenaPanel extends JPanel implements ActionListener, Observer {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        init(new Arena());
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof AbstractArena && arg instanceof ArenaResponse) {
+            ArenaResponse up = (ArenaResponse) arg;
+            Log.info("ArenaPanel", up.type.toString());
+            switch (up.type) {
+                case PICK:
+                    if (up.argument instanceof HeroClass) {
+                        pickList.setTitle(up.argument.toString());
+                    } else if (up.argument instanceof Card) {
+                        Card card = (Card) up.argument;
+                        manaCurve.add(card.getCost(), CardType.fromString(card.getType()));
+                        pickList.addCard(card);
+                    }
+                    break;
+                case CHOICES:
+                    if (up.argument instanceof IPickable[]) {
+                        updateButtons((IPickable[]) up.argument);
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Invalid ArenaResponse: " + up.argument.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    break;
+                case STOP:
+                    mainPanel.remove(buttonPanel);
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
+            }
+        }
     }
 
     public static void init(AbstractArena arena) {
         frame = new JFrame("Arena");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.add(new ArenaPanel(arena));
+        ArenaPanel panel = new ArenaPanel(arena);
+        frame.add(panel.mainPanel);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }
-

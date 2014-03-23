@@ -1,7 +1,6 @@
 package gui.main;
 
 import com.esotericsoftware.minlog.Log;
-import gui.part.CardSelectionList;
 
 import javax.swing.*;
 
@@ -14,9 +13,6 @@ public class MainPanel {
     public static final int LOG_LEVEL = Log.LEVEL_DEBUG;
 
     private JPanel panel1;
-    private JTabbedPane tabbedPane1;
-    private JTabbedPane tabbedPane2;
-    private CardSelectionList list;
 
     private static JFrame frame;
     private static MainPanel instance;
@@ -45,7 +41,8 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                        "- You can now hide card completed in your collection from the card selection list",
+                        "- Arena frame now resizeable" +
+                        "- ",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 }
