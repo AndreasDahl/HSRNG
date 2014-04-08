@@ -6,17 +6,17 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.Multiset;
 import io.CardLoader;
-import logic.Draft;
-import logic.IPickable;
+import logic.draft.ArenaFactory;
+import logic.draft.Draft;
 import net.response.ArenaResponse;
 import util.Card;
 import util.HeroClass;
+import util.IPickable;
 import util.Rarity;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -27,27 +27,18 @@ public class SameArenaGame extends BaseServer {
     public static final int DECK_SIZE = 30;
 
     private final Multiset<Card> draftedCards;
-    private final Set<Card> bans;
     private final HashMap<Connection, Integer> progress;
-    private ArrayList<Draft> drafts;
-    private int choices = 3;
-    private HeroClass heroClass;
-    private Rarity[] rarities;
-    private double[] odds;
+    private final ArenaFactory factory;
+    private final ArrayList<Draft> drafts;
 
     public SameArenaGame(final HeroClass heroClass) throws IOException {
         super();
 
-        this.heroClass = heroClass;
         drafts = new ArrayList<Draft>();
         draftedCards = HashMultiset.create();
         progress = new HashMap<Connection, Integer>();
-        bans = new HashSet<Card>();
-    }
-
-    public SameArenaGame setChoices(int choices) {
-        this.choices = choices;
-        return this;
+        this.factory = new ArenaFactory();
+        factory.setHeroClass(heroClass);
     }
 
     @Override
@@ -61,37 +52,20 @@ public class SameArenaGame extends BaseServer {
         for (Connection connection : connections) {
             updatePlayer(connection);
         }
-        for (Card ban : bans) {
-            Log.info(getTag(), ban.toString());
-        }
+    }
+
+    public SameArenaGame setChoices(int choices) {
+        factory.setSize(choices);
+        return this;
     }
 
     public SameArenaGame setRarities(Rarity[] rarities) {
-        this.rarities = rarities;
-        odds = new double[rarities.length];
-        for (int i = 0; i < rarities.length; i++) {
-            switch (rarities[i]) {
-                case COMMON:
-                    odds[i] = Draft.ODDS[0];
-                    break;
-                case RARE:
-                    odds[i] = Draft.ODDS[1];
-                    break;
-                case EPIC:
-                    odds[i] = Draft.ODDS[2];
-                    break;
-                default:
-                    odds[i] = Draft.ODDS[3];
-                    break;
-            }
-        }
+        factory.setRarities(rarities);
         return this;
     }
 
     private Draft getDraft() {
-        Draft draft = new Draft(choices, heroClass, bans);
-        draft.setRarities(rarities, odds);
-        draft.generateCards();
+        Draft draft = factory.getDraft();
         for (Card card : draft.getCardsArray()) {
             addCard(card);
         }
@@ -101,7 +75,7 @@ public class SameArenaGame extends BaseServer {
     private void addCard(Card card) {
         draftedCards.add(card);
         if (draftedCards.count(card) >= card.getRarity().getCardMax())
-            bans.add(card);
+            factory.addBan(card);
     }
 
     private IPickable[] getPlayerPickables(Connection player) {
@@ -133,8 +107,8 @@ public class SameArenaGame extends BaseServer {
     @Override
     protected void ready(Connection player) {
         progress.put(player, 0);
-        Log.info(getTag(), "SENDING: PICK: " + heroClass);
-        player.sendTCP(new ArenaResponse(ArenaResponse.ResponseType.PICK, heroClass));
+        Log.info(getTag(), "SENDING: PICK: " + factory.getHeroClass());
+        player.sendTCP(new ArenaResponse(ArenaResponse.ResponseType.PICK, factory.getHeroClass()));
     }
 
     @Override

@@ -1,7 +1,5 @@
 package util;
 
-import logic.IPickable;
-
 import javax.swing.*;
 import java.awt.*;
 

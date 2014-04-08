@@ -2,6 +2,7 @@ package logic;
 
 import com.google.common.collect.Multiset;
 import util.Card;
+import util.IPickable;
 
 import java.util.Observable;
 

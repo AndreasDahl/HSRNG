@@ -1,13 +1,9 @@
 package net;
 
 import com.esotericsoftware.kryo.Kryo;
-import logic.IPickable;
 import net.request.ArenaRequest;
 import net.response.ArenaResponse;
-import util.Card;
-import util.CardCountSlim;
-import util.HeroClass;
-import util.Rarity;
+import util.*;
 
 import java.io.IOException;
 

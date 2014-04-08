@@ -115,6 +115,8 @@ public class CardLoader {
     }
 
     public ImmutableSet<Card> getCardsAvailable(HeroClass heroClass, Rarity rarity) {
+        if (heroClass == null)
+            throw new IllegalArgumentException("heroClass must not be null");
         Set<Card> retSet = new HashSet<Card>(heroIndex.get(HeroClass.ALL));
         retSet.addAll(heroIndex.get(heroClass));    // Union hero
         retSet.retainAll(rarityIndex.get(rarity));  // Intersect rarity

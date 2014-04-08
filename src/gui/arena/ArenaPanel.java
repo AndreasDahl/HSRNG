@@ -3,12 +3,8 @@ package gui.arena;
 import com.esotericsoftware.minlog.Log;
 import gui.main.MainPanel;
 import logic.AbstractArena;
-import logic.IPickable;
 import net.response.ArenaResponse;
-import util.Card;
-import util.CardType;
-import util.HeroClass;
-import util.ScreenUtil;
+import util.*;
 
 import javax.swing.*;
 import java.awt.*;

@@ -41,8 +41,8 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                        "- Arena frame now resizeable" +
-                        "- ",
+                        "- Arena frame now resizeable\n" +
+                        "- Internal draft gerneration overhaul",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 }

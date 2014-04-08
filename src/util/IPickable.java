@@ -1,4 +1,4 @@
-package logic;
+package util;
 
 import javax.swing.*;
 

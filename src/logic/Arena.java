@@ -3,6 +3,8 @@ package logic;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import io.CardLoader;
+import logic.draft.ArenaFactory;
+import logic.draft.Draft;
 import net.response.ArenaResponse;
 import util.Card;
 import util.HeroClass;
@@ -10,7 +12,6 @@ import util.RandUtil;
 import util.Rarity;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,21 +22,19 @@ public class Arena extends AbstractArena {
     private static final int DECK_SIZE = 30;
 
     private final Multiset<Card> cards;
-    private final Set<Card> bans;
-    private Draft draft;
-    private HeroClass hero;
+    private Draft currentDraft;
     private HeroClass[] heroChoices;
-    private Rarity[] rarities;
     private boolean heroPick;
-    private double[] odds;
     private int choices;
     private int pickedCards = 0;
+    private final ArenaFactory factory;
 
     public Arena() {
         this.cards = HashMultiset.create();
-        this.bans = new HashSet<Card>();
         this.choices = 3;
         this.heroPick = true;
+        this.factory = new ArenaFactory();
+        factory.setSize(choices);
     }
 
     @Override
@@ -49,28 +48,12 @@ public class Arena extends AbstractArena {
 
     public Arena setChoices(int choiceCount) {
         this.choices = choiceCount;
+        factory.setSize(this.choices);
         return this;
     }
 
     public Arena setRarities(Rarity[] rarities) {
-        this.rarities = rarities;
-        odds = new double[rarities.length];
-        for (int i = 0; i < rarities.length; i++) {
-            switch (rarities[i]) {
-                case COMMON:
-                    odds[i] = Draft.ODDS[0];
-                    break;
-                case RARE:
-                    odds[i] = Draft.ODDS[1];
-                    break;
-                case EPIC:
-                    odds[i] = Draft.ODDS[2];
-                    break;
-                default:
-                    odds[i] = Draft.ODDS[3];
-                    break;
-            }
-        }
+        factory.setRarities(rarities);
         return this;
     }
 
@@ -88,27 +71,24 @@ public class Arena extends AbstractArena {
     }
 
     private void newDraft() {
-        if (rarities == null) {
-            draft = new Draft(choices, hero, bans).generateCards();
-        } else {
-            draft = new Draft(choices, hero, bans).setRarities(rarities, odds).generateCards();
-        }
-        setPicks(draft.getCardsArray());
+        currentDraft = factory.getDraft();
+
+        setPicks(currentDraft.getCardsArray());
         setChanged();
         notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, getPicks()));
     }
 
     private void pickHero(int choice) {
-        hero = heroChoices[choice];
+        factory.setHeroClass(heroChoices[choice]);
         heroPick = false;
         newDraft();
         setChanged();
-        notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.PICK, hero));
+        notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.PICK, factory.getHeroClass()));
     }
 
     @Override
     public void ban(int choice) {
-        draft.ban(choice);
+        factory.addBan(currentDraft.ban(choice));
         setChanged();
         notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, getPicks()));
     }
@@ -116,7 +96,7 @@ public class Arena extends AbstractArena {
     private void addCard(Card card) {
         cards.add(card);
         if (cards.count(card) >= card.getRarity().getCardMax())
-            bans.add(card);
+            factory.addBan(card);
     }
 
     @Override
@@ -124,7 +104,7 @@ public class Arena extends AbstractArena {
         if (heroPick)
             pickHero(choice);
         else {
-            Card card = draft.pick(choice);
+            Card card = currentDraft.getCardsArray()[choice];
             addCard(card);
             pickedCards++;
             setChanged();
