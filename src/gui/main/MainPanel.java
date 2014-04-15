@@ -42,7 +42,8 @@ public class MainPanel {
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
                         "- Arena frame now resizeable\n" +
-                        "- Internal draft gerneration overhaul",
+                        "- Internal draft gerneration overhaul" +
+                        "- You can now open single packs in local!",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 }

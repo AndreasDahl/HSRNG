@@ -30,6 +30,7 @@ public class CardLoader {
     private ImmutableSetMultimap<Rarity, Card> rarityIndex;
     private ImmutableSetMultimap<HeroClass, Card> heroIndex;
 
+    // TODO: Make class static
     public static CardLoader getInstance() {
         if (instance == null)
             instance = new CardLoader();

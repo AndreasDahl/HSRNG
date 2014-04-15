@@ -8,4 +8,5 @@ import util.Card;
  */
 public interface IDraft {
     public Card[] getCardsArray();
+    public Card replace(int index);
 }

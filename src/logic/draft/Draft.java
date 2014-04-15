@@ -42,13 +42,10 @@ public final class Draft implements IDraft {
         return rarity;
     }
 
-//    public Card pick(int choice) {
-//        return cards[choice];
-//    }
-
-    public Card ban(int choice) {
-        Card card =  cards[choice];
-        cards[choice] = generateCard(rarity);
+    @Override
+    public Card replace(int index) {
+        Card card =  cards[index];
+        cards[index] = generateCard(rarity);
         return card;
     }
 
@@ -56,7 +53,7 @@ public final class Draft implements IDraft {
 
     private Card generateCard(Rarity rarity) {
         Set<Card> cardpool = cl.getCardsAvailable(heroClass, rarity);
-        List<Card> banSum = new ArrayList<Card>();
+        List<Card> banSum = new ArrayList<Card>(); // TODO: Improve
         banSum.addAll(bans);
         banSum.addAll(Arrays.asList(cards));
         banSum.removeAll(Collections.singleton(null));

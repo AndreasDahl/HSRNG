@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Andreas
  * @since 08-04-14
  */
-public class ArenaFactory implements DraftingFactory<Draft> {
+public class ArenaFactory extends DraftingFactory<Draft> {
     private static final Rarity[] RARITIES = {
             Rarity.COMMON,
             Rarity.RARE,
@@ -19,7 +19,6 @@ public class ArenaFactory implements DraftingFactory<Draft> {
             Rarity.LEGENDARY};
     public static final double[] ODDS = {78.59, 16.90, 3.76, 0.75};
 
-    private boolean locked = false;
     private int size = 3;
     private HeroClass heroClass;
     private Rarity[] rarities = RARITIES;
@@ -31,21 +30,18 @@ public class ArenaFactory implements DraftingFactory<Draft> {
     }
 
     public void setSize(int size) {
-        if (locked)
-            throw new IllegalAccessError(); // TODO: Better error
+        testLock();
         this.size = size;
     }
 
     public void setHeroClass(HeroClass clss) {
-        if (locked)
-            throw new IllegalAccessError(); // TODO: Better error
+        testLock();
         this.heroClass = clss;
     }
 
+    // TODO: Improve?
     public void setRarities(Rarity[] rarities) {
-        if (locked)
-            throw new IllegalAccessError();
-
+        testLock();
         this.rarities = rarities;
         odds = new double[rarities.length];
         for (int i = 0; i < rarities.length; i++) {
@@ -68,14 +64,6 @@ public class ArenaFactory implements DraftingFactory<Draft> {
 
     public void addBan(Card card) {
         bans.add(card);
-    }
-
-    private void lock() {
-        locked = true;
-    }
-
-    public boolean isLocked() {
-        return locked;
     }
 
     public int getSize() {

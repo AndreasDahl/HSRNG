@@ -88,7 +88,7 @@ public class Arena extends AbstractArena {
 
     @Override
     public void ban(int choice) {
-        factory.addBan(currentDraft.ban(choice));
+        factory.addBan(currentDraft.replace(choice));
         setChanged();
         notifyObservers(new ArenaResponse(ArenaResponse.ResponseType.CHOICES, getPicks()));
     }
