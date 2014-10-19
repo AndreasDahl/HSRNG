@@ -13,6 +13,7 @@ public class MainPanel {
     public static final int LOG_LEVEL = Log.LEVEL_DEBUG;
 
     private JPanel panel1;
+    private JTabbedPane tabbedPane1;
 
     private static JFrame frame;
     private static MainPanel instance;
@@ -42,8 +43,9 @@ public class MainPanel {
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
                         "- Arena frame now resizeable\n" +
-                        "- Internal draft gerneration overhaul" +
-                        "- You can now open single packs in local!",
+                        "- Internal draft gerneration overhaul\n" +
+                        "- You can now open single packs in local!\n" +
+                        "- Updated card database",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 }

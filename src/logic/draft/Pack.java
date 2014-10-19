@@ -16,43 +16,53 @@ public class Pack implements IDraft {
     public static final double[] SPECIAL_ODDS = {0.00, 86.50, 10.43, 3.07};
 
     private final CardLoader cl;
-    private final int choices;
     private final Rarity[] possibleRarities;
     private final int specialCards;
     private final Set<Card> bans;
-    private Card[] cards;
+    private final List<Card> cards;
+    private int choices;
 
     Pack(int size, int specialCards, Rarity[] rarities, Set<Card> bans) {
         this.cl = CardLoader.getInstance();
-        this.choices = size;
         this.specialCards = specialCards;
         this.possibleRarities = rarities;
         this.bans = bans;
-        cards = new Card[choices];
+        this.cards = new ArrayList<Card>();
+        this.choices = size;
 
         generateCards();
     }
 
     @Override
     public Card[] getCardsArray() {
-        return cards;
+        Card[] cardsArray = new Card[cards.size()];
+        return cards.toArray(cardsArray);
     }
 
     @Override
     public Card replace(int index) {
-        Card replaced = cards[index];
+        Card replaced = cards.get(index);
         bans.add(replaced);
 
         Card replacement = generateCard(replaced.getRarity());
-        cards[index] = replacement;
+        cards.add(index, replacement);
         return replaced;
+    }
+
+    public Card remove(int index) {
+        choices -= 1;
+        return cards.remove(index);
+    }
+
+    public int getChoices() {
+        return choices;
     }
 
     private Card generateCard(Rarity rarity) {
         Set<Card> cardpool = cl.getCards(rarity);
         List<Card> banSum = new ArrayList<Card>();
 //        banSum.addAll(bans);
-        banSum.addAll(Arrays.asList(cards));
+        banSum.addAll(cards);
         banSum.removeAll(Collections.singleton(null));
         try {
             return RandUtil.getRandomObject(cardpool, banSum);
@@ -75,10 +85,9 @@ public class Pack implements IDraft {
     private Pack generateCards() {
         for (int i = 0; i < choices; i++) {
             if (i < specialCards) {
-                cards[0] = generateCard(getRandomizedRarity(true));
+                cards.add(generateCard(getRandomizedRarity(true)));
             } else {
-                Card pick = generateCard(getRandomizedRarity(false));
-                cards[i] = pick;
+                cards.add(generateCard(getRandomizedRarity(false)));
             }
         }
         return this;

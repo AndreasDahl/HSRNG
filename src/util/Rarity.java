@@ -55,7 +55,7 @@ public enum Rarity {
     }
 
     public static Rarity fromString(String clss) {
-        if (clss.equalsIgnoreCase("Basic")) return BASIC;
+        if (clss.equalsIgnoreCase("Basic") || clss.equalsIgnoreCase("Free")) return BASIC;
         if (clss.equalsIgnoreCase("Common")) return COMMON;
         if (clss.equalsIgnoreCase("Rare")) return RARE;
         if (clss.equalsIgnoreCase("Epic")) return EPIC;

@@ -1,20 +1,21 @@
 package io;
 
-import au.com.bytecode.opencsv.CSVReader;
 import com.esotericsoftware.minlog.Log;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import util.Card;
 import util.HeroClass;
 import util.Rarity;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ import java.util.Set;
  * @since 08-01-14
  */
 public class CardLoader {
-    private static final String DB_PATH = "/res/cards.csv";
+    private static final String DB_PATH = "/res/AllSets.json";
     private static CardLoader instance;
 
     private ImmutableSet<Card> all, basic, expert;
@@ -48,30 +49,34 @@ public class CardLoader {
             ImmutableSetMultimap.Builder<HeroClass, Card> heroIndexBuilder = ImmutableSetMultimap.builder();
 
             InputStream stream = CardLoader.class.getResourceAsStream(DB_PATH);
-            CSVReader reader = new CSVReader(new InputStreamReader(stream), ',', '"');
-            reader.readNext();
-            List<String[]> rawLines = reader.readAll();
-            for (String[] c : rawLines) {
-                Card card = new Card(
-                        c[0],
-                        HeroClass.fromString(c[1]),
-                        Rarity.fromString(c[2]),
-                        c[3],
-                        c[4],
-                        getCost(c[5]),
-                        getCost(c[6]),
-                        getCost(c[7]),
-                        c[8]
-                );
+            JSONObject sets = new JSONObject(IOUtils.toString(stream));
+            stream.close();
 
-                // Add card to correct indexes
-                allBuilder.add(card);
-                nameIndexBuilder.put(card.getName(), card);
-                putInBasicOrExpert(card, basicBuilder, expertBuilder);
-                putInRaritySet(card, rarityIndexBuilder);
-                heroIndexBuilder.put(card.getHeroClass(), card);
+            for (int i = 0; i < sets.length(); i++) {
+                JSONArray set = sets.getJSONArray(sets.names().getString(i));
+                for (int j = 0; j < set.length(); j++) {
+                    JSONObject c = set.getJSONObject(j);
+                    if (c.optBoolean("collectible", false) && c.has("rarity")) { // TODO: Improve
+                        Card card = new Card(
+                                c.getString("name"),
+                                HeroClass.fromString(c.optString("playerClass")),
+                                Rarity.fromString(c.getString("rarity")),
+                                c.optString("type"),
+                                c.optString("race"),
+                                c.optInt("cost", 0),
+                                c.optInt("attack", 0),
+                                c.optInt("health", 0),
+                                c.optString("flavor")
+                        );
+
+                        allBuilder.add(card);
+                        nameIndexBuilder.put(card.getName(), card);
+                        putInBasicOrExpert(card, basicBuilder, expertBuilder);
+                        putInRaritySet(card, rarityIndexBuilder);
+                        heroIndexBuilder.put(card.getHeroClass(), card);
+                    }
+                }
             }
-            reader.close();
 
             // Build Immutables
             all = allBuilder.build();
@@ -80,6 +85,9 @@ public class CardLoader {
             nameIndex = nameIndexBuilder.build();
             rarityIndex = rarityIndexBuilder.build();
             heroIndex = heroIndexBuilder.build();
+        } catch (JSONException e) {
+            Log.error("Could not load card database", e);
+            System.exit(1);
         } catch (IOException e) {
             Log.error("Could not load card database", e);
             System.exit(1);
@@ -98,14 +106,6 @@ public class CardLoader {
         Rarity rarity = card.getRarity();
         rarity = rarity == Rarity.BASIC ? Rarity.COMMON : rarity;
         builder.put(rarity, card);
-    }
-
-    private int getCost(String rawCost) {
-        try {
-            return Integer.parseInt(rawCost);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
     }
 
     @SuppressWarnings("unused")
