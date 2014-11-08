@@ -56,7 +56,7 @@ public class CardLoader {
                 JSONArray set = sets.getJSONArray(sets.names().getString(i));
                 for (int j = 0; j < set.length(); j++) {
                     JSONObject c = set.getJSONObject(j);
-                    if (c.optBoolean("collectible", false) && c.has("rarity")) { // TODO: Improve
+                    if (c.optBoolean("collectible", false) && c.has("rarity") && !c.optString("type", "").equalsIgnoreCase("hero")) { // TODO: Improve
                         Card card = new Card(
                                 c.getString("name"),
                                 HeroClass.fromString(c.optString("playerClass")),

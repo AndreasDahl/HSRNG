@@ -42,10 +42,9 @@ public class MainPanel {
         init();
         JOptionPane.showMessageDialog(frame,
                 "Patch Notes:\n" +
-                        "- Arena frame now resizeable\n" +
-                        "- Internal draft gerneration overhaul\n" +
-                        "- You can now open single packs in local!\n" +
-                        "- Updated card database",
+                        "- Fixed heroes showing up as cards\n" +
+                        "- Removed \"Adrenaline Rush\" card\n" +
+                        "- Fixed \"Starfire\" being a common card",
                 "Patch Notes", JOptionPane.PLAIN_MESSAGE);
     }
 }
